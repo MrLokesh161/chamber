@@ -4,6 +4,8 @@ import rectImage from "../assets/logo.png";
 import overlay from "../assets/overlay.png";
 
 function Home(props) {
+
+  
   return (
     <div className="flex flex-col bg-white">
       <div className="flex gap-5 justify-between items-center self-center px-5 mt-1 w-full font-bold whitespace-nowrap max-w-[1653px] max-md:flex-wrap max-md:max-w-full">
@@ -46,9 +48,9 @@ function Home(props) {
         />
         <div className="flex relative flex-col justify-center items-start px-16 py-12 w-full max-md:px-5 max-md:max-w-full">
           <div className="flex flex-col mt-24 mb-28 ml-60 max-w-full w-[331px] max-md:my-10 max-md:ml-2.5">
-            <div className="text-xl text-left font-extrabold">BRANDING </div>
-            <div className="mt-8 text-4xl font-extrabold">COIMBATORE</div>
-            <div className=" mt-8 text-xl text-center font-extrabold">
+            <div className="text-3xl text-left font-extrabold">BRANDING </div>
+            <div className="mt-8 text-6xl font-extrabold">COIMBATORE</div>
+            <div className=" mt-8 text-3xl text-right font-extrabold">
               IS OUR BUSINESS
             </div>
             <div className="flex gap-5 justify-between mt-14 text-center max-md:mt-10">

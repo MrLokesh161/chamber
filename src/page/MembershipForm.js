@@ -1,63 +1,186 @@
 import * as React from "react";
 import logoImage from "../assets/rect.png";
 import know from "../assets/knowmore.png";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import axios from "axios";
 
-function Form(props) {
-  const [selectedConstitution, setSelectedConstitution] = useState([]);
-  const [data, setData] = useState([]);
-  const [inputValues, setInputValues] = useState({ name: '', designation: '', pan: '' });
-  
+  function Form(props) {
+    const [selectedConstitution, setSelectedConstitution] = useState([]);
+    const [datea, setData] = useState([]);
+    const [inputValues, setInputValues] = useState({ name: '', designation: '', pan: '' });
+    const [coi ,setCOI] = useState([]);
+    const [moaoa,setMOAOA]=useState([]);
+    const [ap,setAP]=useState([]);
+    
 
-  const [selectedImage, setSelectedImage] = useState(null);
+    const [esign,setEsign]=useState(null);
+    const [seal,setSeal]=useState(null);
 
-  const handleImageChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setSelectedImage(selectedFile);
-  };
+    const handleEsign = (e) => {
+      const selectedFile = e.target.files[0];
+      setEsign(selectedFile);
+      updateProperty('e_sign',selectedFile)
+    };
+    const handleSeal = (e) => {
+      const selectedFile = e.target.files[0];
+      setSeal(selectedFile);
+      updateProperty('seal_image',selectedFile);
+    };
+
+    const [formData, setFormData] = useState({
+      directors: [],
+      Nameofapplicant: "",
+      constitution: null,
+      individual_name: "",
+      is_individual: false,
+      Businessactivity: "",
+      regoffadd: "",
+      acoffice: "",
+      acwork: "",
+      cdlan: "",
+      cdphone: "",
+      cdemail: "",
+      cdweb: "",
+      aadhar: null,
+      pancardno: null,
+      GSTNo: null,
+      CompanyFirmRegNo: null,
+      SocietyAssociationRegNo: null,
+      paname: "",
+      papan: "",
+      paphone: "",
+      padesignation: "",
+      paaadhaar: "",
+      pamail_id: "",
+      indmain_category: "",
+      indsub_category: "",
+      cmdomestic: "",
+      cmboth: "",
+      cmpercentage_of_imports: "",
+      cmglobal_market: "",
+      cmpercentage_of_exports: "",
+      country_name_foreign_collaboration: "",
+      collaborator_name_foreign_collaboration: "",
+      annual_turnover_year1: null,
+      annual_turnover_year2: null,
+      annual_turnover_year3: null,
+      classindustry: null,
+      direct_office_employees: null,
+      indirect_contractual_employees: null,
+      works_employees: null,
+      outsourced_employees: null,
+      esic: "",
+      epf: "",
+      branches_outside_india: "",
+      is_member_of_association: null,
+      association_name:'',
+      is_office_bearer: null,
+      association_position: "",
+      reason_for_joining_chamber: "",
+      e_sign: null,
+      seal_image: null
+    });
 
 
-  const handleCheckboxChange = (value) => {
-    if (selectedConstitution.includes(value)) {
-      setSelectedConstitution(selectedConstitution.filter((item) => item !== value));
-    } else {
-      setSelectedConstitution([value]);
+    const updateProperty = (propertyName, value) => {
+      setFormData(prevData => ({
+        ...prevData,
+        [propertyName]: value,
+      }));
+    };
+
+    const handleCheckboxChange = (value) => {
+      if (selectedConstitution.includes(value)) {
+        setSelectedConstitution(selectedConstitution.filter((item) => item !== value));
+        updateProperty('constitution',selectedConstitution);
+      } else {
+        setSelectedConstitution([value]);
+      }
+    };
+
+    const handleMOAOA = (value) => {
+      if (moaoa.includes(value)) {
+        setMOAOA(moaoa.filter((item) => item !== value));
+        updateProperty('is_member_of_association',moaoa);
+      } else {
+        setMOAOA([value]);
+      }
+    };
+
+    const handleAP = (value) => {
+      if (ap.includes(value)) {
+        setAP(moaoa.filter((item) => item !== value));
+        updateProperty('is_office_bearer',ap);
+      } else {
+        setAP([value]);
+      }
+    };
+
+    const handleCBC=(value)=>{
+      if (coi.includes(value)) {
+        setCOI(coi.filter((item) => item !== value));
+        updateProperty('classindustry',coi);
+      } else {
+        setCOI([value]);
+      }
     }
-  };
 
-  const handleInputChange = (e) => {
-    setInputValues({ ...inputValues, [e.target.name]: e.target.value });
-  };
+    const handleInputChange = (e) => {
+      setInputValues({ ...inputValues, [e.target.name]: e.target.value });
+    };
+
+    const [allDirectors, setAllDirectors] = useState([]);
 
   const handleAdd = () => {
-    setData([...data, inputValues]);
+    const newDirector = { ...inputValues };
+    updateProperty('directors', [...formData.directors, newDirector]);
+    setData([...datea, inputValues]);
     setInputValues({ name: '', designation: '', pan: '' });
-  };
+    setAllDirectors(prevDirectors => [...prevDirectors, newDirector]);
+  };  
 
-  const constitutionOptions = [
-    'Individual',
-    'Proprietory Firm',
-    'Partnership Firm',
-    'LLP',
-    'Private Limited',
-    'Public Limited Unlisted',
-    'Public Limited Listed',
-    'Trust',
-    'Society',
-    'Associations',
-  ];
+    const constitutionOptions = [
+      'Individual',
+      'Proprietory Firm',
+      'Partnership Firm',
+      'LLP',
+      'Private Limited',
+      'Public Limited Unlisted',
+      'Public Limited Listed',
+      'Trust',
+      'Society',
+      'Associations',
+    ];
 
-  const classindustry = [
-    'Large',
-    'Medium',
-    'Small',
-    'Micro',
-  ];
+    const classindustry = [
+      'Large',
+      'Medium',
+      'Small',
+      'Micro',
+    ];
 
-  const yesno = [
-    'Yes',
-    'No',
-  ];
+    const yesno = [
+      'Yes',
+      'No',
+    ];
+
+    const handleSubmit = async()=>{
+      console.log(formData);
+      try {
+
+        const response = await axios.post(
+          'http://192.168.113.83:8000/api/form1/',
+          formData,
+        )
+        if (response.data==="Success"){
+          console.log("Success")
+        }
+
+      }catch(error){
+        console.log(error)
+      }
+
+    }
 
   return (
     <div className="flex flex-col bg-white">
@@ -120,6 +243,8 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
+            value={formData.Nameofapplicant}
+            onChange={(e) => updateProperty("Nameofapplicant", e.target.value)}
           />
           
           <div className="flex items-center mb-4">
@@ -135,6 +260,7 @@ function Form(props) {
             type="text"
             placeholder="Enter Business Activity"  
             className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
+            onChange={(e) => updateProperty("Businessactivity", e.target.value)}
           />
           
           <div className="flex items-center mb-4">
@@ -150,6 +276,7 @@ function Form(props) {
             type="text"
             placeholder="Enter Registered Office Address"  
             className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
+            onChange={(e) => updateProperty("regoffadd", e.target.value)}
           />
         </div>
         
@@ -162,7 +289,7 @@ function Form(props) {
                   type="checkbox"
                   id={option}
                   checked={selectedConstitution.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
+                  onChange={() =>  handleCheckboxChange(option)}
                   className="mr-2"
                 />
                 <label htmlFor={option}>{option}</label>
@@ -174,6 +301,7 @@ function Form(props) {
               type="text"
               placeholder="Enter the name of the Individual"
               className="border border-solid border-stone-500 px-2 py-4 rounded-xl mb-6"
+              onChange={(e) => updateProperty("individual_name", e.target.value)}
             />
           )}
         </div>        
@@ -210,6 +338,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
+            onChange={(e) => updateProperty("acoffice", e.target.value)}
           />
                     
         </div>
@@ -222,6 +351,7 @@ function Form(props) {
               type="text"
               placeholder="Enter Registered Office Address"  
               className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
+              onChange={(e) => updateProperty("acwork", e.target.value)}
             />
         </div>        
       </div>
@@ -236,6 +366,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("cdlan", e.target.value)}
           />
 
           <div className="flex items-center mb-4">
@@ -245,6 +376,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("cdemail", e.target.value)}
           />
                     
         </div>
@@ -257,6 +389,7 @@ function Form(props) {
               type="text"
               placeholder="Enter Registered Office Address"  
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("cdphone", e.target.value)}
             />
           <div className="flex items-center mb-4">
             <label className="text-base font-bold">Website</label>
@@ -265,6 +398,7 @@ function Form(props) {
             type="text"
             placeholder="Enter Registered Office Address"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("cdweb", e.target.value)}
           />
         </div>        
       </div>
@@ -280,6 +414,8 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("aadhar", e.target.value)}
+
           />
 
           <div className="flex items-center mb-4">
@@ -289,6 +425,8 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("GSTNo", e.target.value)}
+
           />
 
           <div className="flex items-center mb-4">
@@ -298,6 +436,8 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("SocietyAssociationRegNo", e.target.value)}
+
           />
                     
         </div>
@@ -310,6 +450,8 @@ function Form(props) {
               type="text"
               placeholder="Enter Registered Office Address"  
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("pancardno", e.target.value)}
+
             />
           <div className="flex items-center mb-4">
             <label className="text-base font-bold">Company/Firm Registration No</label>
@@ -318,6 +460,8 @@ function Form(props) {
             type="text"
             placeholder="Enter Registered Office Address"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("CompanyFirmRegNo", e.target.value)}
+
           />
         </div>        
       </div>
@@ -334,7 +478,7 @@ function Form(props) {
               <span>PAN</span>
             </div>
           </li>
-          {data.map((item, index) => (
+          {datea.map((item, index) => (
             <li key={index} className="text-base font-bold pl-[10%]">
               <div className="flex gap-2">
                 <span>{index + 1}.</span>
@@ -384,6 +528,8 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("paname", e.target.value)}
+
           />
 
           <div className="flex items-center mb-4">
@@ -393,6 +539,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("papan", e.target.value)}
           />
 
           <div className="flex items-center mb-4">
@@ -402,6 +549,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("paphone", e.target.value)}
           />
                     
         </div>
@@ -414,6 +562,8 @@ function Form(props) {
               type="text"
               placeholder="Enter Registered Office Address"  
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("padesignation", e.target.value)}
+
             />
             <div className="flex items-center mb-4">
               <label className="text-base font-bold">Aadhaar</label>
@@ -422,6 +572,8 @@ function Form(props) {
               type="text"
               placeholder="Enter Registered Office Address"  
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("paaadhaar", e.target.value)}
+
             />
           <div className="flex items-center mb-4">
             <label className="text-base font-bold">Mail Id</label>
@@ -430,6 +582,7 @@ function Form(props) {
             type="text"
             placeholder="Enter Registered Office Address"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("pamail_id", e.target.value)}
           />
         </div>        
       </div>
@@ -445,6 +598,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("indmain_category", e.target.value)}
           />
                     
         </div>
@@ -456,6 +610,7 @@ function Form(props) {
             <input 
               type="text"
               placeholder="Enter Registered Office Address"  
+              onChange={(e) => updateProperty("indsub_category", e.target.value)}
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
             />
         </div>        
@@ -471,6 +626,7 @@ function Form(props) {
           <input 
             type="text"
             placeholder="Enter the name of the applicant"  
+            onChange={(e) => updateProperty("cmdomestic", e.target.value)}
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
           />
 
@@ -480,6 +636,7 @@ function Form(props) {
           <input 
             type="text"
             placeholder="Enter the name of the applicant"  
+            onChange={(e) => updateProperty("cmboth", e.target.value)}
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
           />
 
@@ -490,6 +647,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("cmpercentage_of_imports", e.target.value)}
           />
                     
         </div>
@@ -501,6 +659,7 @@ function Form(props) {
             <input 
               type="text"
               placeholder="Enter Registered Office Address"  
+            onChange={(e) => updateProperty("cmglobal_market", e.target.value)}
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
             />
             <div className="flex items-center mb-4">
@@ -509,6 +668,7 @@ function Form(props) {
             <input 
               type="text"
               placeholder="Enter Registered Office Address"  
+            onChange={(e) => updateProperty("cmpercentage_of_exports", e.target.value)}
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
             />
         </div>        
@@ -525,6 +685,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("country_name_foreign_collaboration", e.target.value)}
           />
                     
         </div>
@@ -537,6 +698,7 @@ function Form(props) {
               type="text"
               placeholder="Enter Registered Office Address"  
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("collaborator_name_foreign_collaboration", e.target.value)}
             />
         </div>        
       </div>
@@ -558,6 +720,7 @@ function Form(props) {
           <input 
             type="text"
             placeholder="Enter the name of the applicant"  
+            onChange={(e) => updateProperty("annual_turnover_year1", e.target.value)}
             className="border border-solid border-stone-500 px-2 py-2 rounded-xl mb-6"
           />
           
@@ -574,6 +737,7 @@ function Form(props) {
             type="text"
             placeholder="Enter Business Activity"  
             className="border border-solid border-stone-500 px-2 py-2 rounded-xl mb-6"
+            onChange={(e) => updateProperty("annual_turnover_year2", e.target.value)}
           />
           
           <div className="flex items-center mb-4">
@@ -589,19 +753,20 @@ function Form(props) {
             type="text"
             placeholder="Enter Registered Office Address"  
             className="border border-solid border-stone-500 px-2 py-2 rounded-xl mb-6"
+            onChange={(e) => updateProperty("annual_turnover_year3", e.target.value)}
           />
         </div>
         
         <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="text-base font-bold mb-4">2. Constitution</div>
+          <div className="text-base font-bold mb-4">14. Classification of Industry:</div>
           <div className="flex flex-col">
             {classindustry.map((option) => (
               <div key={option} className="flex items-center mb-2">
                 <input
                   type="checkbox"
                   id={option}
-                  checked={selectedConstitution.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
+                  checked={coi.includes(option)}  
+                  onChange={() => handleCBC(option)}
                   className="mr-2"
                 />
                 <label htmlFor={option}>{option}</label>
@@ -623,6 +788,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("direct_office_employees", e.target.value)}
           />
           
           <div className="flex items-center mb-4">
@@ -632,6 +798,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("indirect_contractual_employees", e.target.value)}
           />
                     
         </div>
@@ -644,6 +811,7 @@ function Form(props) {
               type="text"
               placeholder="Enter Registered Office Address"  
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("works_employees", e.target.value)}
             />
             <div className="flex items-center mb-4">
             <label className="text-base font-bold">Outsourced</label>
@@ -652,6 +820,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("outsourced_employees", e.target.value)}
           />
         </div>        
       </div>
@@ -665,6 +834,7 @@ function Form(props) {
           <input 
             type="text"
             placeholder="Enter the name of the applicant"  
+            onChange={(e) => updateProperty("esic", e.target.value)}
             className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
           />
                     
@@ -678,6 +848,7 @@ function Form(props) {
               type="text"
               placeholder="Enter Registered Office Address"  
               className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("epf", e.target.value)}
             />
         </div>        
       </div>
@@ -688,6 +859,7 @@ function Form(props) {
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-[20%] py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("branches_outside_india", e.target.value)}
           />
                 
       </div>
@@ -695,23 +867,30 @@ function Form(props) {
 
       <div className="flex w-[100%]">
       <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="text-base font-bold mb-4">18. Are you member of any other Association
-
-If yes, mention details:</div>
+          <div className="text-base font-bold mb-4">18. Are you member of any other Association :</div>
+<         div className="text-base font-bold mb-4">If yes, mention details:</div>
           <div className="flex flex-col">
             {yesno.map((option) => (
               <div key={option} className="flex items-center mb-2">
                 <input
                   type="checkbox"
                   id={option}
-                  checked={selectedConstitution.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
+                  checked={moaoa.includes(option)}
+                  onChange={() => handleMOAOA(option)}
                   className="mr-2"
                 />
                 <label htmlFor={option}>{option}</label>
               </div>
             ))}
           </div>
+          {moaoa.includes('Yes') && (
+            <input
+              type="text"
+              placeholder="Enter the name of the Individual"
+              className="border border-solid border-stone-500 px-2 py-4 rounded-xl mb-6"
+            onChange={(e) => updateProperty("association_name", e.target.value)}
+            />
+          )}
         </div>
         
         <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
@@ -724,18 +903,19 @@ in any Association</div>
                 <input
                   type="checkbox"
                   id={option}
-                  checked={selectedConstitution.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
+                  checked={ap.includes(option)}
+                  onChange={() => handleAP(option)}
                   className="mr-2"
                 />
                 <label htmlFor={option}>{option}</label>
               </div>
             ))}
           </div>
-          {selectedConstitution.includes('Yes') && (
+          {ap.includes('Yes') && (
             <input
               type="text"
               placeholder="Enter the name of the Individual"
+            onChange={(e) => updateProperty("association_position", e.target.value)}
               className="border border-solid border-stone-500 px-2 py-4 rounded-xl mb-6"
             />
           )}
@@ -749,6 +929,7 @@ in any Association</div>
             type="text"
             placeholder="Enter the name of the applicant"  
             className="border border-solid border-stone-500 px-[20%] py-5 rounded-xl mb-6"
+            onChange={(e) => updateProperty("reason_for_joining_chamber", e.target.value)}
           />
                 
       </div>
@@ -759,14 +940,14 @@ in any Association</div>
         <input
           type="file"
           accept="image/*"
-          onChange={handleImageChange}
+          onChange={handleEsign}
           className="border border-solid border-stone-500 px-[1%] py-2 rounded-xl mb-6"
         />
 
-        {selectedImage && (
+        {esign && (
           <div className="flex items-center">
             <img
-              src={URL.createObjectURL(selectedImage)}
+              src={URL.createObjectURL(esign)}
               alt="Preview"
               className="mr-4 rounded"
               style={{ maxWidth: '100px', maxHeight: '100px' }}
@@ -781,14 +962,14 @@ in any Association</div>
         <input
           type="file"
           accept="image/*"
-          onChange={handleImageChange}
+          onChange={handleSeal}
           className="border border-solid border-stone-500 px-[1%] py-2 rounded-xl mb-6"
         />
 
-        {selectedImage && (
+        {seal && (
           <div className="flex items-center">
             <img
-              src={URL.createObjectURL(selectedImage)}
+              src={URL.createObjectURL(seal)}
               alt="Preview"
               className="mr-4 rounded"
               style={{ maxWidth: '100px', maxHeight: '100px' }}
@@ -803,11 +984,11 @@ in any Association</div>
       <div className="ml-[10%] mt-[8%]">
         <button
           className="bg-blue-500 text-white px-4 py-3 rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+          onClick={handleSubmit}
         >
-          Submit & Proceed Next >>
+          Submit & Proceed Next 
         </button>
       </div>
-
 
 
       <div className="p-[5%]"></div>

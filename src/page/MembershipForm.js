@@ -291,10 +291,14 @@ console.log("seal_image:", formData.seal_image);
           </div>
         </div>
       </div>
+      <h1 className="font-bold text-2xl ml-10 pl-[10%]">Applications Details: </h1>
+          <p className="ml-12">you have selected for Lifemembership.</p>
+          <p className="ml-12">The price of membership is 88,500</p>
 
       <div className="flex w-[100%] mt-[6%]">
         <div className="w-2"></div>
         <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
+          
           <div className="flex items-center mb-4">
             <label className="text-base font-bold">1. Name of the Applicant</label>
             <img

@@ -582,13 +582,9 @@ console.log("seal_image:", formData.seal_image);
         />
         <button 
           onClick={handleAdd}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-[1%] py-[-5%] rounded-full"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-[1%] py-[0.5%] rounded-3xl h-[10%]"
         >Add</button>
       </div>
-      <button 
-          onClick={handleAdd}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-[1%] py-[-5%] rounded-full"
-        >Add</button>
 
       <label className="text-base font-bold pl-[10%]">9. Details of the Person Authorized:</label>
       <div className="flex w-[100%] py-[2%]">      
@@ -967,7 +963,7 @@ console.log("seal_image:", formData.seal_image);
         
         <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
           <div className="text-base font-bold mb-4">19. Do you hold any Office Bearers position
-in any Association</div>
+            in any Association</div>
           <div className="text-base font-bold mb-4">If yes - mention the Association Name & position</div>
           <div className="flex flex-col">
             {yesno.map((option) => (

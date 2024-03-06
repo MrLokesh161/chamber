@@ -81,6 +81,59 @@ import axios from "axios";
       seal_image: null
     });
 
+    console.log("directors:", formData.directors);
+console.log("Nameofapplicant:", formData.Nameofapplicant);
+console.log("constitution:", formData.constitution);
+console.log("individual_name:", formData.individual_name);
+console.log("is_individual:", formData.is_individual);
+console.log("Businessactivity:", formData.Businessactivity);
+console.log("regoffadd:", formData.regoffadd);
+console.log("acoffice:", formData.acoffice);
+console.log("acwork:", formData.acwork);
+console.log("cdlan:", formData.cdlan);
+console.log("cdphone:", formData.cdphone);
+console.log("cdemail:", formData.cdemail);
+console.log("cdweb:", formData.cdweb);
+console.log("aadhar:", formData.aadhar);
+console.log("pancardno:", formData.pancardno);
+console.log("GSTNo:", formData.GSTNo);
+console.log("CompanyFirmRegNo:", formData.CompanyFirmRegNo);
+console.log("SocietyAssociationRegNo:", formData.SocietyAssociationRegNo);
+console.log("paname:", formData.paname);
+console.log("papan:", formData.papan);
+console.log("paphone:", formData.paphone);
+console.log("padesignation:", formData.padesignation);
+console.log("paaadhaar:", formData.paaadhaar);
+console.log("pamail_id:", formData.pamail_id);
+console.log("indmain_category:", formData.indmain_category);
+console.log("indsub_category:", formData.indsub_category);
+console.log("cmdomestic:", formData.cmdomestic);
+console.log("cmboth:", formData.cmboth);
+console.log("cmpercentage_of_imports:", formData.cmpercentage_of_imports);
+console.log("cmglobal_market:", formData.cmglobal_market);
+console.log("cmpercentage_of_exports:", formData.cmpercentage_of_exports);
+console.log("country_name_foreign_collaboration:", formData.country_name_foreign_collaboration);
+console.log("collaborator_name_foreign_collaboration:", formData.collaborator_name_foreign_collaboration);
+console.log("annual_turnover_year1:", formData.annual_turnover_year1);
+console.log("annual_turnover_year2:", formData.annual_turnover_year2);
+console.log("annual_turnover_year3:", formData.annual_turnover_year3);
+console.log("classindustry:", formData.classindustry);
+console.log("direct_office_employees:", formData.direct_office_employees);
+console.log("indirect_contractual_employees:", formData.indirect_contractual_employees);
+console.log("works_employees:", formData.works_employees);
+console.log("outsourced_employees:", formData.outsourced_employees);
+console.log("esic:", formData.esic);
+console.log("epf:", formData.epf);
+console.log("branches_outside_india:", formData.branches_outside_india);
+console.log("is_member_of_association:", formData.is_member_of_association);
+console.log("association_name:", formData.association_name);
+console.log("is_office_bearer:", formData.is_office_bearer);
+console.log("association_position:", formData.association_position);
+console.log("reason_for_joining_chamber:", formData.reason_for_joining_chamber);
+console.log("e_sign:", formData.e_sign);
+console.log("seal_image:", formData.seal_image);
+
+
 
 
     const updateProperty = (propertyName, value) => {
@@ -172,23 +225,27 @@ import axios from "axios";
       'No',
     ];
 
-    const handleSubmit = async()=>{
+    const handleSubmit = async () => {
       console.log(formData);
       try {
-
         const response = await axios.post(
           'http://192.168.113.83:8000/api/form1/',
           formData,
-        )
-        if (response.data==="Success"){
-          console.log("Success")
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+    
+        if (response.data === "Success") {
+          console.log("Success");
         }
-
-      }catch(error){
-        console.log(error)
+      } catch (error) {
+        console.error(error);
       }
-
-    }
+    };
+    
 
   return (
     <div className="flex flex-col bg-white">
@@ -296,7 +353,7 @@ import axios from "axios";
                 <input
                   type="checkbox"
                   id={option}
-                  checked={selectedConstitution.includes(option)}
+                  checked={selectedConstitution && selectedConstitution.includes(option)}
                   onChange={() =>  handleCheckboxChange(option)}
                   className="mr-2"
                 />
@@ -304,7 +361,7 @@ import axios from "axios";
               </div>
             ))}
           </div>
-          {selectedConstitution.includes('Individual') && (
+          {selectedConstitution && selectedConstitution.includes('Individual') && (
             <input
               type="text"
               placeholder="Enter the name of the Individual"
@@ -479,7 +536,7 @@ import axios from "axios";
       <div>
         <ul>
           <li className="text-base font-bold pl-[10%]">
-            <div className="flex gap-2">
+            <div className="flex gap-[15%]">
               <span className="font-bold">SN No</span>
               <span>Name</span>
               <span>Designation</span>
@@ -488,7 +545,7 @@ import axios from "axios";
           </li>
           {datea.map((item, index) => (
             <li key={index} className="text-base font-bold pl-[10%]">
-              <div className="flex gap-2">
+              <div className="flex gap-[18%] pt-[1%]">
                 <span>{index + 1}.</span>
                 <span>{item.name}</span>
                 <span>{item.designation}</span>
@@ -498,7 +555,7 @@ import axios from "axios";
           ))}
         </ul>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-[5%] pl-[10%] pt-[1%]">
         <input
           type="text"
           name="name"
@@ -523,8 +580,15 @@ import axios from "axios";
           value={inputValues.pan}
           onChange={handleInputChange}
         />
-        <button onClick={handleAdd}>Add</button>
+        <button 
+          onClick={handleAdd}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-[1%] py-[-5%] rounded-full"
+        >Add</button>
       </div>
+      <button 
+          onClick={handleAdd}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-[1%] py-[-5%] rounded-full"
+        >Add</button>
 
       <label className="text-base font-bold pl-[10%]">9. Details of the Person Authorized:</label>
       <div className="flex w-[100%] py-[2%]">      
@@ -883,7 +947,7 @@ import axios from "axios";
                 <input
                   type="checkbox"
                   id={option}
-                  checked={moaoa.includes(option)}
+                  checked={moaoa && moaoa.includes(option)}
                   onChange={() => handleMOAOA(option)}
                   className="mr-2"
                 />
@@ -911,7 +975,7 @@ in any Association</div>
                 <input
                   type="checkbox"
                   id={option}
-                  checked={ap.includes(option)}
+                  checked={ap && ap.includes(option)}
                   onChange={() => handleAP(option)}
                   className="mr-2"
                 />

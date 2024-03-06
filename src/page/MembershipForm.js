@@ -82,6 +82,7 @@ import axios from "axios";
     });
 
 
+
     const updateProperty = (propertyName, value) => {
       setFormData(prevData => ({
         ...prevData,
@@ -90,40 +91,47 @@ import axios from "axios";
     };
 
     const handleCheckboxChange = (value) => {
-      if (selectedConstitution.includes(value)) {
-        setSelectedConstitution(selectedConstitution.filter((item) => item !== value));
-        updateProperty('constitution',selectedConstitution);
+      if (selectedConstitution === value) {
+        setSelectedConstitution(null);
+        updateProperty('constitution', null);
       } else {
-        setSelectedConstitution([value]);
+        setSelectedConstitution(value);
+        updateProperty('constitution', value);
       }
     };
+    
 
     const handleMOAOA = (value) => {
       if (moaoa.includes(value)) {
-        setMOAOA(moaoa.filter((item) => item !== value));
-        updateProperty('is_member_of_association',moaoa);
+        setMOAOA([]);
+        updateProperty('is_member_of_association', null);
       } else {
         setMOAOA([value]);
+        updateProperty('is_member_of_association', value);
       }
     };
 
     const handleAP = (value) => {
       if (ap.includes(value)) {
-        setAP(moaoa.filter((item) => item !== value));
-        updateProperty('is_office_bearer',ap);
+        setAP([]);
+        updateProperty('is_office_bearer', null);
       } else {
         setAP([value]);
+        updateProperty('is_office_bearer', value);
+
       }
     };
-
-    const handleCBC=(value)=>{
+    
+    const handleCBC = (value) => {
       if (coi.includes(value)) {
-        setCOI(coi.filter((item) => item !== value));
-        updateProperty('classindustry',coi);
+        setCOI([]);
+        updateProperty('classindustry', null);
       } else {
         setCOI([value]);
+        updateProperty('classindustry', value);
       }
-    }
+    };
+    
 
     const handleInputChange = (e) => {
       setInputValues({ ...inputValues, [e.target.name]: e.target.value });

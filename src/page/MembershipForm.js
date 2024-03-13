@@ -1,8 +1,9 @@
 import * as React from "react";
-import logoImage from "../assets/rect.png";
 import know from "../assets/knowmore.png";
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import Navbar from "./Navbar";
 
   function Form(props) {
     const [selectedConstitution, setSelectedConstitution] = useState([]);
@@ -11,6 +12,7 @@ import axios from "axios";
     const [coi ,setCOI] = useState([]);
     const [moaoa,setMOAOA]=useState([]);
     const [ap,setAP]=useState([]);
+    const navigate = useNavigate();
     
 
     const [esign,setEsign]=useState(null);
@@ -81,57 +83,6 @@ import axios from "axios";
       seal_image: null
     });
 
-    console.log("directors:", formData.directors);
-console.log("Nameofapplicant:", formData.Nameofapplicant);
-console.log("constitution:", formData.constitution);
-console.log("individual_name:", formData.individual_name);
-console.log("is_individual:", formData.is_individual);
-console.log("Businessactivity:", formData.Businessactivity);
-console.log("regoffadd:", formData.regoffadd);
-console.log("acoffice:", formData.acoffice);
-console.log("acwork:", formData.acwork);
-console.log("cdlan:", formData.cdlan);
-console.log("cdphone:", formData.cdphone);
-console.log("cdemail:", formData.cdemail);
-console.log("cdweb:", formData.cdweb);
-console.log("aadhar:", formData.aadhar);
-console.log("pancardno:", formData.pancardno);
-console.log("GSTNo:", formData.GSTNo);
-console.log("CompanyFirmRegNo:", formData.CompanyFirmRegNo);
-console.log("SocietyAssociationRegNo:", formData.SocietyAssociationRegNo);
-console.log("paname:", formData.paname);
-console.log("papan:", formData.papan);
-console.log("paphone:", formData.paphone);
-console.log("padesignation:", formData.padesignation);
-console.log("paaadhaar:", formData.paaadhaar);
-console.log("pamail_id:", formData.pamail_id);
-console.log("indmain_category:", formData.indmain_category);
-console.log("indsub_category:", formData.indsub_category);
-console.log("cmdomestic:", formData.cmdomestic);
-console.log("cmboth:", formData.cmboth);
-console.log("cmpercentage_of_imports:", formData.cmpercentage_of_imports);
-console.log("cmglobal_market:", formData.cmglobal_market);
-console.log("cmpercentage_of_exports:", formData.cmpercentage_of_exports);
-console.log("country_name_foreign_collaboration:", formData.country_name_foreign_collaboration);
-console.log("collaborator_name_foreign_collaboration:", formData.collaborator_name_foreign_collaboration);
-console.log("annual_turnover_year1:", formData.annual_turnover_year1);
-console.log("annual_turnover_year2:", formData.annual_turnover_year2);
-console.log("annual_turnover_year3:", formData.annual_turnover_year3);
-console.log("classindustry:", formData.classindustry);
-console.log("direct_office_employees:", formData.direct_office_employees);
-console.log("indirect_contractual_employees:", formData.indirect_contractual_employees);
-console.log("works_employees:", formData.works_employees);
-console.log("outsourced_employees:", formData.outsourced_employees);
-console.log("esic:", formData.esic);
-console.log("epf:", formData.epf);
-console.log("branches_outside_india:", formData.branches_outside_india);
-console.log("is_member_of_association:", formData.is_member_of_association);
-console.log("association_name:", formData.association_name);
-console.log("is_office_bearer:", formData.is_office_bearer);
-console.log("association_position:", formData.association_position);
-console.log("reason_for_joining_chamber:", formData.reason_for_joining_chamber);
-console.log("e_sign:", formData.e_sign);
-console.log("seal_image:", formData.seal_image);
 
 
 
@@ -194,6 +145,7 @@ console.log("seal_image:", formData.seal_image);
 
   const handleAdd = () => {
     const newDirector = { ...inputValues };
+    console.log(allDirectors)
     updateProperty('directors', [...formData.directors, newDirector]);
     setData([...datea, inputValues]);
     setInputValues({ name: '', designation: '', pan: '' });
@@ -226,20 +178,29 @@ console.log("seal_image:", formData.seal_image);
     ];
 
     const handleSubmit = async () => {
-      console.log(formData);
       try {
+        const formDataToSend = new FormData();
+    
+        Object.entries(formData).forEach(([key, value]) => {
+          formDataToSend.append(key, value);
+        });
+    
+        formDataToSend.append('e_sign', formData.e_sign);
+    
         const response = await axios.post(
-          'http://192.168.113.83:8000/api/form1/',
+          'http://192.168.68.83:8000/api/form1/',
           formData,
           {
-            headers: {
+            headers:{ 
               'Content-Type': 'multipart/form-data',
-            },
+            }
           }
         );
     
-        if (response.data === "Success") {
-          console.log("Success");
+        if (response.data["detail"] === "Success") {
+          console.log(response.data["detail"]);
+          const form1_pk = response.data["pk"];
+          navigate('/membership2/' , { state: { form1_pk } });
         }
       } catch (error) {
         console.error(error);
@@ -250,50 +211,28 @@ console.log("seal_image:", formData.seal_image);
   return (
     <div className="flex flex-col bg-white">
       {/* Header */}
-      <div className="flex gap-5 justify-between items-center self-center px-5 mt-1 w-full font-bold whitespace-nowrap max-w-[1653px] max-md:flex-wrap max-md:max-w-full">
-        {/* Logo */}
-        <img
-          loading="lazy"
-          src={logoImage}
-          className="self-stretch max-w-full aspect-[2.5] w-[329px]"
-          alt="logo"
-        />
-        {/* Navigation */}
-        <div className="flex flex-row gap-8 justify-center items-center self-stretch my-auto text-sm text-black max-md:flex-wrap max-md:max-w-full">
-          <a href="/" className="nav-button px-9">
-            HOME
-          </a>
-          <a href="/membership" className="nav-button px-9">
-            MEMBERSHIPS
-          </a>
-          <a href="#journals" className="nav-button px-9">
-            JOURNALS
-          </a>
-          <a href="#members" className="nav-button px-9">
-            MEMBERS
-          </a>
-        </div>
-        {/* Join Now Button */}
-        <div className="justify-center self-stretch px-3.5 py-3 my-auto text-xs text-white bg-violet-800 rounded-3xl">
-          JOIN NOW
-        </div>
-      </div>
+      <Navbar />
 
       <div className="flex flex-col">
         <div className="flex justify-center items-center px-16 py-11 w-full font-bold text-black border border-black border-solid bg-zinc-300 bg-opacity-20 max-md:px-5 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-w-[1351px] max-md:flex-wrap max-md:max-w-full">
             <div className="flex-auto text-4xl">Membership Application</div>
             <div className="flex gap-5 justify-between my-auto text-sm whitespace-nowrap">
-              <a href="/" className="my-auto grow italic">home</a>
+              <a href="/" className="my-auto grow italic" style={{ textDecoration: 'none', color: 'your-color' }}>home</a>
               <div className="my-auto py-0 text-xl">&gt;&gt;</div>
               <div className="grow italic my-auto">For Life Membership</div>
             </div>
           </div>
-        </div>
+        </div>        
+        <h1 className="font-bold text-2xl pl-[10%] pt-[2%]">Applications Details: </h1>
+        <p className="pl-[15%] pt-[1%] text-lg font-semibold text-gray-800">
+            You have selected for Lifemembership.
+        </p>
+        <p className="pl-[15%] pt-[1%] text-lg text-green-700">
+            The price of membership is ₹88,500
+        </p>
       </div>
-      <h1 className="font-bold text-2xl ml-10 pl-[10%]">Applications Details: </h1>
-          <p className="ml-12">you have selected for Lifemembership.</p>
-          <p className="ml-12">The price of membership is 88,500</p>
+
 
       <div className="flex w-[100%] mt-[6%]">
         <div className="w-2"></div>
@@ -1067,7 +1006,7 @@ console.log("seal_image:", formData.seal_image);
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white text-center py-4">
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
+        <p>&copy; 2024 Metaverse Association. All rights reserved.</p>
       </footer>
     </div>
   );

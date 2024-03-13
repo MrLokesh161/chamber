@@ -1,272 +1,474 @@
 import React from "react";
+import { useState } from 'react';
 import Navbar from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useLocation } from 'react-router-dom';
+
+
+
+
+
 const MembershipForm2 = () => {
+  const navigate = useNavigate();
+  const [iande, setiande] = useState("");
+  const [incometaxtpan,setincometaxtpan]=useState("");
+  const [FactoryRegistrationCertificate,setFactoryRegistrationCertificate]=useState("");
+  const [MemorandumArticleofAssociation,setMemorandumArticleofAssociation]=useState("");
+  const [GSTINRegistrationCopy,setGSTINRegistrationCopy]=useState("");
+  const [IECodeCertificate,setIECodeCertificate]=useState("");
+  const [ProfessionalCertificate,setProfessionalCertificate]=useState("");
+  const [CopyofLandDocument,setCopyofLandDocument]=useState("");
+  const [LandHolding,setLandHolding]=useState("");
+  const [passportsizephoto,setpassportsizephoto]=useState("");
+  const [DirectorsPartners,setDirectorsPartners]=useState("");  
+  const location = useLocation();
+  const form1_pk = location.state ? location.state.form1_pk : null;
+  
+
+  const handleiande = (e) => {
+    const selectedFile = e.target.files[0];
+    setiande(selectedFile ? selectedFile.name : "");
+    updateProperty("iande", selectedFile);
+  };
+
+
+  const handleincometaxtpan = (e) => {
+    const selectedFile = e.target.files[0];
+    setincometaxtpan(selectedFile ? selectedFile.name : "");
+    updateProperty('incometaxtpan',selectedFile);
+  };
+
+  const handleFactoryRegistrationCertificate = (e) => {
+    const selectedFile = e.target.files[0];
+    setFactoryRegistrationCertificate(selectedFile ? selectedFile.name : "");
+    updateProperty('FactoryRegistrationCertificate',selectedFile);
+  };
+
+  const handleMemorandumArticleofAssociation = (e) => {
+    const selectedFile = e.target.files[0];
+    setMemorandumArticleofAssociation(selectedFile ? selectedFile.name : "");
+    updateProperty('MemorandumArticleofAssociation',selectedFile);
+  };
+
+  const handleGSTINRegistrationCopy = (e) => {
+    const selectedFile = e.target.files[0];
+    setGSTINRegistrationCopy(selectedFile ? selectedFile.name : "");
+    updateProperty('GSTINRegistrationCopy',selectedFile);
+  };
+
+  const handleIECodeCertificate = (e) => {
+    const selectedFile = e.target.files[0];
+    setIECodeCertificate(selectedFile ? selectedFile.name : "");
+    updateProperty('IECodeCertificate',selectedFile);
+  };
+
+  const handleProfessionalCertificate = (e) => {
+    const selectedFile = e.target.files[0];
+    setProfessionalCertificate(selectedFile ? selectedFile.name : "");
+    updateProperty('ProfessionalCertificate',selectedFile);
+  };
+
+  const handleCopyofLandDocument = (e) => {
+    const selectedFile = e.target.files[0];
+    setCopyofLandDocument(selectedFile ? selectedFile.name : "");
+    updateProperty('CopyofLandDocument',selectedFile);
+  };
+
+  const handleLandHolding = (e) => {
+    const selectedFile = e.target.files[0];
+    setLandHolding(selectedFile ? selectedFile.name : "");
+    updateProperty('LandHolding',selectedFile);
+  };
+
+  const handlepassportsizephoto = (e) => {
+    const selectedFile = e.target.files[0];
+    setpassportsizephoto(selectedFile ? selectedFile.name : "");
+    updateProperty('passportsizephoto',selectedFile);
+  };
+
+  const handleDirectorsPartners = (e) => {
+    const selectedFile = e.target.files[0];
+    setDirectorsPartners(selectedFile ? selectedFile.name : "");
+    updateProperty('DirectorsPartners',selectedFile);
+  };
+
+  const [formData, setFormData] = useState({
+    iande : null,
+    incometaxtpan : null,
+    FactoryRegistrationCertificate : null,
+    MemorandumArticleofAssociation : null,
+    GSTINRegistrationCopy : null,
+    IECodeCertificate : null,
+    ProfessionalCertificate : null,
+    CopyofLandDocument : null,
+    LandHolding : null,
+    passportsizephoto : null,
+    DirectorsPartners : null,
+
+  })
+
+  const updateProperty = (propertyName, value) => {
+    setFormData(prevData => ({
+      ...prevData,
+      [propertyName]: value,
+    }));
+  };
+  console.log(form1_pk);
+
+
+  const handleSubmit = async () => {
+    try {
+
+      const response = await axios.post(
+        `http://192.168.68.83:8000/api/form2/${form1_pk}/`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+  
+      if (response.data["Form2"] === "Success") {
+        console.log(response.data["Form2"]);
+        navigate('/letter');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   return (
     <div>
-      <Navbar />
+      <div className="w-[100%] pl-[7%]">
+        <Navbar />
+      </div>
       <div className="flex flex-col">
         <div className="flex justify-center items-center px-16 py-11 w-full font-bold text-black border border-black border-solid bg-zinc-300 bg-opacity-20 max-md:px-5 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-w-[1351px] max-md:flex-wrap max-md:max-w-full">
             <div className="flex-auto text-4xl">Membership Application</div>
             <div className="flex gap-5 justify-between my-auto text-sm whitespace-nowrap">
-              <a href="/" className="my-auto grow italic">home</a>
+              <a href="/" className="my-auto grow italic"  style={{ textDecoration: 'none', color: 'your-color' }}>home</a>
               <div className="my-auto py-0 text-xl">&gt;&gt;</div>
               <div className="grow italic my-auto">For Life Membership</div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex">
-        <div className="left w-3/4">
-          <h1 className="font-bold text-2xl ml-10 pl-[10%]">Applications Details: </h1>
-          <p className="ml-12">you have selected for Lifemembership.</p>
-          <p className="ml-12 mb-10">The price of membership is 88,500</p>
-          <div className="flex ml-10 items-center">
-            <FontAwesomeIcon icon={faAnglesRight} />
-            <h4 className="ml-10 font-bold m-2">
-              Income and expenditure statement and your assets and liabilites
-              statement for the last three financial years
-            </h4>
-          </div>
-          <div class="flex-row ml-24">
-            <label for="income" class="text-lg  m-2 mr-3 font-medium">
-              1.
-            </label>
-            <label
-              for="income"
-              class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-            >
-              <span class="ml-2">Choose File</span>
-            </label>
-            <input
-              type="file"
-              id="income"
-              name="income"
-              accept="image/*"
-              class="hidden"
-            />
+        </div>
+        <h1 className="font-bold text-2xl pl-[10%] pt-[2%]">Applications Details: </h1>
+        <p className="pl-[15%] pt-[1%] text-lg font-semibold text-gray-800">
+            You have selected for Lifemembership.
+        </p>
+        <p className="pl-[15%] pt-[1%] text-lg text-green-700">
+            The price of membership is ₹88,500
+        </p>
 
-            <h3 className="text-xl mt-10 font-bold">
-              Upload all below documents
-            </h3>
-            <div className="flex">
-              <div>
-                <h6 className=" font-semibold my-3">Income tax pan number</h6>
-                <label for="income" class="text-lg mr-4 font-medium mb-2">
-                  a.
-                </label>
-                <label
-                  for="income"
-                  class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-                >
-                  <span class="ml-2">Choose File</span>
-                </label>
-                <input
-                  type="file"
-                  id="income"
-                  name="income"
-                  accept="image/*"
-                  class="hidden"
-                />
-                <h6 className="font-semibold my-3">
-                  Factory registration certificate
-                </h6>
-                <label for="income" class="text-lg mr-4 font-medium mb-2">
-                  b.
-                </label>
-                <label
-                  for="income"
-                  class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-                >
-                  <span class="ml-2">Choose File</span>
-                </label>
-                <input
-                  type="file"
-                  id="income"
-                  name="income"
-                  accept="image/*"
-                  class="hidden"
-                />
-                <h6 className="font-semibold my-3">
-                  Memorandum & article of association
-                  <br /> (compulsory for private / Limited companies)
-                </h6>
-                <label for="income" class="text-lg mr-4 font-medium mb-2">
-                  c.
-                </label>
-                <label
-                  for="income"
-                  class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-                >
-                  <span class="ml-2">Choose File</span>
-                </label>
-                <input
-                  type="file"
-                  id="income"
-                  name="income"
-                  accept="image/*"
-                  class="hidden"
-                />
-                <h6 className="font-semibold my-3">
-                  GSTIN Registration copy (Compulsory)
-                </h6>
-                <label for="income" class="text-lg mr-4 font-medium mb-2">
-                  d.
-                </label>
-                <label
-                  for="income"
-                  class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-                >
-                  <span class="ml-2">Choose File</span>
-                </label>
-                <input
-                  type="file"
-                  id="income"
-                  name="income"
-                  accept="image/*"
-                  class="hidden"
-                />
-              </div>
-              <div>
-                <div>
-                  <h6 className="font-semibold my-3">IE code certification </h6>
-                  <label for="income" class="text-lg mr-4 font-medium mb-2">
-                    e.
-                  </label>
-                  <label
-                    for="income"
-                    class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-                  >
-                    <span class="ml-2">Choose File</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="income"
-                    name="income"
-                    accept="image/*"
-                    class="hidden"
-                  />
-                  <h6 className="font-semibold my-3">
-                    professional certificate
-                  </h6>
-                  <label for="income" class="text-lg mr-4 font-medium mb-2">
-                    f.
-                  </label>
-                  <label
-                    for="income"
-                    class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-                  >
-                    <span class="ml-2">Choose File</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="income"
-                    name="income"
-                    accept="image/*"
-                    class="hidden"
-                  />
-                  <h6 className="font-semibold my-3">copy of land document</h6>
-                  <label for="income" class="text-lg mr-4 font-medium mb-2">
-                    g.
-                  </label>
-                  <label
-                    for="income"
-                    class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-                  >
-                    <span class="ml-2">Choose File</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="income"
-                    name="income"
-                    accept="image/*"
-                    class="hidden"
-                  />
-                  <h6 className="font-semibold my-3">
-                    copy of land holding(Patta)
-                  </h6>
-                  <label for="income" class="text-lg mr-4 font-medium mb-2">
-                    h.
-                  </label>
-                  <label
-                    for="income"
-                    class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-                  >
-                    <span class="ml-2">Choose File</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="income"
-                    name="income"
-                    accept="image/*"
-                    class="hidden"
-                  />
-                </div>
-              </div>
-            </div>
-            <h6 className="font-semibold my-3">
-              Two passport size photograph of the authorised reperesentative{" "}
-            </h6>
+        <div className="flex mt-[1%] w-full overflow-hidden">
+        <div className="pl-[10%] flex flex-col w-[50%]">
+        <label className="text-base font-bold pl-[10%]">Income and Expenditure statement and your Assets and Liabilities Statement for the last three financial years</label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
             <label
-              for="income"
-              class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
+              htmlFor="iande"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
             >
-              <span class="ml-2">Choose File</span>
+              <span className="text-gray-700">{iande || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                type="file"
+                id="iande"
+                onChange={handleiande}
+                accept="image/*"
+                className="hidden"
+              />
             </label>
-            <input
-              type="file"
-              id="income"
-              name="income"
-              accept="image/*"
-              class="hidden"
-            />
-            <h6 className="font-semibold my-3">
-              List of directors/partners etc
-            </h6>
-            <label
-              for="income"
-              class="relative cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-            >
-              <span class="ml-2">Choose File</span>
-            </label>
-            <input
-              type="file"
-              id="income"
-              name="income"
-              accept="image/*"
-              class="hidden"
-            />
+            <p className="text-sm text-gray-500 mt-2">
+              {iande && `File Selected: ${iande}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your Income and Expenditure statement and your Assets and Liabilities Statement for the last three financial years (JPEG or PNG).</p>
           </div>
-          <button className="bg-violet-300 p-3 rounded-full px-3 ">
-            Submit and proceed next
-          </button>
         </div>
-        <div className="right w-1/3 border-2 border-black rounded-xl p-3 h-1/2 pb-5 mt-10 bg-pink-400">
-          <h1>Membership opportunities:</h1>
-          <p>
-            The membership of the chamber is open to all those who are engaged
-            in any business activity in the state of tamilnadu , including trade
-            , industry , service and agriculture and related activites .
-            Professional , sole propriteorship , LLPs Partnership association
-            and companies are eligible to be admitted as members under any one
-            of the following categories.
-          </p>
-          <h1>Membership types </h1>
-          <div>
-            <h4>For Lifemembership</h4>
+        <label className="text-base font-bold pl-[10%]">Income Tax PAN</label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="incometaxtpan"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{incometaxtpan || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="incometaxtpan"
+                type="file"
+                name="incometaxtpan"
+                onChange={handleincometaxtpan}
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {incometaxtpan && `File Selected: ${incometaxtpan}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your Income Tax PAN (JPEG or PNG).</p>
           </div>
-          <div>For Lifemembership </div>
-          <div>For Lifemembership</div>
-          <h1>Membership Benefits </h1>
-          <div>Latest notifications of state central governments </div>
-          <div>
-            {" "}
-            Trade delegations and foreign delegations related information
-          </div>{" "}
+        </div>
+        <label className="text-base font-bold pl-[10%]">Factory Registration Certificate</label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="incometaxtpan"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{FactoryRegistrationCertificate || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="incometaxtpan"
+                type="file"
+                name="FactoryRegistrationCertificate"
+                onChange={handleFactoryRegistrationCertificate}
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {FactoryRegistrationCertificate && `File Selected: ${FactoryRegistrationCertificate}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your Factory Registration Certificate (JPEG or PNG).</p>
+          </div>
+        </div>
+        <label className="text-base font-bold pl-[10%]">Memorandum & Article of Association</label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="MemorandumArticleofAssociation"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{MemorandumArticleofAssociation || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="MemorandumArticleofAssociation"
+                type="file"
+                name="MemorandumArticleofAssociation"
+                onChange={handleMemorandumArticleofAssociation}
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {MemorandumArticleofAssociation && `File Selected: ${MemorandumArticleofAssociation}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your Memorandum & Article of Association (JPEG or PNG).</p>
+          </div>
+        </div>
+        <label className="text-base font-bold pl-[10%]">GSTIN Registration Copy </label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="GSTINRegistrationCopy"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{GSTINRegistrationCopy || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="GSTINRegistrationCopy"
+                type="file"
+                name="GSTINRegistrationCopy"
+                onChange={handleGSTINRegistrationCopy}
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {GSTINRegistrationCopy && `File Selected: ${GSTINRegistrationCopy}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your GSTIN Registration Copy (JPEG or PNG).</p>
+          </div>
+        </div>
+        <label className="text-base font-bold pl-[10%]">IE Code Certificate</label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="IECodeCertificate"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{IECodeCertificate || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="IECodeCertificate"
+                type="file"
+                name="IECodeCertificate"
+                onChange={handleIECodeCertificate}
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {IECodeCertificate && `File Selected: ${IECodeCertificate}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your IE Code Certificate (JPEG or PNG).</p>
+          </div>
+        </div>
+        <label className="text-base font-bold pl-[10%]">Professional Certificate</label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="ProfessionalCertificate"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{ProfessionalCertificate || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="ProfessionalCertificate"
+                type="file"
+                name="ProfessionalCertificate"
+                onChange={handleProfessionalCertificate}
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {ProfessionalCertificate && `File Selected: ${ProfessionalCertificate}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your Professional Certificate (JPEG or PNG).</p>
+          </div>
+        </div>
+        <label className="text-base font-bold pl-[10%]">Copy of Land Document</label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="CopyofLandDocument"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{CopyofLandDocument || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="CopyofLandDocument"
+                type="file"
+                name="CopyofLandDocument"
+                onChange={handleCopyofLandDocument}
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {CopyofLandDocument && `File Selected: ${CopyofLandDocument}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your Copy of Land Document (JPEG or PNG).</p>
+          </div>
+        </div>
+        <label className="text-base font-bold pl-[10%]">Land Holding (Patta)</label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="LandHolding"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{LandHolding || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="LandHolding"
+                type="file"
+                onChange={handleLandHolding}
+                name="LandHolding"
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {LandHolding && `File Selected: ${LandHolding}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your Land Holding (Patta) (JPEG or PNG).</p>
+          </div>
+        </div>
+        <label className="text-base font-bold pl-[10%]">passport size colour photographs of the Authorised Representative</label>
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="passportsizephoto"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{passportsizephoto || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="passportsizephoto"
+                type="file"
+                onChange={handlepassportsizephoto}
+                name="passportsizephoto"
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {passportsizephoto && `File Selected: ${passportsizephoto}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your passport size colour photographs of the Authorised Representative (JPEG or PNG).</p>
+          </div>
+        </div>
+        <label className="text-base font-bold pl-[10%]">List of Directors / Partners etc</label>
+
+        <div className="flex w-[100%] py-[2%]">      
+          <div className="flex flex-col w-[70%] max-md:w-full pl-[10%]">
+            <label
+              htmlFor="DirectorsPartners"
+              className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+            >
+              <span className="text-gray-700">{DirectorsPartners || "Choose a file"}</span>
+              <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+              <input
+                id="DirectorsPartners"
+                type="file"
+                onChange={handleDirectorsPartners}
+                name="DirectorsPartners"
+                accept="image/*"
+                className="hidden"
+              />
+            </label>
+            <p className="text-sm text-gray-500 mt-2">
+              {DirectorsPartners && `File Selected: ${DirectorsPartners}`}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">Upload a scanned copy of your List of Directors / Partners etc (JPEG or PNG).</p>
+          </div>
         </div>
       </div>
+
+
+            <div className="flex w-[30%] pl-[10%]">
+                <div className="flex flex-col w-full bg-F4E3E3 border border-solid border-black p-4 rounded-xl">
+                <div className="text-4xl mb-4">Membership Opportunities</div>
+                <p className="text-justify mb-4">
+                    The Membership of the chamber is open to all those who are engaged in any business activity in the State of Tamil Nadu, including trade, industry, services, and agriculture and related activities. Professionals, Sole Proprietorship, LLPs, Partnerships, Associations, and Companies are eligible to be admitted as members under any one of the following categories.
+                </p>
+                <div className="text-xl mb-4">Membership Types</div>
+                <ul className="list-disc list-inside">
+                    <li>For Life Membership</li>
+                    <li>Annual Membership</li>
+                </ul>
+                <div className="text-xl mt-4">Member Benefits</div>
+                <ul className="list-disc list-inside">
+                    <li>Latest notifications of State & Central Governments.</li>
+                    <li>Trade delegations and foreign delegations related information.</li>
+                </ul>
+                </div>
+            </div>
+        </div>
+        <div className="ml-[10%] mt-[8%]">
+        <button
+          className="bg-blue-500 text-white px-4 py-3 rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+          onClick={handleSubmit}
+        >
+          Submit & Proceed Next 
+        </button>
+        <div className="pb-[10%]"></div>
+      </div>
+
+      <footer className="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2024 Metaverse Association. All rights reserved.</p>
+      </footer>
+
     </div>
   );
 };

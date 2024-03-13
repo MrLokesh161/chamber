@@ -1,196 +1,216 @@
 import React from "react";
 import Navbar from "./Navbar";
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../index.css";
+
 const Letter = () => {
+
+  
   return (
-    <div>
-      <Navbar />
-      <div className="p-5 bg-gray-200">
-        <h1 className="">Membership Application </h1>
+    <div className=" min-h-screen">
+      <div className="w-full pl-7">
+        <Navbar />
       </div>
-      <h1 className="flex justify-center text-2xl my-5">
-        (Application Letter Head)
-      </h1>
-      <div className="ml-10">
-        <p>
-          To,
-          <br />
-          The President <br />
-          The Indian Chamber of Commerce and Industry
-          <br />
-          Coimbatore.
-          <br />
-          <div className="my-4">Dear Sir,</div>
-          <div className="my-4">
-            Sub:Application for Chamber Membership
-            <br />
-          </div>
-          <div className=" space-y-1">
-            I / We are desire to apply for membership of The Indian Chamber of
-            Commerce
-            <br /> and Industry, Coimbatore and hereby submitting the
-            application along with <br />
-            required enclosures.
-            <div className=" space-y-1">
-              I / We also enclose the DD/ Cheque No{" "}
-              <input
-                className="border-2 mx-2 rounded-lg"
-                type="number"
-                min={5}
-                max={6}
-                name=""
-                id=""
-              />
-              Drawn
+      <div className="flex flex-col">
+        <div className="flex justify-center items-center px-16 py-11 w-full font-bold text-black border border-black border-solid bg-zinc-300 bg-opacity-20 max-md:px-5 max-md:max-w-full">
+          <div className="flex gap-5 justify-between w-full max-w-[1351px] max-md:flex-wrap max-md:max-w-full">
+            <div className="flex-auto text-4xl">Membership Application</div>
+            <div className="flex gap-5 justify-between my-auto text-sm whitespace-nowrap">
+              <a href="/" className="my-auto grow italic">home</a>
+              <div className="my-auto py-0 text-xl">&gt;&gt;</div>
+              <div className="grow italic my-auto">For Life Membership</div>
             </div>
-            on
-            <input
-              className="border-2 mx-2 rounded-lg"
-              type="date"
-              name="date"
-              id="date"
-            />{" "}
-            for Rs towards
-            <input
-              className="border-2 mx-2 rounded-lg"
-              type="number"
-              name=""
-              id=""
-            />
-            <br />
-            ANNUAL SUBSCRIPTION Rs
-            <br /> LIFE MEMBERSHIP
-            <br /> CO CHAMBER JOURNAL <br />
-            CHAMBER DAY CELEBRATION
-            <br /> OTHER FEE IF ANY
-            <br /> TOTAL
-            <br /> Kindly accept our application and admit me/us as member.
-            <br />
-            <div className="flex-col">
-              <div>
-                Rs{" "}
-                <input
-                  className="border-2 my-2 mx-2 rounded-lg"
-                  type="number"
-                  name=""
-                  id=""
-                />{" "}
-              </div>
-              <div>
-                Rs{" "}
-                <input
-                  className="border-2 my-2 mx-2 rounded-lg"
-                  type="number"
-                  name=""
-                  id=""
-                />{" "}
-              </div>
-              <div>
-                Rs{" "}
-                <input
-                  className="border-2 my-2 mx-2 rounded-lg"
-                  type="number"
-                  name=""
-                  id=""
-                />{" "}
-              </div>
-              <div>
-                Rs{" "}
-                <input
-                  className="border-2 my-2 mx-2 rounded-lg"
-                  type="number"
-                  name=""
-                  id=""
-                />{" "}
-              </div>
-              <div>
-                Rs{" "}
-                <input
-                  className="border-2 my-2 mx-2 rounded-lg"
-                  type="number"
-                  name=""
-                  id=""
-                />{" "}
-              </div>
-              <div>
-                Rs{" "}
-                <input
-                  className="border-2 my-2 mx-2 rounded-lg"
-                  type="number"
-                  name=""
-                  id=""
-                />{" "}
-              </div>
-            </div>
-            <span className="font-bold">NOTE</span>: To be taken printout on
-            Applicant’s Letter Head
-            <br />
-            (Applicant Letter Head) <br />
-            <div>
-              Proposed by Name:
-              <input type="text" name="" id="" />
-            </div>
-            <div>
-              Membership No:
-              <input type="text" name="" id="" />
-            </div>
-            <div>
-              Signature:
-              <input type="text" name="" id="" />
-            </div>
-            <div>
-              Seconded by Name:
-              <input type="text" name="" id="" />
-            </div>
-            <div>
-              Membership No:
-              <input type="text" name="" id="" />
-            </div>
-            <div>
-              Signature:
-              <input type="text" name="" id="" />
-            </div>
-          </div>
-        </p>
-        <div className="flex items-center justify-between mr-24">
-          <div className="my-10 ">
-            <p className="space-y-2">Yours Sincerely,</p>
-            <p className="font-bold my-3 mb-4">Authorized Signatory</p>
-            <label
-              for="income"
-              class="relative mt-2 cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-            >
-              <span>Upload Image</span>
-            </label>
-            <input
-              type="file"
-              id="income"
-              name="income"
-              accept="image/*"
-              class="hidden"
-            />
-          </div>
-          <div>
-            <h6 className="font-bold mb-5">Photo of Authorized Person</h6>
-            <label
-              for="income"
-              class="relative mt-2 cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out"
-            >
-              <span>Upload Image</span>
-            </label>
-            <input
-              type="file"
-              id="income"
-              name="income"
-              accept="image/*"
-              class="hidden"
-            />
           </div>
         </div>
+        </div>
+      <div className="max-w-6xl mx-auto mt-8 px-6 md:px-8">
+        <div className="bg-gray-100 rounded-lg shadow-2xl p-8">
+          <h1 className="text-2xl text-center mb-[10%] font-bold">Application Letter Head</h1>
+          <div>
+            <label className="font-extrabold">To:</label>
+            <div className="pl-[2%] pt-[1%]">The President</div>
+            <div className="pl-[2%]">The Indian Chamber of Commerce and Industry</div>
+            <div className="pl-[2%]">Coimbatore.</div>
           </div>
-          <pre>
-              
-          </pre>
+          <div className="my-4 font-extrabold">
+            <label>Dear Sir,</label>
+          </div>
+          <div className="my-4 pl-[2%]">
+            <label>Sub: Application for Chamber Membership</label>
+          </div>
+          <div className=" space-y-4 pl-[2%]">
+            <label>
+              I / We desire to apply for membership of The Indian Chamber of Commerce and Industry, Coimbatore, and hereby submit the application along with required enclosures.
+            </label>
+            <div className=" space-y-4 ">
+              <label>
+                I / We also enclose the DD/ Cheque No{" "}
+                <input
+                  className="border-2 mx-2 rounded-lg"
+                  type="number"
+                  min={5}
+                  max={6}
+                  name=""
+                  id=""
+                />
+                Drawn on
+                <input
+                  className="border-2 mx-2 rounded-lg"
+                  type="date"
+                  name="date"
+                  id="date"
+                />{" "}
+                for Rs towards
+                <input
+                  className="border-2 mx-2 rounded-lg"
+                  type="number"
+                  name=""
+                  id=""
+                />
+              </label>
+              <div className="flex flex-col space-y-4">
+                <label>
+                  ANNUAL SUBSCRIPTION Rs
+                  <input
+                    className="border-2 mx-2 rounded-lg"
+                    type="number"
+                    name=""
+                    id=""
+                  />
+                </label>
+                <label>
+                  LIFE MEMBERSHIP
+                  <input
+                    className="border-2 mx-2 rounded-lg"
+                    type="number"
+                    name=""
+                    id=""
+                  />
+                </label>
+                <label>
+                  CO CHAMBER JOURNAL
+                  <input
+                    className="border-2 mx-2 rounded-lg"
+                    type="number"
+                    name=""
+                    id=""
+                  />
+                </label>
+                <label>
+                  CHAMBER DAY CELEBRATION
+                  <input
+                    className="border-2 mx-2 rounded-lg"
+                    type="number"
+                    name=""
+                    id=""
+                  />
+                </label>
+                <label>
+                  OTHER FEE IF ANY
+                  <input
+                    className="border-2 mx-2 rounded-lg"
+                    type="number"
+                    name=""
+                    id=""
+                  />
+                </label>
+                <label>
+                  TOTAL
+                  <input
+                    className="border-2 mx-2 rounded-lg"
+                    type="number"
+                    name=""
+                    id=""
+                  />
+                </label>
+              </div>
+              <span className="font-bold ">NOTE</span>: To be taken printout on Applicant’s Letter Head
+              <br />
+              (Applicant Letter Head) <br />
+              <div className="flex flex-col space-y-4">
+                <label>
+                  Proposed by Name:
+                  <input type="text" name="" id="" />
+                </label>
+                <label>
+                  Membership No:
+                  <input type="text" name="" id="" />
+                </label>
+                <label>
+                  Signature:
+                  <input type="text" name="" id="" />
+                </label>
+                <label>
+                  Seconded by Name:
+                  <input type="text" name="" id="" />
+                </label>
+                <label>
+                  Membership No:
+                  <input type="text" name="" id="" />
+                </label>
+                <label>
+                  Signature:
+                  <input type="text" name="" id="" />
+                </label>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between my-10 pl-[2%]">
+            <div className="flex flex-col space-y-4">
+              <p className="font-bold">Yours Sincerely,</p>
+              <p className="font-bold mb-4">Authorized Signatory</p>
+              <label
+                htmlFor="AuthorizedSignatory"
+                className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+              >
+                <span className="text-gray-700">Choose a file</span>
+                <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+                <input
+                  id="AuthorizedSignatory"
+                  type="file"
+                  name="Authorized Signatory"
+                  accept="image/*"
+                  className="hidden"
+                />
+              </label>
+            </div>
+            <div className="flex flex-col space-y-4">
+              <h6 className="font-bold mb-4">Photo of Authorized Person</h6>
+              <label
+                htmlFor="AuthorizedSignatory"
+                className="relative cursor-pointer border-2 border-gray-300 p-2 rounded-md hover:bg-gray-100"
+              >
+                <span className="text-gray-700">Choose a file</span>
+                <FontAwesomeIcon icon={faUpload} className="absolute right-2 top-2 text-gray-500" />
+                <input
+                  id="AuthorizedSignatory"
+                  type="file"
+                  name="Authorized Signatory"
+                  accept="image/*"
+                  className="hidden"
+                />
+              </label>
+            </div>
+          </div>
+          <div className="flex justify-end mt-[8%]">
+            <button
+              className="bg-blue-500 text-white px-4 py-3 rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mx-2"
+            >
+              Submit & Proceed Next
+            </button>
+            <button
+              className="bg-blue-500 text-white px-4 py-3 pt rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mx-2"
+            >
+              Submit & Proceed Next
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="pb-[6%]"></div>
+      <footer className="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2024 Metaverse Association. All rights reserved.</p>
+      </footer>
     </div>
   );
 };

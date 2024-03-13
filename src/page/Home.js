@@ -1,38 +1,15 @@
 import * as React from "react";
-import logoImage from "../assets/rect.png";
 import rectImage from "../assets/logo.png";
 import overlay from "../assets/overlay.png";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 function Home(props) {
 
   
   return (
     <div className="flex flex-col bg-white">
-      <div className="flex gap-5 justify-between items-center self-center px-5 mt-1 w-full font-bold whitespace-nowrap max-w-[1653px] max-md:flex-wrap max-md:max-w-full">
-        <img
-          loading="lazy"
-          src={logoImage}
-          className="self-stretch max-w-full aspect-[2.5] w-[329px]"
-          alt="logo"
-        />
-        <div className="flex flex-row gap-8 justify-center items-center self-stretch my-auto text-sm text-black max-md:flex-wrap max-md:max-w-full">
-          <a href="/" className="nav-button px-9">
-            HOME
-          </a>
-          <a href="/membership" className="nav-button px-9">
-            MEMBERSHIPS
-          </a>
-          <a href="#journals" className="nav-button px-9">
-            JOURNALS
-          </a>
-          <a href="#members" className="nav-button px-9">
-            MEMBERS
-          </a>
-        </div>
-        <div className="justify-center self-stretch px-3.5 py-3 my-auto text-xs text-white bg-violet-800 rounded-3xl">
-          JOIN NOW
-        </div>
-      </div>
+      <Navbar />
       <div className="flex overflow-hidden relative flex-col justify-center mt-1.5 w-full text-sm font-bold text-white min-h-[615px] max-md:max-w-full" id="home">
         <img
           loading="lazy"
@@ -112,9 +89,7 @@ function Home(props) {
         </div>
       </div>
       <div className="mt-28 w-full max-md:mt-10 max-md:max-w-full" />
-      <footer className="bg-gray-800 text-white text-center py-4">
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

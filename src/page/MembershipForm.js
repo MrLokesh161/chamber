@@ -186,6 +186,17 @@ import Navbar from "./Navbar";
         });
     
         formDataToSend.append('e_sign', formData.e_sign);
+
+        const accessToken = localStorage.getItem('token');
+
+        if (!accessToken) {
+          throw new Error('Access token is missing');
+        }
+
+        console.log(accessToken)
+        console.log(formData)
+
+    
     
         const response = await axios.post(
           'http://192.168.68.83:8000/api/form1/',
@@ -193,14 +204,15 @@ import Navbar from "./Navbar";
           {
             headers:{ 
               'Content-Type': 'multipart/form-data',
+              'Authorization': `token ${accessToken}`,
             }
           }
         );
     
         if (response.data["detail"] === "Success") {
           console.log(response.data["detail"]);
-          const form1_pk = response.data["pk"];
-          navigate('/membership2/' , { state: { form1_pk } });
+          console.log(formData)
+          navigate('/membership2/');
         }
       } catch (error) {
         console.error(error);

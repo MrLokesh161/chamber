@@ -6,6 +6,21 @@ import Navbar from "./Navbar";
 
 function Home(props) {
 
+  const checkTokenInLocalStorage = () => {
+    const token = localStorage.getItem('token');
+  
+    if (token) {
+      console.log('Token found in local storage:', token);
+
+    } else {
+      console.log('Token not found in local storage');
+
+    }
+  };
+  
+  // Call the function to check the token when needed
+  checkTokenInLocalStorage();
+
   
   return (
     <div className="flex flex-col bg-white">

@@ -1,10 +1,18 @@
 import React from "react";
 import Navbar from "./Navbar";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../index.css";
 
 const Letter = () => {
+
+  const navigate = useNavigate();
+
+
+  const handleproceed = () => {
+    navigate("/payment");
+  };
 
   
   return (
@@ -197,10 +205,11 @@ const Letter = () => {
             <button
               className="bg-blue-500 text-white px-4 py-3 rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mx-2"
             >
-              Submit & Proceed Next
+              Download
             </button>
             <button
               className="bg-blue-500 text-white px-4 py-3 pt rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mx-2"
+              onClick={handleproceed}
             >
               Submit & Proceed Next
             </button>

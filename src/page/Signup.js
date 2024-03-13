@@ -17,11 +17,14 @@ const Signup = () => {
       [propertyName]: value,
     }));
   };
+  
+  const handlelogin = () => {
+    navigate("/login")
+  };
 
   const [formData, setFormData] = useState({
     username: "",
-    email: "",
-    phoneNumber: "",
+    emailid: "",
     password: ""
   });
 
@@ -43,8 +46,8 @@ const Signup = () => {
         }
       );
   
-      if (response.data["signup"] === "Success") {
-        console.log(response.data["signup"]);
+      if (response.data["message"] === "User created successfully") {
+        console.log(response.data["message"]);
         navigate('/');
       }
     } catch (error) {
@@ -65,6 +68,15 @@ const Signup = () => {
           className="w-[50%] pl-[10%] pt-6"
           alt="home"
         />
+        <div className="pl-[15%]">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white rounded-full py-2 px-16 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 text-lg font-bold"
+            onClick={handlelogin}
+          >
+            Login
+          </button>
+        </div>
       </div>
 
       <div
@@ -102,20 +114,6 @@ const Signup = () => {
               className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
               placeholder="Enter your email"
               onChange={(e) => updateProperty("email", e.target.value)}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="phoneNumber" className="block text-lg font-bold text-indigo-600">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              name="phoneNumber"
-              className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
-              placeholder="Enter your phone number"
-              onChange={(e) => updateProperty("phoneNumber", e.target.value)}
             />
           </div>
 

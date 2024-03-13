@@ -18,8 +18,12 @@ const Login = () => {
     }));
   };
 
+  const handleSignup = () => {
+    navigate("/Signup")
+  };
+
   const [formData, setFormData] = useState({
-    cdemail: "",
+    username: "",
     password:""
   });
 
@@ -32,17 +36,20 @@ const Login = () => {
       });
     
       const response = await axios.post(
-        'http://192.168.68.83:8000/api/login/',
+        'http://192.168.68.83:8000/obtainAuthToken/',
         formData,
         {
           headers:{ 
             'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${localStorage.getItem('token')}` 
           }
         }
       );
   
       if (response.data["login"] === "Success") {
         console.log(response.data["login"]);
+        console.log(response.data)
+        localStorage.setItem('token', response.data.token);
         navigate('/');
       }
     } catch (error) {
@@ -63,6 +70,16 @@ const Login = () => {
           className="w-[50%] pl-[10%] pt-6"
           alt="home"
         />
+        <div className="pl-[15%]">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white rounded-full py-2 px-16 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 text-lg font-bold"
+            onClick={handleSignup}
+          >
+            Sign Up
+          </button>
+        </div>
+
       </div>
 
       <div
@@ -85,7 +102,7 @@ const Login = () => {
               name="username"
               className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
               placeholder="Enter your username"
-              onChange={(e) => updateProperty("cdemail", e.target.value)}
+              onChange={(e) => updateProperty("username", e.target.value)}
             />
           </div>
 
@@ -99,7 +116,7 @@ const Login = () => {
               name="Password"
               className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
               placeholder="Enter your username"
-              onChange={(e) => updateProperty("cdemail", e.target.value)}
+              onChange={(e) => updateProperty("password", e.target.value)}
             />
           </div>
 

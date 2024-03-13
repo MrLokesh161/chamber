@@ -25,7 +25,6 @@ const MembershipForm2 = () => {
   const [passportsizephoto,setpassportsizephoto]=useState("");
   const [DirectorsPartners,setDirectorsPartners]=useState("");  
   const location = useLocation();
-  const form1_pk = location.state ? location.state.form1_pk : null;
   
 
   const handleiande = (e) => {
@@ -116,18 +115,21 @@ const MembershipForm2 = () => {
       [propertyName]: value,
     }));
   };
-  console.log(form1_pk);
+
+  const accessToken = localStorage.getItem('token');
+
+  console.log(accessToken);
 
 
   const handleSubmit = async () => {
     try {
-
       const response = await axios.post(
-        `http://192.168.68.83:8000/api/form2/${form1_pk}/`,
+        `http://192.168.68.83:8000/api/form2/`,
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
+            'Authorization': `Token ${accessToken}`,
           },
         }
       );
@@ -140,6 +142,7 @@ const MembershipForm2 = () => {
       console.error(error);
     }
   };
+  
 
 
   return (

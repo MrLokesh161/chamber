@@ -6,6 +6,7 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
+import BASE_URL from "./Appconfig";
 
 
 
@@ -124,7 +125,7 @@ const MembershipForm2 = () => {
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        `http://192.168.68.83:8000/api/form2/`,
+        `${BASE_URL}/api/form2/`,
         formData,
         {
           headers: {

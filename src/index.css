@@ -17,3 +17,18 @@
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1))
 }
+
+.caveat-Caveatfont {
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    /* You can adjust font-weight and font-style as needed */
+    font-weight: bold;
+    font-style: normal;
+}
+
+.josefin-sans-Josefin {
+    font-family: "Josefin Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+  }

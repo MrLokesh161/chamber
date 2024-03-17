@@ -228,7 +228,7 @@ import Navbar from "./Navbar";
       <div className="flex flex-col">
         <div className="flex justify-center items-center px-16 py-11 w-full font-bold text-black border border-black border-solid bg-zinc-300 bg-opacity-20 max-md:px-5 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-w-[1351px] max-md:flex-wrap max-md:max-w-full">
-            <div className="flex-auto text-4xl">Membership Application</div>
+            <div className="flex-auto text-4xl ">Membership Application</div>
             <div className="flex gap-5 justify-between my-auto text-sm whitespace-nowrap">
               <a href="/" className="my-auto grow italic" style={{ textDecoration: 'none', color: 'your-color' }}>home</a>
               <div className="my-auto py-0 text-xl">&gt;&gt;</div>

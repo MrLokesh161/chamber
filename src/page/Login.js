@@ -6,6 +6,7 @@ import { useState } from 'react';
 import logoImage from "../assets/rect.png";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from "./Appconfig";
 
 const Login = () => {
 
@@ -36,7 +37,7 @@ const Login = () => {
       });
     
       const response = await axios.post(
-        'http://192.168.68.83:8000/obtainAuthToken/',
+        `${BASE_URL}/obtainAuthToken/`,
         formData,
         {
           headers:{ 

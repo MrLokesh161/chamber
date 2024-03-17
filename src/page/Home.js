@@ -1,112 +1,375 @@
-import * as React from "react";
-import rectImage from "../assets/logo.png";
-import overlay from "../assets/overlay.png";
-import Footer from "./Footer";
+import React from "react";
 import Navbar from "./Navbar";
-
-function Home(props) {
-
-  const checkTokenInLocalStorage = () => {
-    const token = localStorage.getItem('token');
-  
-    if (token) {
-      console.log('Token found in local storage:', token);
-
-    } else {
-      console.log('Token not found in local storage');
-
-    }
-  };
-  
-  // Call the function to check the token when needed
-  checkTokenInLocalStorage();
-
-  
+import "../index.css";
+import Footer from "./Footer";
+function HeroSection() {
   return (
-    <div className="flex flex-col bg-white">
-      <Navbar />
-      <div className="flex overflow-hidden relative flex-col justify-center mt-1.5 w-full text-sm font-bold text-white min-h-[615px] max-md:max-w-full" id="home">
-        <img
-          loading="lazy"
-          src={rectImage}
-          className="object-cover absolute inset-0 size-full"
-          alt="home"
-        />
-        <img
-          loading="lazy"
-          src={overlay}
-          className="object-cover absolute inset-0 size-full"
-          alt="overlay"
-        />
-        <div className="flex relative flex-col justify-center items-start px-16 py-12 w-full max-md:px-5 max-md:max-w-full">
-          <div className="flex flex-col mt-24 mb-28 ml-60 max-w-full w-[331px] max-md:my-10 max-md:ml-2.5">
-            <div className="text-3xl text-left font-extrabold">BRANDING </div>
-            <div className="mt-8 text-6xl font-extrabold">COIMBATORE</div>
-            <div className=" mt-8 text-3xl text-right font-extrabold">
-              IS OUR BUSINESS
-            </div>
-            <div className="flex gap-5 justify-between mt-14 text-center max-md:mt-10">
-              <div className="w-5 h-5 rounded-full bg-zinc-300 bg-opacity-60 stroke-[1px]" />
-              <div className="flex-auto my-auto">995 Active Industries</div>
-            </div>
-            <div className="flex gap-5 justify-between mt-2.5 text-center">
-              <div className="w-5 h-5 rounded-full bg-zinc-300 bg-opacity-60 stroke-[1px]" />
-              <div className="flex-auto">903+Job opportunities</div>
-            </div>
-            <div className="flex gap-5 justify-between mt-2.5 text-center whitespace-nowrap">
-              <div className="w-5 h-5 rounded-full bg-zinc-300 bg-opacity-60 stroke-[1px]" />
-              <div className="flex-auto">1002+Internships</div>
+    <div>
+      <header className="pl-[7%]">
+        <Navbar />
+      </header>
+      <div className="bg-black/60 overflow-x-hidden relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
+        <div className="relative xl:container m-auto px-6 md:px-12 lg:px-6">
+          <div class="relative h-10 w-10 animate-spin1 border-t-4 border-l-4 border-b-4 border-r-4 border-blue-600"></div>
+          <div className="thick-arrow-up animate-spin2 absolute right-0 top-24"></div>
+          <h1 className="sm:mx-auto sm:w-10/12 md:w-2/3 font-black text-blue-900 text-4xl text-center sm:text-5xl md:text-6xl lg:w-auto lg:text-left xl:text-7xl dark:text-white">
+            Coimbatore <br className="lg:block hidden" />
+            <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300">
+              Branding coimbatore is our business
+            </span>
+            .
+          </h1>
+          <div className="lg:flex">
+            <div className="relative mt-8 md:mt-16 space-y-8 sm:w-10/12 md:w-2/3 lg:ml-0 sm:mx-auto text-center lg:text-left lg:mr-auto lg:w-7/12">
+              <p className="sm:text-lg text-gray-700 dark:text-gray-300 lg:w-11/12">
+                The Indian Chamber of Commerce and Industry, Coimbatore
+                endeavours to be a catalyst and an instrument for making
+                Coimbatore Region prosperous and thereby making it a great place
+                to live and work.
+              </p>
             </div>
           </div>
         </div>
       </div>
-      <div className="w-full flex justify-center">
-        <div className="self-center px-5 mt-8 max-w-full w-[1265px] max-md:mt-6 flex gap-5">
-          <div className="flex flex-col w-full max-md:ml-0 max-md:w-full">
-            <div className="flex flex-col items-center self-stretch pt-0.5 pb-12 my-auto w-full text-white border-black border-solid border-[3px] max-md:mt-10">
-              <div className="justify-center self-stretch px-7  py-9 text-lg font-extrabold whitespace-nowrap bg-indigo-600 max-md:px-5">
-                ANNUAL SUBSCRIPTION
-              </div>
-              <div className="mt-24 text-5xl text-center text-violet-950 max-md:mt-10 max-md:text-4xl">
-                <span className="text-blue-950">₹2,360 - ₹8,260</span>
-                <br />
-                <br />
-                <span className="text-base text-violet-950">/ANNUM</span>
-              </div>
-              <div className="px-5 pt-4 pb-2.5 mt-16 text-sm font-bold whitespace-nowrap bg-violet-800 rounded-3xl max-md:pr-5 max-md:mt-10">
-                JOIN NOW
-              </div>
+      <div className=" dark:bg-gray-900">
+        <h1 className="text-white font-bold text-center">Chamber Services </h1>
+        <div className="flex justify-around flex-wrap">
+          <div class="max-w-sm my-5 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="#">
+              <img
+                class="rounded-t-lg"
+                src="/docs/images/blog/image-1.jpg"
+                alt=""
+              />
+            </a>
+            <div class="p-5">
+              <a href="#" className=" no-underline">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  Certificate of Origin
+                </h5>
+              </a>
+              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                The chamber is authorised to issue certificate of orgin for
+                manufacturers and exporters.
+              </p>
+              <a
+                href="#"
+                class="inline-flex no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Read more
+                <svg
+                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
-          <div className="flex flex-col grow items-center pb-12 w-full text-white border-black border-solid border-[3px] max-md:mt-10">
-            <div className="justify-center self-stretch px-10 py-10 text-xl font-extrabold bg-indigo-600 max-md:px-5">
-              FOR LIFE SUBSCRIPTION
-            </div>
-            <div className="mt-44 text-6xl text-center text-blue-950 max-md:mt-10 max-md:text-4xl">
-              ₹88,500
-            </div>
-            <div className="justify-center px-7 py-5 mt-48 text-xl font-bold bg-violet-800 rounded-3xl max-md:px-5 max-md:mt-10">
-              JOIN NOW
+          <div class="max-w-sm my-5 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="#" className=" no-underline">
+              <img
+                class="rounded-t-lg"
+                src="/docs/images/blog/image-1.jpg"
+                alt=""
+              />
+            </a>
+            <div class="p-5">
+              <a href="#" className="no-underline">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  VISA Letter
+                </h5>
+              </a>
+              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Issuing visa recommendation letters for overseas business visits
+                to members
+              </p>
+              <a
+                href="#"
+                class="inline-flex no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Read more
+                <svg
+                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
-          <div className="flex flex-col items-center self-stretch pb-12 my-auto w-full text-white border-black border-solid border-[3px] max-md:mt-10">
-            <div className="justify-center self-stretch px-7 py-8 text-lg font-extrabold whitespace-nowrap bg-indigo-600 max-md:px-5">
-              CO-CHAMBER JOURNAL
+          <div class="max-w-sm my-5 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="#" className="no-underline">
+              <img
+                class="rounded-t-lg"
+                src="/docs/images/blog/image-1.jpg"
+                alt=""
+              />
+            </a>
+            <div class="p-5">
+              <a href="#" className="no-underline">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  Consultation/Advisory
+                </h5>
+              </a>
+              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Regarding issues and procedures relating to all aspects of
+                business right from setting up to scaling up.
+              </p>
+              <a
+                href="#"
+                class="inline-flex no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Read more
+                <svg
+                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </a>
             </div>
-            <div className="mt-32 text-5xl text-center text-violet-950 max-md:mt-10 max-md:text-4xl">
-              <span className="text-blue-950">₹295</span>
-              <span className="text-base text-violet-950">/ANNUM</span>
+          </div>
+          <div class="max-w-sm  bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="#">
+              <img
+                class="rounded-t-lg"
+                src="/docs/images/blog/image-1.jpg"
+                alt=""
+              />
+            </a>
+            <div class="p-5">
+              <a href="#" className=" no-underline">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  Trade Delegation
+                </h5>
+              </a>
+              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Organising trade delegations for members as well as hosting
+                delegations from other countries.
+              </p>
+              <a
+                href="#"
+                class="inline-flex  no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Read more
+                <svg
+                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </a>
             </div>
-            <div className="px-5 pt-4 pb-2.5 mt-36 text-sm font-bold whitespace-nowrap bg-violet-800 rounded-3xl max-md:pr-5 max-md:mt-10">
-              JOIN NOW
+          </div>
+          <div class="max-w-sm  bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="#">
+              <img
+                class="rounded-t-lg"
+                src="/docs/images/blog/image-1.jpg"
+                alt=""
+              />
+            </a>
+            <div class="p-5">
+              <a href="#" className=" no-underline">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  Business Listing
+                </h5>
+              </a>
+              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                List your business to grow. Get connections and leads to
+                generate more revenue opportunities.
+              </p>
+              <a
+                href="#"
+                class="inline-flex  no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Read more
+                <svg
+                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
       </div>
-      <div className="mt-28 w-full max-md:mt-10 max-md:max-w-full" />
+      <div className="bg-gray-900 py-10 pb-20">
+        <h1 className="text-center text-white py-10 font-bold">
+          Pricing Plans
+        </h1>
+        <div className="align-middle justify-evenly flex">
+          <div class="w-full max-w-sm p-4 bg-stone-100 border border-gray-200 rounded-lg shadow sm:p-8">
+            <h5 class="mb-4 text-xl font-medium text-black dark:text-gray-400">
+              Standard Plan
+            </h5>
+            <div class="flex items-baseline text-gray-900 dark:text-black">
+              <span class="text-3xl font-semibold">₹7, 375 - ₹12, 685</span>
+              <span class="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">
+                /ANNUM
+              </span>
+            </div>
+            <ul role="list" class="space-y-3 my-4">
+              <li class="flex items-center">
+                <svg
+                  class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                  Access to ICCICBE Events
+                </span>
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                  Exclusive Industry Reports
+                </span>
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                  Priority Access to Business Workshops
+                </span>
+              </li>
+            </ul>
+            <button
+              type="button"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center mt-4"
+            >
+              Choose Plan
+            </button>
+          </div>
+          <div class="w-full max-w-sm p-4 bg-stone-100 border border-gray-200 rounded-lg shadow sm:p-8">
+            <h5 class="mb-4 text-xl font-medium text-black dark:text-gray-400">
+              Lifetime Subscription
+            </h5>
+            <div class="flex items-baseline text-gray-900 dark:text-black">
+              <span class="text-3xl font-semibold">₹88,500</span>
+            </div>
+            <ul role="list" class="space-y-3 my-4">
+              <li class="flex items-center">
+                <svg
+                  class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                  Access to ICCICBE Events
+                </span>
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                  Exclusive Industry Reports
+                </span>
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                  Priority Access to Business Workshops
+                </span>
+              </li>
+            </ul>
+            <button
+              type="button"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center mt-4"
+            >
+              Choose Plan
+            </button>
+          </div>
+        </div>
+      </div>
       <Footer />
     </div>
   );
 }
 
-export default Home;
+export default HeroSection;

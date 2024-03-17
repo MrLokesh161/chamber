@@ -8,8 +8,9 @@ import Login from './page/Login';
 import Signup from './page/Signup';
 import MembersPage from './page/Members';
 import UserProfile from './page/User';
-import NotFound from './page/Journal';
+import NotFound from './page/NotFound';
 import PaymentPage from './page/Paymentpage';
+import EventPage from './page/Event';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -24,8 +25,9 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/Members' element={< MembersPage />} />
         <Route path='/User' element={< UserProfile />} />
-        <Route path='/Journal' element={< NotFound />} />
+        <Route path='/Notfound' element={< NotFound />} />
         <Route path='/payment' element={< PaymentPage />} />
+        <Route path='/events' element={ < EventPage /> } />
       </Routes>
     </Router>
   );

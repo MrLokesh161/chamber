@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logoImage from "../assets/rect.png";
 import { useNavigate } from 'react-router-dom';
-import usericon from "../assets/user.png"
+import usericon from "../assets/user.png";
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -11,7 +11,6 @@ const Navbar = () => {
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
   }, []);
-  
 
   const loginPage = () => {
     navigate("/login");
@@ -36,16 +35,16 @@ const Navbar = () => {
         alt="logo"
       />
       <div className="flex flex-row gap-8 justify-center items-center self-stretch my-auto text-sm text-black max-md:flex-wrap max-md:max-w-full">
-        <a href="/" className="nav-button px-9" style={{ textDecoration: 'none', color: 'your-color' }}>
+        <a href="/" className="nav-button px-9 hover:underline" style={{ textDecoration: 'none', color: 'black' }}>
           HOME
         </a>
-        <a href="/membership" className="nav-button px-9" style={{ textDecoration: 'none', color: 'your-color' }}>
+        <a href="/membership" className="nav-button px-9 hover:underline" style={{ textDecoration: 'none', color: 'black' }}>
           MEMBERSHIPS
         </a>
-        <a href="/Journal" className="nav-button px-9" style={{ textDecoration: 'none', color: 'your-color' }}>
-          JOURNALS
+        <a href="/events" className="nav-button px-9 hover:underline" style={{ textDecoration: 'none', color: 'black' }}>
+          EVENTS
         </a>
-        <a href="/members" className="nav-button px-9" style={{ textDecoration: 'none', color: 'your-color' }}>
+        <a href="/members" className="nav-button px-9 hover:underline" style={{ textDecoration: 'none', color: 'black' }}>
           MEMBERS
         </a>
       </div>
@@ -62,13 +61,13 @@ const Navbar = () => {
             />
           </button>
           {/* Logout button */}
-          <button className="justify-center self-stretch px-3.5 py-3 my-auto text-xs text-white bg-violet-800 rounded-3xl" onClick={logout}>
+          <button className="justify-center self-stretch px-3.5 py-3 my-auto text-xs text-white bg-violet-800 rounded-3xl hover:bg-violet-700 transition duration-300" onClick={logout}>
             LOGOUT
           </button>
         </>
       ) : (
         // JOIN NOW button for not logged in users
-        <button className="justify-center self-stretch px-3.5 py-3 my-auto text-xs text-white bg-violet-800 rounded-3xl" onClick={loginPage}>
+        <button className="justify-center self-stretch px-3.5 py-3 my-auto text-xs text-white bg-violet-800 rounded-3xl hover:bg-violet-700 transition duration-300" onClick={loginPage}>
           JOIN NOW
         </button>
       )}

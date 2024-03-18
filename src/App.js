@@ -11,6 +11,7 @@ import UserProfile from './page/User';
 import NotFound from './page/NotFound';
 import PaymentPage from './page/Paymentpage';
 import EventPage from './page/Event';
+import EventDetails from './page/Eventdetails';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path='/Notfound' element={< NotFound />} />
         <Route path='/payment' element={< PaymentPage />} />
         <Route path='/events' element={ < EventPage /> } />
+        <Route path='/eventdetails' element={ < EventDetails /> } />
       </Routes>
     </Router>
   );

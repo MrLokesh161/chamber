@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Card = ({ image, title, description, eventDate, location }) => {
+
   return (
     <div className="bg-white rounded-lg shadow-2xl flex mb-4">
       <img
@@ -16,7 +17,7 @@ const Card = ({ image, title, description, eventDate, location }) => {
       />
       <div className="p-4 flex flex-col justify-between">
         <div>
-          <h2 className="text-lg font-semibold">{title}</h2>
+          <a href='/eventdetails' className="text-lg font-semibold no-underline cursor-pointer text-black .josefin-sans-Josefin">{title}</a>
           <p className="text-sm text-gray-600 mt-2">{description}</p>
         </div>
         <div className='flex gap-5'>
@@ -36,7 +37,7 @@ const Card = ({ image, title, description, eventDate, location }) => {
 
 
 const EventPage = () => {
-  const [events, setEvents] = useState([]); // Initialize as an empty array
+  const [events, setEvents] = useState([]); 
 
   const accessToken = localStorage.getItem('token');
 
@@ -60,7 +61,7 @@ const EventPage = () => {
     };
 
     fetchEvent();
-  }, [accessToken]); // Ensure useEffect runs when accessToken changes
+  }, [accessToken]); 
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">

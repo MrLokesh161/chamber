@@ -12,6 +12,7 @@ import NotFound from './page/NotFound';
 import PaymentPage from './page/Paymentpage';
 import EventPage from './page/Event';
 import EventDetails from './page/Eventdetails';
+import MembersDetailsTable from './page/Membersdetailadmin';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path='/payment' element={< PaymentPage />} />
         <Route path='/events' element={ < EventPage /> } />
         <Route path='/eventdetails' element={ < EventDetails /> } />
+        <Route path='/admintable' element={ < MembersDetailsTable /> } />
       </Routes>
     </Router>
   );

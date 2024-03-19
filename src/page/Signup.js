@@ -6,6 +6,7 @@ import { useState } from 'react';
 import logoImage from "../assets/rect.png";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from "./Appconfig";
 
 const Signup = () => {
 
@@ -37,7 +38,7 @@ const Signup = () => {
       });
     
       const response = await axios.post(
-        'http://192.168.68.83:8000/api/signup/', // Adjust the signup API endpoint
+        `${BASE_URL}/api/signup/`, // Adjust the signup API endpoint
         formData,
         {
           headers:{ 

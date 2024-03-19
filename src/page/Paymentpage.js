@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Import Axios
+import axios from 'axios'; 
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from './Appconfig';
 
 const MembershipPrices = {
   trader: {
@@ -21,8 +22,8 @@ const MembershipPrices = {
 const PaymentPage = () => {
   const [selectedMembership, setSelectedMembership] = useState(null);
   const [selectedTurnover, setSelectedTurnover] = useState(null);
-  const [journalSubscription, setJournalSubscription] = useState(false);
-  const [chamberDayCelebrations, setChamberDayCelebrations] = useState(false);
+  const [journalSubscription, setJournalSubscription] = useState(true); 
+  const [chamberDayCelebrations, setChamberDayCelebrations] = useState(true);
   const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate()
 
@@ -30,8 +31,6 @@ const PaymentPage = () => {
     setSelectedMembership(type);
     calculateTotalAmount(type, selectedTurnover);
   };
-
-
 
   const handleTurnoverChange = (turnover) => {
     setSelectedTurnover(turnover);
@@ -68,18 +67,6 @@ const PaymentPage = () => {
     updateProperty('selected_membership_amount', selectedMembershipAmount);
   };
 
-  const handleJournalSubscriptionChange = () => {
-    setJournalSubscription(!journalSubscription);
-    calculateTotalAmount(selectedMembership, selectedTurnover);
-    updateProperty('journal_subscription', !journalSubscription);
-  };
-
-  const handleChamberDayCelebrationsChange = () => {
-    setChamberDayCelebrations(!chamberDayCelebrations);
-    calculateTotalAmount(selectedMembership, selectedTurnover);
-    updateProperty('chamber_day_celebrations', !chamberDayCelebrations);
-  };
-
   const [formData, setFormData] = useState({
     membership_type: "", // Set the default value based on your logic
     sales_turnover: "", // Set the default value based on your logic
@@ -112,7 +99,7 @@ const PaymentPage = () => {
   const handlePaymentSuccess = async () => {
     try {
       const response = await axios.post(
-        'http://192.168.68.83:8000/api/process-payment/',
+        `${BASE_URL}/api/process-payment/`,
         formData,
         {
           headers: {
@@ -226,7 +213,7 @@ const PaymentPage = () => {
               <div>
                 <label className="block text-sm font-semibold mb-2">Expiry Date (MM/YY)</label>
                 <input
-                  type="text"
+                  type="date"
                   placeholder="MM/YY"
                   className="border p-2 rounded-md w-full"
                   onChange={(e) => updateProperty("expiry_date", e.target.value)}
@@ -270,22 +257,15 @@ const PaymentPage = () => {
               </div>
               <div className="mb-4">
                 <label className="block text-sm font-semibold mb-2">
-                  <input
-                    type="checkbox"
-                    onChange={handleJournalSubscriptionChange}
-                    checked={journalSubscription}
-                  />
-                  <span className="ml-2">Subscription for Co-Chamber Journal (Rs. {MembershipPrices.journalSubscription})</span>
+                  Subscription for Co-Chamber Journal 
+                  <span className="ml-2 text-red-500">Rs. {MembershipPrices.journalSubscription}</span>
                 </label>
               </div>
               <div className="mb-4">
+                {/* Remove the checkbox for chamber day celebrations */}
                 <label className="block text-sm font-semibold mb-2">
-                  <input
-                    type="checkbox"
-                    onChange={handleChamberDayCelebrationsChange}
-                    checked={chamberDayCelebrations}
-                  />
-                  <span className="ml-2">Chamber Day Celebrations (Rs. {MembershipPrices.chamberDayCelebrations})</span>
+                  Chamber Day Celebrations 
+                  <span className="ml-2 text-red-500">Rs. {MembershipPrices.chamberDayCelebrations}</span>
                 </label>
               </div>
               <div className="flex justify-between items-center mb-4">

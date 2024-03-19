@@ -158,7 +158,7 @@ const MembershipForm2 = () => {
             <div className="flex gap-5 justify-between my-auto text-sm whitespace-nowrap">
               <a href="/" className="my-auto grow italic"  style={{ textDecoration: 'none', color: 'your-color' }}>home</a>
               <div className="my-auto py-0 text-xl">&gt;&gt;</div>
-              <div className="grow italic my-auto">For Life Membership</div>
+              <div className="grow italic my-auto">Membership Application</div>
             </div>
           </div>
         </div>

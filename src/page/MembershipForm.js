@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Navbar from "./Navbar";
+import BASE_URL from "./Appconfig";
 
   function Form(props) {
     const [selectedConstitution, setSelectedConstitution] = useState([]);
@@ -199,7 +200,7 @@ import Navbar from "./Navbar";
     
     
         const response = await axios.post(
-          'http://192.168.68.83:8000/api/form1/',
+          `${BASE_URL}/api/form1/`,
           formData,
           {
             headers:{ 
@@ -232,7 +233,7 @@ import Navbar from "./Navbar";
             <div className="flex gap-5 justify-between my-auto text-sm whitespace-nowrap">
               <a href="/" className="my-auto grow italic" style={{ textDecoration: 'none', color: 'your-color' }}>home</a>
               <div className="my-auto py-0 text-xl">&gt;&gt;</div>
-              <div className="grow italic my-auto">For Life Membership</div>
+              <div className="grow italic my-auto">Membership Application</div>
             </div>
           </div>
         </div>        

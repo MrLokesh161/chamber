@@ -2,7 +2,18 @@ import React from "react";
 import Navbar from "./Navbar";
 import "../index.css";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
+
+
+
 function HeroSection() {
+
+  const navigate = useNavigate();
+
+  const handleMembership = () => {
+    navigate('/membership')
+  }
+
   return (
     <div>
       <header className="pl-[7%]">
@@ -32,8 +43,8 @@ function HeroSection() {
         </div>
       </div>
       <div className=" dark:bg-gray-900">
-        <h1 className="text-white font-bold text-center">Chamber Services </h1>
-        <div className="flex justify-around flex-wrap">
+        <h1 className="text-white font-bold text-center py-[3%]">Chamber Services </h1>
+        <div className="flex justify-around flex-wrap gap-[10%]">
           <div class="max-w-sm my-5 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
               <img
@@ -53,7 +64,7 @@ function HeroSection() {
                 manufacturers and exporters.
               </p>
               <a
-                href="#"
+                href="/Servicedetails"
                 class="inline-flex no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Read more
@@ -94,7 +105,7 @@ function HeroSection() {
                 to members
               </p>
               <a
-                href="#"
+                href="/Servicedetails"
                 class="inline-flex no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Read more
@@ -135,7 +146,7 @@ function HeroSection() {
                 business right from setting up to scaling up.
               </p>
               <a
-                href="#"
+                href="/Servicedetails"
                 class="inline-flex no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Read more
@@ -176,7 +187,7 @@ function HeroSection() {
                 delegations from other countries.
               </p>
               <a
-                href="#"
+                href="/Servicedetails"
                 class="inline-flex  no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Read more
@@ -217,7 +228,7 @@ function HeroSection() {
                 generate more revenue opportunities.
               </p>
               <a
-                href="#"
+                href="/Servicedetails"
                 class="inline-flex  no-underline items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Read more
@@ -242,7 +253,7 @@ function HeroSection() {
         </div>
       </div>
       <div className="bg-gray-900 py-10 pb-20">
-        <h1 className="text-center text-white py-10 font-bold">
+        <h1 className="text-center text-white py-[5%] font-bold">
           Pricing Plans
         </h1>
         <div className="align-middle justify-evenly flex">
@@ -302,6 +313,7 @@ function HeroSection() {
             </ul>
             <button
               type="button"
+              onClick={handleMembership}
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center mt-4"
             >
               Choose Plan
@@ -360,6 +372,7 @@ function HeroSection() {
             </ul>
             <button
               type="button"
+              onClick={handleMembership}
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center mt-4"
             >
               Choose Plan

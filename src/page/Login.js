@@ -27,6 +27,7 @@ const Login = () => {
     username: "",
     password:""
   });
+  console.log(formData)
 
   const handleSubmit = async () => {
     try {
@@ -37,7 +38,7 @@ const Login = () => {
       });
     
       const response = await axios.post(
-        `${BASE_URL}/obtainAuthToken/`,
+        `http://192.168.209.83:8000/obtainAuthToken/`,
         formData,
         {
           headers:{ 
@@ -93,43 +94,45 @@ const Login = () => {
             <h2 className="text-2xl font-bold mb-6 text-indigo-600 pb-[5%]">SIGNIN</h2>
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="username" className="block text-lg font-bold text-indigo-600">
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
-              placeholder="Enter your username"
-              onChange={(e) => updateProperty("username", e.target.value)}
-            />
-          </div>
+          <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+            <div className="mb-4">
+              <label htmlFor="username" className="block text-lg font-bold text-indigo-600">
+                Username
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
+                placeholder="Enter your username"
+                onChange={(e) => updateProperty("username", e.target.value)}
+              />
+            </div>
 
-          <div className="mb-4">
-            <label htmlFor="username" className="block text-lg font-bold text-indigo-600">
-              Password
-            </label>
-            <input
-              type="Password"
-              id="Password"
-              name="Password"
-              className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
-              placeholder="Enter your username"
-              onChange={(e) => updateProperty("password", e.target.value)}
-            />
-          </div>
+            <div className="mb-4">
+              <label htmlFor="username" className="block text-lg font-bold text-indigo-600">
+                Password
+              </label>
+              <input
+                type="Password"
+                id="Password"
+                name="Password"
+                className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
+                placeholder="Enter your username"
+                onChange={(e) => updateProperty("password", e.target.value)}
+              />
+            </div>
 
-          <div className="pl-[30%] pt-[4%]">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-[20%] py-[3%] rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
-              onClick={handleSubmit}
-            >
-              Login
-            </button>
-          </div>
+            <div className="pl-[30%] pt-[4%]">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-[20%] py-[3%] rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+                onClick={handleSubmit}
+              >
+                Login
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

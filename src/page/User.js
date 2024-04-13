@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import userImage from '../assets/user.png';
-import { Container, Row, Col, Card } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import Navbar from './Navbar';
 import axios from 'axios';
@@ -25,6 +24,8 @@ const UserProfile = () => {
           },
         });
 
+        console.log(accessToken)
+
         if (!response.data) {
           throw new Error('Failed to fetch user data');
         }
@@ -39,8 +40,21 @@ const UserProfile = () => {
   }, []);
 
   if (!userData) {
-    // Data is still loading
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
+        <div className="w-20 h-20 mb-4">
+          <svg className="animate-spin h-full w-full text-blue-500" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.001 8.001 0 0017.708 15H20c.11 0 .221.034.313.104l3.983 2.655-1.275 1.91-3.983-2.655A7.963 7.963 0 0012 20v4c4.411 0 8-3.589 8-8h-4c0 2.067-.791 3.954-2.082 5.37L10 17.491V22H6v-4.709zM12 4.207c3.137 0 5.679 2.542 5.679 5.679H12V4.207z"
+            ></path>
+          </svg>
+        </div>
+        <div className="text-lg font-semibold text-gray-700">Loading...</div>
+      </div>
+    );
   }
 
   return (
@@ -50,91 +64,53 @@ const UserProfile = () => {
         <h1 className="text-4xl font-bold">Welcome, {userData[0].username}</h1>
         <p className="text-lg">Explore your profile details below.</p>
       </div>
-      <Container fluid className="mt-5">
-        <Row>
-          <Col md={4}>
-            <motion.div
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              className="m-3 p-3"
-            >
-              <Card className="h-100">
-                <Card.Img
-                  variant="top"
-                  src={userImage}
-                  className="mx-auto d-block rounded-circle mt-3"
-                  style={{ width: '150px', height: '150px' }}
-                />
-                <Card.Body className="text-center">
-                  <Card.Title className="mb-3">{userData[0].username}</Card.Title>
-                  <Card.Text>{userData[0].email}</Card.Text>
-                </Card.Body>
-              </Card>
-            </motion.div>
-          </Col>
-          <Col md={8}>
-            <motion.div
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              className="m-3 p-3 h-100"
-            >
-              <Card className="text-dark h-100">
-                <Card.Body>
-                  <Card.Title className="mb-4">User Details</Card.Title>
-                  <ul className="list-group list-group-flush">
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Name of Applicant: {userData[0].form1_data.Nameofapplicant}
+      <div className="container mx-auto mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            className="m-3 p-3"
+          >
+            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+              <img
+                src={userImage}
+                alt="User"
+                className="mx-auto d-block rounded-full mt-3"
+                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+              />
+              <div className="text-center p-4">
+                <h3 className="text-xl font-semibold mb-2">{userData[0].username}</h3>
+                <p className="text-gray-600">{userData[0].email}</p>
+              </div>
+            </div>
+          </motion.div>
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            className="m-3 p-3"
+          >
+            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+              <div className="p-4">
+                <h3 className="text-xl font-semibold mb-4">User Details</h3>
+                <ul className="divide-y divide-gray-300">
+                  {Object.entries(userData[0].form1_data).map(([key, value]) => (
+                    <li key={key} className="py-2">
+                      <span className="font-semibold">{key}:</span> {value}
                     </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Business Activity: {userData[0].form1_data.Businessactivity}
+                  ))}
+                  {Object.entries(userData[0].payment_transaction_data).map(([key, value]) => (
+                    <li key={key} className="py-2">
+                      <span className="font-semibold">{key}:</span> {value}
                     </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      CD LAN: {userData[0].form1_data.cdlan}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      CD Phone: {userData[0].form1_data.cdphone}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      CD Email: {userData[0].form1_data.cdemail}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      CD Web: {userData[0].form1_data.cdweb}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Constitution: {userData[0].form1_data.constitution}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Registered Office Address: {userData[0].form1_data.regoffadd}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Account Office: {userData[0].form1_data.acoffice}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Account Work: {userData[0].form1_data.acwork}
-                    </li>
-                    {/* Display data from payment_transaction_data */}
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Membership Type: {userData[0].payment_transaction_data.membership_type}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Sales Turnover: {userData[0].payment_transaction_data.sales_turnover}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Registration Date: {userData[0].payment_transaction_data.registration_date}
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      Membership Expiry Date: {userData[0].payment_transaction_data.membership_expiry_date}
-                    </li>
-                    {/* Add more fields here */}
-                  </ul>
-                </Card.Body>
-              </Card>
-            </motion.div>
-          </Col>
-        </Row>
-      </Container>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 };

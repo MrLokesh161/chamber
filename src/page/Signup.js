@@ -1,58 +1,120 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import signupImage from "../assets/login2.png";
-import { useState } from 'react';
 import logoImage from "../assets/rect.png";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import BASE_URL from "./Appconfig";
 
 const Signup = () => {
-
   const navigate = useNavigate();
-
-  const updateProperty = (propertyName, value) => {
-    setFormData(prevData => ({
-      ...prevData,
-      [propertyName]: value,
-    }));
-  };
-  
-  const handlelogin = () => {
-    navigate("/login")
-  };
 
   const [formData, setFormData] = useState({
     username: "",
-    emailid: "",
-    password: ""
+    email: "",
+    password: "",
   });
+
+  const [errors, setErrors] = useState({
+    email: "",
+    username: "",
+    password: "",
+    general: "",
+  });
+
+  const [isLoading, setIsLoading] = useState(false); 
+
+  const updateProperty = (propertyName, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [propertyName]: value,
+    }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [propertyName]: "",
+      general: "", 
+    }));
+  };
+
+  const handlelogin = () => {
+    navigate("/login");
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { ...errors };
+
+    if (!formData.username.trim()) {
+      newErrors.username = "Username is required";
+      isValid = false;
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+      isValid = false;
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    }
+    if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters long";
+      isValid = false;
+    }
+    if (formData.password.length > 50) {
+      newErrors.password = "Password must be at most 50 characters long";
+      isValid = false;
+    }
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(formData.password)) {
+      newErrors.password =
+        "Password must contain at least one lowercase letter, one uppercase letter, and one number";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const handleSubmit = async () => {
     try {
-      const formDataToSend = new FormData();
-  
-      Object.entries(formData).forEach(([key, value]) => {
-        formDataToSend.append(key, value);
+      if (!validateForm()) return;
+
+      setIsLoading(true); // Start loading
+
+      const response = await axios.post(`${BASE_URL}/api/signup/`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-    
-      const response = await axios.post(
-        `${BASE_URL}/api/signup/`, // Adjust the signup API endpoint
-        formData,
-        {
-          headers:{ 
-            'Content-Type': 'multipart/form-data',
-          }
-        }
-      );
-  
-      if (response.data["message"] === "User created successfully") {
-        console.log(response.data["message"]);
-        navigate('/');
+
+      if (response.data.message === "User created successfully") {
+        navigate("/");
       }
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+        if (errorData.email) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            email: errorData.email,
+          }));
+        }
+        if (errorData.message) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            general: errorData.message,
+          }));
+        }
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -82,16 +144,29 @@ const Signup = () => {
 
       <div
         className="w-[50%] pt-[05%]"
-        style={{ backgroundImage: `url(${signupImage})`, height: '100vh', width: '50%' }}
+        style={{
+          backgroundImage: `url(${signupImage})`,
+          height: "100vh",
+          width: "50%",
+        }}
       >
         <div className="max-w-md mx-auto">
           <div className="pl-[40%]">
-            <FontAwesomeIcon icon={faUsers} className="text-indigo-600 text-6xl pb-[10%]" />
-            <h2 className="text-2xl font-bold mb-6 text-indigo-600 pb-[5%]">SIGN UP</h2>
+            <FontAwesomeIcon
+              icon={faUsers}
+              className="text-indigo-600 text-6xl pb-[10%]"
+            />
+            <h2 className="text-2xl font-bold mb-6 text-indigo-600 pb-[5%]">
+              SIGN UP
+            </h2>
           </div>
 
+          {/* Username Input */}
           <div className="mb-4">
-            <label htmlFor="username" className="block text-lg font-bold text-indigo-600">
+            <label
+              htmlFor="username"
+              className="block text-lg font-bold text-indigo-600"
+            >
               Username
             </label>
             <input
@@ -102,10 +177,16 @@ const Signup = () => {
               placeholder="Enter your username"
               onChange={(e) => updateProperty("username", e.target.value)}
             />
+            {errors.username && (
+              <div className="text-red-500 text-sm pt-1">{errors.username}</div>
+            )}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email" className="block text-lg font-bold text-indigo-600">
+            <label
+              htmlFor="email"
+              className="block text-lg font-bold text-indigo-600"
+            >
               Email
             </label>
             <input
@@ -116,10 +197,16 @@ const Signup = () => {
               placeholder="Enter your email"
               onChange={(e) => updateProperty("email", e.target.value)}
             />
+            {errors.email && (
+              <div className="text-red-500 text-sm pt-1">{errors.email}</div>
+            )}
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block text-lg font-bold text-indigo-600">
+            <label
+              htmlFor="password"
+              className="block text-lg font-bold text-indigo-600"
+            >
               Password
             </label>
             <input
@@ -130,6 +217,9 @@ const Signup = () => {
               placeholder="Enter your password"
               onChange={(e) => updateProperty("password", e.target.value)}
             />
+            {errors.password && (
+              <div className="text-red-500 text-sm pt-1">{errors.password}</div>
+            )}
           </div>
 
           <div className="pl-[30%] pt-[4%]">
@@ -137,9 +227,13 @@ const Signup = () => {
               type="submit"
               className="bg-blue-500 text-white px-[20%] py-[3%] rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
               onClick={handleSubmit}
+              disabled={isLoading}
             >
-              Sign Up
+              {isLoading ? "Loading..." : "Sign Up"}{" "}
             </button>
+            {errors.general && (
+              <div className="text-red-500 text-sm pt-1">{errors.general}</div>
+            )}
           </div>
         </div>
       </div>

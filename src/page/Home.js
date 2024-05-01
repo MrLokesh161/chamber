@@ -4,15 +4,12 @@ import "../index.css";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 
-
-
 function HeroSection() {
-
   const navigate = useNavigate();
 
   const handleMembership = () => {
-    navigate('/membership')
-  }
+    navigate("/membership");
+  };
 
   return (
     <div>
@@ -21,31 +18,30 @@ function HeroSection() {
       </header>
       <div className="bg-black/60 overflow-x-hidden relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
         <div className="relative xl:container m-auto px-6 md:px-12 lg:px-6">
-          <div class="relative h-10 w-10 animate-spin1 border-t-4 border-l-4 border-b-4 border-r-4 border-blue-600"></div>
-          <div className="thick-arrow-up animate-spin2 absolute right-0 top-24"></div>
+          <div className="w-10 h-10 bg-transparent border-4 border-blue-600 animate-spin1"></div>
           <h1 className="sm:mx-auto sm:w-10/12 md:w-2/3 font-black text-blue-900 text-4xl text-center sm:text-5xl md:text-6xl lg:w-auto lg:text-left xl:text-7xl dark:text-white">
-            Coimbatore <br className="lg:block hidden" />
+            The Indian Chamber of Commerce and Industry{" "}
+            <br className="lg:block hidden" />
             <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300">
               Branding coimbatore is our business
             </span>
             .
           </h1>
-          <div className="lg:flex">
-            <div className="relative mt-8 md:mt-16 space-y-8 sm:w-10/12 md:w-2/3 lg:ml-0 sm:mx-auto text-center lg:text-left lg:mr-auto lg:w-7/12">
-              <p className="sm:text-lg text-gray-700 dark:text-gray-300 lg:w-11/12">
-                The Indian Chamber of Commerce and Industry, Coimbatore
-                endeavours to be a catalyst and an instrument for making
-                Coimbatore Region prosperous and thereby making it a great place
-                to live and work.
-              </p>
-            </div>
+          <div className="relative mt-8 md:mt-16  sm:w-10/12   sm:mx-auto  lg:text-left  lg:w-7/12">
+            <p className="sm:text-lg text-center text-gray-700  dark:text-gray-300 ">
+              The Indian Chamber of Commerce and Industry, Coimbatore endeavours
+              to be a catalyst and an instrument for making Coimbatore Region
+              prosperous and thereby making it a great place to live and work.
+            </p>
           </div>
         </div>
       </div>
       <div className=" dark:bg-gray-900">
-        <h1 className="text-white font-bold text-center py-[3%]">Chamber Services </h1>
+        <h1 className="text-white font-bold text-center py-[3%]">
+          Chamber Services
+        </h1>
         <div className="flex justify-around flex-wrap gap-[10%]">
-          <div class="max-w-sm my-5 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div class="max-w-sm my-4 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
               <img
                 class="rounded-t-lg"
@@ -86,8 +82,8 @@ function HeroSection() {
               </a>
             </div>
           </div>
-          <div class="max-w-sm my-5 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#" className=" no-underline">
+          <div class="max-w-sm my-4 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="#" className="no-underline">
               <img
                 class="rounded-t-lg"
                 src="/docs/images/blog/image-1.jpg"
@@ -97,12 +93,13 @@ function HeroSection() {
             <div class="p-5">
               <a href="#" className="no-underline">
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  VISA Letter
+                  Visa Letter
                 </h5>
               </a>
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 Issuing visa recommendation letters for overseas business visits
-                to members
+                to members. The chamber is authorised to issue visa letters for
+                all countries.
               </p>
               <a
                 href="/Servicedetails"
@@ -127,7 +124,7 @@ function HeroSection() {
               </a>
             </div>
           </div>
-          <div class="max-w-sm my-5 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div class="max-w-sm my-4 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#" className="no-underline">
               <img
                 class="rounded-t-lg"
@@ -168,7 +165,8 @@ function HeroSection() {
               </a>
             </div>
           </div>
-          <div class="max-w-sm  bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+          <div class="max-w-sm my-4 bg-gray-400 hover:shadow-lg transition-all rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
               <img
                 class="rounded-t-lg"
@@ -256,8 +254,8 @@ function HeroSection() {
         <h1 className="text-center text-white py-[5%] font-bold">
           Pricing Plans
         </h1>
-        <div className="align-middle justify-evenly flex">
-          <div class="w-full max-w-sm p-4 bg-stone-100 border border-gray-200 rounded-lg shadow sm:p-8">
+        <div className="align-middle justify-evenly flex flex-wrap">
+          <div class="w-full max-w-sm p-4 bg-stone-200 border border-gray-200 rounded-lg shadow sm:p-8">
             <h5 class="mb-4 text-xl font-medium text-black dark:text-gray-400">
               Standard Plan
             </h5>
@@ -319,7 +317,7 @@ function HeroSection() {
               Choose Plan
             </button>
           </div>
-          <div class="w-full max-w-sm p-4 bg-stone-100 border border-gray-200 rounded-lg shadow sm:p-8">
+          <div class="w-full max-w-sm p-4 bg-stone-200 border border-gray-200 rounded-lg shadow sm:p-8">
             <h5 class="mb-4 text-xl font-medium text-black dark:text-gray-400">
               Lifetime Subscription
             </h5>

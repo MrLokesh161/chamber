@@ -1,33 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "./Navbar";
-import Avvvatars from 'avvvatars-react';
-import rectImage from '../assets/rect.png';
+import Avvvatars from "avvvatars-react";
+import rectImage from "../assets/rect.png";
 
 const MembersPage = () => {
   const [members, setMembers] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const accessToken = localStorage.getItem("token");
 
   useEffect(() => {
-    // Simulate fetching members data (replace with your actual API call)
     const fetchMembers = async () => {
-      try {
-        // Simulated API response with sample member data
-        const sampleMembers = [
-          { id: 1, username: 'JohnDoe', email: 'john.doe@gmail.com', joinDate: '2022-03-15', profilePic: null },
-          { id: 2, username: 'JaneSmith', email: 'jane.smith@example.com', joinDate: '2022-03-16', profilePic: rectImage },
-          { id: 1, username: 'JohnDoe', email: 'john.doe@gmail.com', joinDate: '2022-03-15', profilePic: null },
-          { id: 2, username: 'JaneSmith', email: 'jane.smith@example.com', joinDate: '2022-03-16', profilePic: rectImage },
-          { id: 1, username: 'JohnDoe', email: 'john.doe@gmail.com', joinDate: '2022-03-15', profilePic: null },
-          { id: 2, username: 'JaneSmith', email: 'jane.smith@example.com', joinDate: '2022-03-16', profilePic: rectImage },
-          { id: 1, username: 'JohnDoe', email: 'john.doe@gmail.com', joinDate: '2022-03-15', profilePic: null },
-          { id: 2, username: 'JaneSmith', email: 'jane.smith@example.com', joinDate: '2022-03-16', profilePic: rectImage },
-          { id: 1, username: 'JohnDoe', email: 'john.doe@gmail.com', joinDate: '2022-03-15', profilePic: null },
-          { id: 2, username: 'JaneSmith', email: 'jane.smith@example.com', joinDate: '2022-03-16', profilePic: rectImage },
-        ];
+      if (!accessToken) {
+        setErrorMessage("Please login to see the members");
+        return;
+      }
 
-        setMembers(sampleMembers);
+      try {
+        const response = await fetch(
+          "http://64.227.134.220:8002/api/members/",
+          {
+            headers: {
+              Authorization: `Token ${accessToken}`,
+            },
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+        if (Array.isArray(data)) {
+          setMembers(data);
+        } else if (data.message === "Username not found") {
+          setErrorMessage("Username not found");
+        } else if (data.message === "Wrong password") {
+          setErrorMessage("Wrong password");
+        }
       } catch (error) {
-        console.error('Error fetching members:', error);
+        console.error("Error fetching members:", error);
+        setErrorMessage("Error fetching members");
       }
     };
 
@@ -44,41 +53,64 @@ const MembersPage = () => {
           <div className="flex gap-5 justify-between w-full max-w-[1351px] max-md:flex-wrap max-md:max-w-full">
             <div className="flex-auto text-4xl">Membership Application</div>
             <div className="flex gap-5 justify-between my-auto text-sm whitespace-nowrap">
-              <a href="/" className="my-auto grow italic"  style={{ textDecoration: 'none', color: 'your-color' }}>home</a>
+              <a
+                href="/"
+                className="my-auto grow italic"
+                style={{ textDecoration: "none", color: "blue" }}
+              >
+                home
+              </a>
               <div className="my-auto py-0 text-xl">&gt;&gt;</div>
               <div className="grow italic my-auto">Members</div>
             </div>
           </div>
         </div>
       </div>
-      <h1 className="text-4xl font-bold my-[2%] text-center ">Registered Members</h1>
+      <h1 className="text-4xl font-bold my-[2%] text-center ">
+        Registered Members
+      </h1>
+      {errorMessage && (
+        <p className="text-red-500 text-center">{errorMessage}</p>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-[80%] pl-[20%]">
         <AnimatePresence>
-          {members.map((member) => (
-            <motion.div
-              key={member.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="bg-Slate-100 rounded-lg overflow-hidden shadow-xl p-6 border hover:shadow-2xl hover:border-teal-500 transition duration-300 ease-in-out"
-            >
-              <div className="mb-4 text-center">
-                {member.profilePic ? (
-                  <img src={member.profilePic} alt={`${member.username}'s profile`} className="w-20 h-20 rounded-full mx-auto" />
-                ) : (
-                  <div className="avatar-container self-center text-center pl-[30%] w-20 h-20">
-                    <Avvvatars
-                      value={member.gmail}
-                      size="100"
-                      round={true}
-                    />
+          {Array.isArray(members) &&
+            members.map((member) => {
+              console.log(member);
+              return (
+                <motion.div
+                  key={member.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="bg-Slate-100 rounded-lg overflow-hidden shadow-xl p-6 border hover:shadow-2xl hover:border-teal-500 transition duration-300 ease-in-out"
+                >
+                  <div className="mb-4 text-center">
+                    {member.profilePic ? (
+                      <img
+                        src={member.profilePic}
+                        alt={`${member.username}'s profile`}
+                        className="w-20 h-20 rounded-full mx-auto"
+                      />
+                    ) : (
+                      <div className="avatar-container self-center text-center pl-[30%] w-20 h-20">
+                        <Avvvatars
+                          value={member.gmail}
+                          size="100"
+                          round={true}
+                        />
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              <h2 className="text-xl font-semibold text-gray-800 text-center pt-[10%]">{member.username}</h2>
-              <p className="text-gray-500 text-sm text-center">{member.joinDate}</p>
-            </motion.div>
-          ))}
+                  <h2 className="text-xl font-semibold text-gray-800 text-center pt-[10%]">
+                    {member.username}
+                  </h2>
+                  <p className="text-gray-500 text-sm text-center">
+                    Registration Date: {member.registrationDate}
+                  </p>
+                </motion.div>
+              );
+            })}
         </AnimatePresence>
       </div>
     </div>

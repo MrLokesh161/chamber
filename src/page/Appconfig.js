@@ -1,3 +1,3 @@
-const BASE_URL = "https://chamber.lokeshdev.co/";
+const BASE_URL = "https://chamber.lokeshdev.co";
 
 export default BASE_URL;

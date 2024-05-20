@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import logo from "../assets/rect.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +26,7 @@ function Navbar() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     switch (token) {
-      case "9cf5f6cefb580c32ca3880c49b43608acf112ba0":
+      case "66c25262e10d7c5dc5482e29afea86457f3cec5f":
         setUserType("AdminAO");
         break;
       case "b241ca7023635a3e278e7e7679933e596ae700f4":
@@ -86,8 +86,8 @@ function Navbar() {
           <ul className="flex space-x-4">
             {userType === 'Member' && (
               <>
-                <li><a href="/" className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">HOME<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></a></li>
-                <li><a href="/membership" className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">MEMBERSHIP REGISTRATION<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></a></li>
+                <li><Link to="/" className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">HOME<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></Link></li>
+                <li><Link to="/membership" className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">MEMBERSHIP REGISTRATION<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></Link></li>
                 <div className="relative">
                   <button
                     onClick={toggleDropdown}
@@ -113,12 +113,12 @@ function Navbar() {
                     <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                       <ul>
                         <li>
-                          <a
-                            href="/user"
+                          <Link
+                            to="/user"
                             className="block px-4 py-2 text-gray-800 font-semibold hover:bg-gray-100 no-underline font-sans hover:text-gray-600 transition duration-300 relative hover:text-blue-900"
                           >
                             PROFILE
-                          </a>
+                          </Link>
                         </li>
                         <li>
                           <button
@@ -136,7 +136,7 @@ function Navbar() {
             )}
             {userType.includes('Admin') && (
               <>
-                <li><a href="/" className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">HOME<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></a></li>
+                <li><Link to="/" className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">HOME<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></Link></li>
                 <li><button onClick={handleAdminPanelClick} className="text-gray-800 font-semibold hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">ADMIN PANEL<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></button></li>
                 <li><button onClick={handleTableClick} className="text-gray-800 font-semibold hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">ADMIN TABLE<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></button></li>
                 <div className="relative">
@@ -164,12 +164,12 @@ function Navbar() {
                     <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                       <ul>
                         <li>
-                          <a
-                            href="/user"
+                          <Link
+                            to="/user"
                             className="block px-4 py-2 text-gray-800 font-semibold hover:bg-gray-100 no-underline font-sans hover:text-gray-600 transition duration-300 relative hover:text-blue-900"
                           >
                             PROFILE<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
-                          </a>
+                          </Link>
                         </li>
                         <li>
                           <button
@@ -187,7 +187,7 @@ function Navbar() {
             )}
             {userType.includes('notyetlogin') && (
               <>
-                <li><a href="/" className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">HOME<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></a></li>
+                <li><Link to="/" className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">HOME<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></Link></li>
                 <li><button onClick={handleLogin} className="text-gray-800 font-semibold hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900">LOGIN<span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span></button></li>
               </>
             )}

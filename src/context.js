@@ -4,8 +4,7 @@ const BaseUrlContext = createContext();
 
 export const BaseUrlProvider = ({ children }) => {
   // Define your base URL here
-  const ip = "127.0.0.1";
-  const baseUrl = `http://${ip}:8000/`;
+  const baseUrl = `https://chamber.lokeshdev.co/`;
 
   return (
     <BaseUrlContext.Provider value={{baseUrl}}>

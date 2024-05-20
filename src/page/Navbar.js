@@ -7,6 +7,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 function Navbar() {
   const [userType, setUserType] = useState("Member");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   const handleTableClick = () => {
@@ -25,31 +26,56 @@ function Navbar() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    switch (token) {
-      case "66c25262e10d7c5dc5482e29afea86457f3cec5f":
-        setUserType("AdminAO");
-        break;
-      case "b241ca7023635a3e278e7e7679933e596ae700f4":
-        setUserType("AdminCEO");
-        break;
-      case "3a7ed8d5a6c94d75543a8bf7df6342e616f841c4":
-        setUserType("AdminMC");
-        break;
-      case "aa35bab1cc52d9bb60795ec0dacd98197fb068ad":
-        setUserType("AdminOB");
-        break;
-      case "f0977895591a9efb22b8562c06cdecd48aa05ed1":
-        setUserType("AdminGC");
-        break;
-      case null:
-        setUserType("notyetlogin");
-        break;
-      default:
-        setUserType("Member");
-        break;
+    if (token) {
+      setUserType("Member");
+    } else {
+      setUserType("notyetlogin");
     }
+  
+    // Fetch user data from backend API
+    fetch("https://chamber.lokeshdev.co/api/user/", {
+      method: "GET",
+      headers: {
+        Authorization: `Token ${token}`,
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data && Array.isArray(data)) {
+        const currentUser = data.find(user => user.token === token);
+        if (currentUser && currentUser.username) {
+          setUsername(currentUser.username);
+          console.log(currentUser.username);
+  
+          // Check username for admin types
+          if (currentUser.username.includes("AdminAO")) {
+            setUserType("AdminAO");
+          } else if (currentUser.username.includes("AdminCEO")) {
+            setUserType("AdminCEO");
+          } else if (currentUser.username.includes("AdminMC")) {
+            setUserType("AdminMC");
+          } else if (currentUser.username.includes("AdminOB")) {
+            setUserType("AdminOB");
+          } else if (currentUser.username.includes("AdminGC")) {
+            setUserType("AdminGC");
+          }
+        } else {
+          console.error("Username data is missing");
+        }
+      } else {
+        console.error("Invalid data format returned from the server");
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching user data:", error);
+    });
   }, []);
-
+  
 
   const handleAdminPanelClick = () => {
     switch(userType) {
@@ -72,7 +98,6 @@ function Navbar() {
         break;
     }
   };
-  
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);

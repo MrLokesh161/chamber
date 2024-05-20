@@ -101,13 +101,17 @@ const Adminconf = () => {
   return (
     <>
       {popup && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-75">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-75 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-lg">
             <h2 className="text-xl font-bold mb-4">Popup</h2>
             <p>Please Provide the reason to Reject the application of {rejectingRecord['Nameofapplicant']}</p>
-            <textarea type="text" className="border border-gray-300 rounded-lg w-full p-2 mt-2" onChange={(e) => setReason(e.target.value)} />
+            <textarea
+              type="text"
+              className="border border-gray-300 rounded-lg w-full p-2 mt-2"
+              onChange={(e) => setReason(e.target.value)}
+            />
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-all"
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
               onClick={() => handleSubmit()}
             >
               Reject
@@ -115,13 +119,14 @@ const Adminconf = () => {
           </div>
         </div>
       )}
-      {data.length > 0 && (
+      {data.length > 0 ? (
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sno</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -142,34 +147,34 @@ const Adminconf = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">{item['form_status']}</td>
                 {item['form_status'] === 'pending' && (
-                  <>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={() => handleAccept(item)}
-                      >
-                        Accept
-                      </button>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={() => handleReject(item)}
-                      >
-                        Reject
-                      </button>
-                    </td>
-                  </>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button
+                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={() => handleAccept(item)}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
+                      onClick={() => handleReject(item)}
+                    >
+                      Reject
+                    </button>
+                  </td>
                 )}
                 {
                   item['form_status'] === 'rejected' && (
-                    <p className='px-6 py-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider mt-3'>{item['ror']}</p>
+                    <td colSpan="2" className="px-6 py-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <p>{item['ror']}</p>
+                    </td>
                   )
                 }
               </tr>
             ))}
           </tbody>
         </table>
+      ) : (
+        <p className="text-center text-gray-500 mt-8">No forms submitted yet.</p>
       )}
     </>
   );

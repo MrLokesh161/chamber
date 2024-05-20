@@ -5,25 +5,21 @@ import { useNavigate } from 'react-router-dom';
 import BASE_URL from './Appconfig';
 
 const MembershipPrices = {
-  trader: {
-    upTo5Crore: 2950,
-    above5CroreUpTo10Crore: 4130,
-    above10CroreUpTo25Crore: 5000,
-    above25Crore: 8250,
+  General: {
+    2950: 2950,
+    4130: 4130,
+    5900: 5900,
+    8260: 8260,
   },
   professional: 2950,
   associations: 2360,
   lifeMembership: 88500,
   admissionFee: 3540,
-  journalSubscription: 295,
-  chamberDayCelebrations: 550,
 };
 
 const PaymentPage = () => {
   const [selectedMembership, setSelectedMembership] = useState(null);
   const [selectedTurnover, setSelectedTurnover] = useState(null);
-  const [journalSubscription, setJournalSubscription] = useState(true); 
-  const [chamberDayCelebrations, setChamberDayCelebrations] = useState(true);
   const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate()
 
@@ -38,27 +34,24 @@ const PaymentPage = () => {
     updateProperty('sales_turnover', turnover);
   };
 
+
   const calculateTotalAmount = (type, turnover) => {
     let total = 0;
     let selectedMembershipAmount = 0;
+    console.log("turnover",turnover)
+    console.log("turnover",MembershipPrices)
+
+
 
     if (type === 'life') {
       total = MembershipPrices.lifeMembership;
     } else {
-      if (type === 'trader') {
-        selectedMembershipAmount = MembershipPrices.trader[turnover];
+      if (type === 'General') {
+        selectedMembershipAmount = MembershipPrices.General[turnover];
         total += selectedMembershipAmount;
       } else {
         selectedMembershipAmount = MembershipPrices[type];
         total += selectedMembershipAmount;
-      }
-
-      total += MembershipPrices.admissionFee;
-      if (journalSubscription) {
-        total += MembershipPrices.journalSubscription;
-      }
-      if (chamberDayCelebrations) {
-        total += MembershipPrices.chamberDayCelebrations;
       }
     }
 
@@ -76,10 +69,9 @@ const PaymentPage = () => {
     cardholder_name: "",
     entrance_fee: MembershipPrices.admissionFee, // Initial value based on admission fee
     selected_membership_amount: 0, // Initial value (to be calculated based on logic)
-    journal_subscription: "",
-    chamber_day_celebrations: "",
     total_amount: 0, // Initial value (to be calculated based on logic)
   });
+  
 
 
   const updateProperty = (propertyName, value) => {
@@ -88,8 +80,10 @@ const PaymentPage = () => {
       [propertyName]: value,
     }));
   };
+  
 
 
+  const [formData2, setFormData2] = useState();
   const accessToken = localStorage.getItem('token');
 
   console.log(accessToken);
@@ -108,16 +102,43 @@ const PaymentPage = () => {
           },
         }
       );
-
+  
       if (response.data["message"] === "Payment successful!") {
         console.log(response.data["message"]);
-        console.log(formData)
-        navigate('/');
+        console.log(formData2);
+  
+        // Create the data object with id and status
+        const formData2Data = {
+          id: '21',
+          status: 'payment successful'
+        };
+  
+        // Update formData2 with the new data object
+        setFormData2(formData2Data);
+  
+        // Send the formData2Data to the formadmin API
+        const messageResponse = await axios.post(
+          'http://127.0.0.1:8000/api/formadmin/',
+          formData2Data,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${accessToken}`,
+            },
+          }
+        );
+  
+        if (messageResponse.status === 200 || messageResponse.status === 401) {
+          navigate('/');
+  
+          console.log('Message sent successfully to formadmin API');
+        }
       }
     } catch (error) {
       console.error('Payment failed:', error.message);
     }
   };
+  
 
   return (
     <div>
@@ -141,13 +162,13 @@ const PaymentPage = () => {
                 <input
                   type="radio"
                   name="membershipType"
-                  value="trader"
+                  value="General"
                   onChange={() => {
-                    updateProperty('membership_type', 'trader');
-                    handleMembershipChange('trader');
+                    updateProperty('membership_type', 'General');
+                    handleMembershipChange('General');
                   }}
                 />
-                <span>Trader</span>
+                <span>General</span>
               </div>
               <div className="flex items-center space-x-2">
                 <input
@@ -186,17 +207,17 @@ const PaymentPage = () => {
                 <span>Life Membership</span>
               </div>
             </div>
-            {selectedMembership === 'trader' && (
+            {selectedMembership === 'General' && (
               <div className="mb-6">
                 <label className="block text-sm font-semibold mb-2">Sales Turnover</label>
                 <select
                   className="border p-2 rounded-md w-full"
                   onChange={(e) => handleTurnoverChange(e.target.value)}
                 >
-                  <option value="upTo5Crore">Up to Rs. 5 Crore</option>
-                  <option value="above5CroreUpTo10Crore">Above Rs. 5 Crore up to Rs. 10 Crore</option>
-                  <option value="above10CroreUpTo25Crore">Above Rs. 10 Crore up to Rs. 25 Crore</option>
-                  <option value="above25Crore">Above Rs. 25 Crore</option>
+                  <option value="2950">Up to Rs. 5 Crore</option>
+                  <option value="4130">Above Rs. 5 Crore up to Rs. 10 Crore</option>
+                  <option value="5900">Above Rs. 10 Crore up to Rs. 25 Crore</option>
+                  <option value="8260">Above Rs. 25 Crore</option>
                 </select>
               </div>
             )}
@@ -251,7 +272,7 @@ const PaymentPage = () => {
                 {selectedMembership !== 'life' && (
                   <div>
                     <p className="text-sm">Selected Membership Amount</p>
-                    <p className="font-bold text-lg text-green-700">Rs. {totalAmount - MembershipPrices.admissionFee}</p>
+                    <p className="font-bold text-lg text-green-700">Rs. {totalAmount}</p>
                   </div>
                 )}
               </div>
@@ -271,7 +292,7 @@ const PaymentPage = () => {
               <div className="flex justify-between items-center mb-4">
                 <div>
                   <p className="text-sm">Total Amount</p>
-                  <p className="font-bold text-lg text-green-700">Rs. {totalAmount}</p>
+                  <p className="font-bold text-lg text-green-700">Rs. {totalAmount + MembershipPrices.admissionFee + 295 + 1180}</p>
                 </div>
               </div>
               <button

@@ -5,11 +5,12 @@ import loginImage from "../assets/login2.png";
 import logoImage from "../assets/rect.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import BASE_URL from "./Appconfig";
+import { useBaseUrl } from "../context";
 
 const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const { baseUrl } = useBaseUrl();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -45,7 +46,7 @@ const Login = () => {
       });
 
       const response = await axios.post(
-        "http://64.227.134.220:8002/obtainAuthToken/",
+        `${baseUrl}/obtainAuthToken/`,
         formDataToSend,
         {
           headers: {
@@ -69,7 +70,9 @@ const Login = () => {
       } else if (error.response && error.response.status === 403) {
         setError("Invalid credentials");
       } else if (error.response && error.response.status === 500) {
-        setError("There is a problem with the server. Please try again later.");
+        setError(
+          "There is a problem with the server. Please try again later."
+        );
       } else {
         setError(error.message);
       }
@@ -80,54 +83,37 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-screen bg-indigo-600">
-      <div className="w-[50%] pt-[13%] pl-[15%] text-white font-extrabold text-[300%]">
-        <h1 className="pl-[10%]">Welcome Back!</h1>
-        <p className="text-xl mt-4 w-[80%]">
-          This website is for membership applications for the Indian Chamber of
-          Commerce and Industry.
-        </p>
-        <img
-          loading="lazy"
-          src={logoImage}
-          className="w-[50%] pl-[10%] pt-6"
-          alt="home"
-        />
-        <div className="pl-[15%]">
+    <div className="flex h-screen">
+      <div className="hidden lg:flex flex-1 bg-gradient-to-r from-purple-500 to-indigo-600">
+        <div className="w-full h-full flex flex-col justify-center items-center text-white px-8">
+          <h1 className="text-4xl font-bold mb-4">Welcome Back!</h1>
+          <p className="text-lg mb-6 text-center">
+            This website is for membership applications for the Indian Chamber
+            of Commerce and Industry.
+          </p>
+          <img src={logoImage} className="w-64 mb-6" alt="Logo" />
           <button
-            type="button"
-            className="bg-blue-500 text-white rounded-full py-2 px-16 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 text-lg font-bold"
+            className="bg-blue-500 text-white py-3 px-8 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue text-lg font-bold"
             onClick={handleSignup}
           >
             Sign Up
           </button>
         </div>
       </div>
-
-      <div
-        className="w-[50%] pt-[10%]"
-        style={{
-          backgroundImage: `url(${loginImage})`,
-          height: "100vh",
-          width: "50%",
-        }}
-      >
-        <div className="max-w-md mx-auto">
-          <div className="pl-[40%]">
+      <div className="w-full lg:w-1/2 bg-cover bg-center flex justify-center items-center">
+        <div className="w-full max-w-md px-8 py-12 bg-white rounded-lg shadow-xl">
+          <div className="text-center">
             <FontAwesomeIcon
               icon={faUsers}
-              className="text-indigo-600 text-6xl pb-[10%]"
+              className="text-indigo-600 text-5xl mb-4"
             />
-            <h2 className="text-2xl font-bold mb-6 text-indigo-600 pb-[5%]">
-              SIGNIN
-            </h2>
+            <h2 className="text-2xl font-bold mb-4 text-indigo-600">Sign In</h2>
           </div>
-
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
                 htmlFor="username"
-                className="block text-lg font-bold text-indigo-600"
+                className="block text-lg font-semibold text-gray-600"
               >
                 Username
               </label>
@@ -135,16 +121,15 @@ const Login = () => {
                 type="text"
                 id="username"
                 name="username"
-                className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
+                className="mt-1 p-3 w-full border rounded-md bg-gray-100 focus:outline-none focus:border-indigo-500"
                 placeholder="Enter your username"
                 onChange={(e) => updateProperty("username", e.target.value)}
               />
             </div>
-
             <div className="mb-4">
               <label
                 htmlFor="password"
-                className="block text-lg font-bold text-indigo-600"
+                className="block text-lg font-semibold text-gray-600"
               >
                 Password
               </label>
@@ -152,24 +137,19 @@ const Login = () => {
                 type="password"
                 id="password"
                 name="password"
-                className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
+                className="mt-1 p-3 w-full border rounded-md bg-gray-100 focus:outline-none focus:border-indigo-500"
                 placeholder="Enter your password"
                 onChange={(e) => updateProperty("password", e.target.value)}
               />
             </div>
-
-            {error && <p className="text-red-500">{error}</p>}
-
-            <div className="pl-[30%] pt-[4%]">
-              <button
-                type="button" // Change the type to button
-                className="bg-blue-500 text-white px-[20%] py-[3%] rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
-                disabled={loading}
-                onClick={handleSubmit} // Call handleSubmit function on button click
-              >
-                {loading ? "Loading..." : "Login"}
-              </button>
-            </div>
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+            <button
+              type="submit"
+              className="bg-indigo-600 text-white py-3 px-4 w-full rounded-md hover:bg-indigo-700 focus:outline-none focus:shadow-outline-indigo"
+              disabled={loading}
+            >
+              {loading ? "Loading..." : "Login"}
+            </button>
           </form>
         </div>
       </div>

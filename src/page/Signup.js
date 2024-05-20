@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
-import signupImage from "../assets/login2.png";
+import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import loginImage from "../assets/login2.png";
 import logoImage from "../assets/rect.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ const Signup = () => {
     general: "",
   });
 
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateProperty = (propertyName, value) => {
     setFormData((prevData) => ({
@@ -33,11 +33,11 @@ const Signup = () => {
     setErrors((prevErrors) => ({
       ...prevErrors,
       [propertyName]: "",
-      general: "", 
+      general: "",
     }));
   };
 
-  const handlelogin = () => {
+  const handleLogin = () => {
     navigate("/login");
   };
 
@@ -61,18 +61,8 @@ const Signup = () => {
     if (!formData.password.trim()) {
       newErrors.password = "Password is required";
       isValid = false;
-    }
-    if (formData.password.length < 8) {
+    } else if (formData.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters long";
-      isValid = false;
-    }
-    if (formData.password.length > 50) {
-      newErrors.password = "Password must be at most 50 characters long";
-      isValid = false;
-    }
-    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(formData.password)) {
-      newErrors.password =
-        "Password must contain at least one lowercase letter, one uppercase letter, and one number";
       isValid = false;
     }
 
@@ -119,121 +109,74 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex h-screen bg-blue-600">
-      <div className="w-[50%] pt-[13%] pl-[15%] text-white font-extrabold text-[300%]">
-        <h1 className="pl-[15%]">Sign Up!</h1>
-        <p className="text-xl mt-4 w-[80%] pt-5">
-          Join the Indian Chamber of Commerce and Industry.
-        </p>
-        <img
-          loading="lazy"
-          src={logoImage}
-          className="w-[50%] pl-[10%] pt-6"
-          alt="home"
-        />
-        <div className="pl-[15%]">
+    <div className="flex h-screen">
+      <div className="hidden lg:flex flex-1 bg-gradient-to-r from-purple-500 to-indigo-600">
+        <div className="w-full h-full flex flex-col justify-center items-center text-white px-8">
+          <h1 className="text-4xl font-bold mb-4">Join Us!</h1>
+          <p className="text-lg mb-6 text-center">
+            Sign up to become a member of the Indian Chamber of Commerce and Industry.
+          </p>
+          <img src={logoImage} className="w-64 mb-6" alt="Logo" />
           <button
-            type="submit"
-            className="bg-blue-500 text-white rounded-full py-2 px-16 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 text-lg font-bold"
-            onClick={handlelogin}
+            className="bg-blue-500 text-white py-3 px-8 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue text-lg font-bold"
+            onClick={handleLogin}
           >
             Login
           </button>
         </div>
       </div>
-
-      <div
-        className="w-[50%] pt-[05%]"
-        style={{
-          backgroundImage: `url(${signupImage})`,
-          height: "100vh",
-          width: "50%",
-        }}
-      >
-        <div className="max-w-md mx-auto">
-          <div className="pl-[40%]">
-            <FontAwesomeIcon
-              icon={faUsers}
-              className="text-indigo-600 text-6xl pb-[10%]"
-            />
-            <h2 className="text-2xl font-bold mb-6 text-indigo-600 pb-[5%]">
-              SIGN UP
-            </h2>
+      <div className="w-full lg:w-1/2 bg-cover bg-center flex justify-center items-center">
+        <div className="w-full max-w-md px-8 py-12 bg-white rounded-lg shadow-xl">
+          <div className="text-center">
+            <FontAwesomeIcon icon={faUser} className="text-indigo-600 text-6xl mb-4" />
+            <h2 className="text-2xl font-bold mb-6 text-indigo-600">Sign Up</h2>
           </div>
-
-          {/* Username Input */}
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-lg font-bold text-indigo-600"
-            >
-              Username
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
-              placeholder="Enter your username"
-              onChange={(e) => updateProperty("username", e.target.value)}
-            />
-            {errors.username && (
-              <div className="text-red-500 text-sm pt-1">{errors.username}</div>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-lg font-bold text-indigo-600"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
-              placeholder="Enter your email"
-              onChange={(e) => updateProperty("email", e.target.value)}
-            />
-            {errors.email && (
-              <div className="text-red-500 text-sm pt-1">{errors.email}</div>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-lg font-bold text-indigo-600"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="mt-1 p-2 w-full border rounded-xl bg-indigo-300 text-indigo-600 placeholder-indigo-600"
-              placeholder="Enter your password"
-              onChange={(e) => updateProperty("password", e.target.value)}
-            />
-            {errors.password && (
-              <div className="text-red-500 text-sm pt-1">{errors.password}</div>
-            )}
-          </div>
-
-          <div className="pl-[30%] pt-[4%]">
+          <div>
+            <div className="mb-4">
+              <label htmlFor="username" className="block text-gray-700 font-bold mb-2">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                className={`mt-1 p-3 w-full border rounded-md focus:outline-none focus:border-indigo-500 ${errors.username ? "border-red-500" : "border-gray-300"}`}
+                placeholder="Enter your username"
+                onChange={(e) => updateProperty("username", e.target.value)}
+              />
+              {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className={`mt-1 p-3 w-full border rounded-md focus:outline-none focus:border-indigo-500 ${errors.email ? "border-red-500" : "border-gray-300"}`}
+                placeholder="Enter your email"
+                onChange={(e) => updateProperty("email", e.target.value)}
+              />
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            </div>
+            <div className="mb-4">
+              <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className={`mt-1 p-3 w-full border rounded-md focus:outline-none focus:border-indigo-500 ${errors.password ? "border-red-500" : "border-gray-300"}`}
+                placeholder="Enter your password"
+                onChange={(e) => updateProperty("password", e.target.value)}
+              />
+              {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+            </div>
+            {errors.general && <p className="text-red-500 text-sm">{errors.general}</p>}
             <button
-              type="submit"
-              className="bg-blue-500 text-white px-[20%] py-[3%] rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+              type="button"
+              className={`w-full py-3 mt-4 bg-indigo-600 text-white font-bold rounded-md focus:outline-none focus:bg-indigo-700 ${isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-indigo-700"}`}
               onClick={handleSubmit}
               disabled={isLoading}
             >
-              {isLoading ? "Loading..." : "Sign Up"}{" "}
+              {isLoading ? "Signing up..." : "Sign Up"}
             </button>
-            {errors.general && (
-              <div className="text-red-500 text-sm pt-1">{errors.general}</div>
-            )}
           </div>
         </div>
       </div>

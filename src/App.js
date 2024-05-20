@@ -9,7 +9,7 @@ import Signup from "./page/Signup";
 import MembersPage from "./page/Members";
 import UserProfile from "./page/User";
 import NotFound from "./page/NotFound";
-import PaymentPage from "./page/Paymentpage";
+import PaymentPage from "./page/Paymentpage"; 
 import EventPage from "./page/Event";
 import EventDetails from "./page/Eventdetails";
 import MembersDetailsTable from "./page/Membersdetailadmin";
@@ -18,13 +18,22 @@ import ContactPage from "./page/Contact";
 import Adminconf from "./page/AdminConf";
 import AdminDetailsPage from "./page/Admindetails";
 import "bootstrap/dist/css/bootstrap.min.css";
+import AdminconfCEO from "./page/AdminConfceo";
+import AdminconfOB from "./page/AdminConfob";
+import AdminconfMC from "./page/AdminConfmembership";
+import AdminconfGC from "./page/AdminConfGC";
+import ImagePage from "./page/certificate";
+import Formexist from "./page/MembershipFormexitsting";
+import { BaseUrlProvider } from "./context";
 
 function App() {
   return (
+    <BaseUrlProvider>
     <Router>
       <Routes>
         <Route path="/" element={<MyComponent />} />
         <Route path="/membership" element={<MembershipForm />} />
+        <Route path="/existing" element={<Formexist />} />
         <Route path="/membership2" element={<MembershipForm2 />} />
         <Route path="/letter" element={<Letter />} />
         <Route path="/login" element={<Login />} />
@@ -40,9 +49,15 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/Adminconf" element={<Adminconf />} />
-        <Route path="/admindetails" element={<AdminDetailsPage />} />
+        <Route path="/AdminconfCEO" element={<AdminconfCEO />} />
+        <Route path="/AdminconfOB" element={<AdminconfOB />} />
+        <Route path="/AdminconfMC" element={<AdminconfMC />} />
+        <Route path="/AdminconfGC" element={<AdminconfGC />} />
+        <Route path="/certificate" element={<ImagePage />} />
+        <Route path="/admindetails/:id" element={<AdminDetailsPage />} />
       </Routes>
     </Router>
+    </BaseUrlProvider>
   );
 }
 

@@ -3,9 +3,12 @@ import { MantineReactTable, useMantineReactTable } from 'mantine-react-table';
 import axios from 'axios';
 import BASE_URL from './Appconfig';
 import Navbar from './Navbar';
+import * as XLSX from 'xlsx'
 
 const MembersDetailsTable = () => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [filter, setFilter] = useState('');
 
   const accessToken = localStorage.getItem('token');
 
@@ -42,6 +45,7 @@ const MembersDetailsTable = () => {
         }));
 
         setData(mergedData);
+        setFilteredData(mergedData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -55,6 +59,10 @@ const MembersDetailsTable = () => {
       {
         accessorKey: 'Nameofapplicant',
         header: 'Applicant Name',
+      },
+      {
+        accessorKey: 'form_status',
+        header: 'form status',
       },
       {
         accessorKey: 'constitution',
@@ -292,13 +300,31 @@ const MembersDetailsTable = () => {
     []
   );
 
-
-  
-
   const table = useMantineReactTable({
     columns,
-    data,
+    data: filteredData,
   });
+
+  const handleExport = () => {
+    const filename = 'members_data.xlsx';
+
+    // Filtered visible columns
+    const filteredColumns = columns.filter(column => !column.isHidden);
+    
+    // Extracting only the data of visible columns
+    const visibleData = filteredData.map(item => {
+      const visibleItem = {};
+      filteredColumns.forEach(column => {
+        visibleItem[column.accessorKey] = item[column.accessorKey];
+      });
+      return visibleItem;
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(visibleData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Members Data');
+    XLSX.writeFile(workbook, filename);
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -306,6 +332,9 @@ const MembersDetailsTable = () => {
       <div className="pt-12 pb-10 flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500">
         <div className="text-white text-center">
           <h1 className="text-4xl font-bold mb-4">Members Details Table</h1>
+          <button onClick={handleExport} className="bg-blue-600 text-white py-2 px-4 rounded">
+            Download Excel
+          </button>
         </div>
       </div>
       <div className="flex-1 px-4 py-8 ">

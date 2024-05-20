@@ -1,37 +1,18 @@
-import * as React from "react";
-import know from "../assets/knowmore.png";
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
+import pdfUrl from "../assets/Chamber-Membership-Form.pdf";
+import Footer from "./Footer";
+import axios from "axios";
 import BASE_URL from "./Appconfig";
+import { useNavigate } from "react-router-dom";
 
-function Form(props) {
+function Dashboard() {
   const [selectedConstitution, setSelectedConstitution] = useState([]);
-  const [datea, setData] = useState([]);
-  const [inputValues, setInputValues] = useState({
-    name: "",
-    designation: "",
-    pan: "",
-  });
-  const [coi, setCOI] = useState([]);
+  const [individualName, setIndividualName] = useState("");
   const [moaoa, setMOAOA] = useState([]);
   const [ap, setAP] = useState([]);
-  const navigate = useNavigate();
-
   const [esign, setEsign] = useState(null);
   const [seal, setSeal] = useState(null);
-
-  const handleEsign = (e) => {
-    const selectedFile = e.target.files[0];
-    setEsign(selectedFile);
-    updateProperty("e_sign", selectedFile);
-  };
-  const handleSeal = (e) => {
-    const selectedFile = e.target.files[0];
-    setSeal(selectedFile);
-    updateProperty("seal_image", selectedFile);
-  };
 
   const [formData, setFormData] = useState({
     directors: [],
@@ -86,118 +67,24 @@ function Form(props) {
     e_sign: null,
     seal_image: null,
   });
-  const [societyRegNoError, setSocietyRegNoError] = useState("");
-  const [panCardNoError, setPanCardNoError] = useState("");
-  const [companyRegNoError, setCompanyRegNoError] = useState("");
-  const [aadharError, setAadharError] = useState("");
-  const [GSTNoError, setGSTNoError] = useState("");
-  const [societyRegNo, setSocietyRegNo] = useState("");
-  const [panCardNo, setPanCardNo] = useState("");
-  const [companyRegNo, setCompanyRegNo] = useState("");
-  const updateProperty = (propertyName, value) => {
-    if (propertyName === "SocietyAssociationRegNo") {
-      if (value.length < 5) {
-        setSocietyRegNoError("Invalid Society/Association Registration No");
-      } else {
-        setSocietyRegNoError("");
-      }
-      setSocietyRegNo(value);
-    }
 
-    if (propertyName === "pancardno") {
-      if (value.length !== 10) {
-        setPanCardNoError("Invalid PAN Card No");
-      } else {
-        setPanCardNoError("");
-      }
-      setPanCardNo(value);
-    }
+  const navigate = useNavigate();
 
-    if (propertyName === "CompanyFirmRegNo") {
-      if (value.length < 5) {
-        setCompanyRegNoError("Invalid Company/Firm Registration No");
-      } else {
-        setCompanyRegNoError("");
-      }
-      setCompanyRegNo(value);
-    }
-    setFormData((prevData) => ({
-      ...prevData,
-      [propertyName]: value,
-    }));
-  };
-
-  const handleCheckboxChange = (value) => {
-    if (selectedConstitution === value) {
-      setSelectedConstitution(null);
-      updateProperty("constitution", null);
-    } else {
-      setSelectedConstitution(value);
-      updateProperty("constitution", value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  
+    // If the 'constitution' field is being updated, update the selectedConstitution state
+    if (name === 'constitution') {
+      setSelectedConstitution([value]);
     }
   };
 
-  const handleMOAOA = (value) => {
-    if (moaoa.includes(value)) {
-      setMOAOA([]);
-      updateProperty("is_member_of_association", null);
-    } else {
-      setMOAOA([value]);
-      updateProperty("is_member_of_association", value);
-    }
-  };
 
-  const handleAP = (value) => {
-    if (ap.includes(value)) {
-      setAP([]);
-      updateProperty("is_office_bearer", null);
-    } else {
-      setAP([value]);
-      updateProperty("is_office_bearer", value);
-    }
-  };
+  const accessToken = localStorage.getItem("token");
 
-  const handleCBC = (value) => {
-    if (coi.includes(value)) {
-      setCOI([]);
-      updateProperty("classindustry", null);
-    } else {
-      setCOI([value]);
-      updateProperty("classindustry", value);
-    }
-  };
 
-  const handleInputChange = (e) => {
-    setInputValues({ ...inputValues, [e.target.name]: e.target.value });
-  };
-
-  const [allDirectors, setAllDirectors] = useState([]);
-
-  const handleAdd = () => {
-    const newDirector = { ...inputValues };
-    console.log(allDirectors);
-    updateProperty("directors", [...formData.directors, newDirector]);
-    setData([...datea, inputValues]);
-    setInputValues({ name: "", designation: "", pan: "" });
-    setAllDirectors((prevDirectors) => [...prevDirectors, newDirector]);
-  };
-
-  const constitutionOptions = [
-    "Individual",
-    "Proprietory Firm",
-    "Partnership Firm",
-    "LLP",
-    "Private Limited",
-    "Public Limited Unlisted",
-    "Public Limited Listed",
-    "Trust",
-    "Society",
-    "Associations",
-  ];
-
-  const classindustry = ["Large", "Medium", "Small", "Micro"];
-
-  const yesno = ["Yes", "No"];
+  
 
   const handleSubmit = async () => {
     try {
@@ -210,6 +97,8 @@ function Form(props) {
       formDataToSend.append("e_sign", formData.e_sign);
 
       const accessToken = localStorage.getItem("token");
+
+      console.log(accessToken);
 
       if (!accessToken) {
         throw new Error("Access token is missing");
@@ -235,10 +124,108 @@ function Form(props) {
     }
   };
 
-  return (
-    <div className="flex flex-col bg-white">
-      <Navbar />
+  const handleDownload = (event) => {
+    event.preventDefault();
+    const a = document.createElement("a");
+    a.href = pdfUrl;
+    a.setAttribute("download", "");
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
+  const constitutionOptions = [
+    "Individual",
+    "Proprietory Firm",
+    "Partnership Firm",
+    "LLP",
+    "Private Limited",
+    "Public Limited Unlisted",
+    "Public Limited Listed",
+    "Trust",
+    "Society",
+    "Associations",
+  ];
+
+  const marketOptions = [
+    "Domestic",
+    "Global",
+    "Both"
+  ];
+
+  const classindustriesOptions = [
+    "Large", 
+    "Medium", 
+    "Small", 
+    "Micro"
+  ];
+
+  const yesno = [
+    "Yes", 
+    "No"
+  ];
+
+  const yesno1 = [
+    "Yes", 
+    "No"
+  ];
+
+  const handleMOAOA = (value) => {
+    if (moaoa.includes(value)) {
+      setMOAOA([]);
+      updateProperty("is_member_of_association", null);
+    } else {
+      setMOAOA([value]);
+      updateProperty("is_member_of_association", value);
+    }
+  };
+
+  const handleAP = (value) => {
+    if (ap.includes(value)) {
+      setAP([]);
+      updateProperty("is_office_bearer", null);
+    } else {
+      setAP([value]);
+      updateProperty("is_office_bearer", value);
+    }
+  };
+
+  const handleEsign = (e) => {
+    const selectedFile = e.target.files[0];
+    setEsign(selectedFile);
+    updateProperty("e_sign", selectedFile);
+  };
+  const handleSeal = (e) => {
+    const selectedFile = e.target.files[0];
+    setSeal(selectedFile);
+    updateProperty("seal_image", selectedFile);
+  };
+
+
+  const handleCheckboxChange = (option) => {
+    if (selectedConstitution.includes(option)) {
+      setSelectedConstitution(selectedConstitution.filter((item) => item !== option));
+    } else {
+      setSelectedConstitution([...selectedConstitution, option]);
+    }
+  
+    setFormData({ ...formData, constitution: option });
+  
+    if (option === 'Individual') {
+      setIndividualName("");
+    }
+  };
+  
+
+  const updateProperty = (propertyName, value) => {
+    if (propertyName === "individual_name") {
+      setIndividualName(value);
+    }
+  };
+
+  return (
+    <>
+      <Navbar />
       <div className="flex flex-col">
         <div className="flex justify-center items-center px-16 py-11 w-full font-bold text-black border border-black border-solid bg-zinc-300 bg-opacity-20 max-md:px-5 max-md:max-w-full">
           <div className="flex gap-5 justify-between w-full max-w-[1351px] max-md:flex-wrap max-md:max-w-full">
@@ -256,79 +243,68 @@ function Form(props) {
             </div>
           </div>
         </div>
-        <h1 className="font-bold text-2xl pl-[10%] pt-[2%]">
-          Applications Details:{" "}
-        </h1>
+        <h1 className="font-bold text-2xl pl-[10%] pt-[2%]"></h1>
         <p className="pl-[15%] pt-[1%] text-lg font-semibold text-gray-800">
-          You have selected for Lifemembership.
-        </p>
-        <p className="pl-[15%] pt-[1%] text-lg text-green-700">
-          The price of membership is ₹88,500
+          <a href="#" onClick={handleDownload}>
+            Click here to download the membership form
+          </a>
         </p>
       </div>
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-bold my-4"></h1>
+        <form className="max-w-8xl mx-auto ">
+          <div className="grid grid-cols-3 gap-4">
+            <div className="mb-4 col-span-1">
+              <label className="block text-gray-700 font-bold capitalize">
+                Name of Applicant
+              </label>
+              <input
+                type="text"
+                name="Nameofapplicant"
+                value={formData.Nameofapplicant}
+                onChange={handleChange}
+                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                placeholder="Name of Applicant"
+              />
+            </div>
+            <div className="mb-4 col-span-1">
+              <label className="block text-gray-700 font-bold capitalize">
+                Business Activity
+              </label>
+              <input
+                type="text"
+                name="Businessactivity"
+                value={formData.Businessactivity}
+                onChange={handleChange}
+                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                placeholder="Business Activity"
+              />
+            </div>
 
-      <div className="flex w-[100%] mt-[6%]">
-        <div className="w-2"></div>
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">
-              1. Name of the Applicant
-            </label>
-            <img loading="lazy" src={know} alt="logo" className="ml-2" />
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the name of the applicant"
-            className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
-            value={formData.Nameofapplicant}
-            onChange={(e) => updateProperty("Nameofapplicant", e.target.value)}
-          />
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">3. Business Activity</label>
-            <img loading="lazy" src={know} alt="logo" className="ml-2" />
-          </div>
-          <input
-            type="text"
-            placeholder="Enter Business Activity"
-            className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
-            onChange={(e) => updateProperty("Businessactivity", e.target.value)}
-          />
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">
-              4. Registered Office Address
-            </label>
-            <img loading="lazy" src={know} alt="logo" className="ml-2" />
-          </div>
-          <input
-            type="text"
-            placeholder="Enter Registered Office Address"
-            className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
-            onChange={(e) => updateProperty("regoffadd", e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="text-base font-bold mb-4">2. Constitution</div>
-          <div className="flex flex-col">
-            {constitutionOptions.map((option) => (
-              <div key={option} className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id={option}
-                  checked={
-                    selectedConstitution &&
-                    selectedConstitution.includes(option)
-                  }
-                  onChange={() => handleCheckboxChange(option)}
-                  className="mr-2"
-                />
-                <label htmlFor={option}>{option}</label>
-              </div>
-            ))}
-          </div>
-          {selectedConstitution &&
+            <div className="flex flex-col w-[90%] max-md:ml-0 max-md:w-full pl-[10%]">
+              <div className="mb-4 col-span-1">
+                <label className="block text-gray-700 font-bold capitalize">
+                  Constitution
+                </label>
+                <div className="flex flex-col">
+                  {constitutionOptions.map((option) => (
+                    <div key={option} className="flex items-center mb-2">
+                      <input
+                        type="radio"
+                        id={option}
+                        name="constitution"
+                        checked={
+                          selectedConstitution &&
+                          selectedConstitution.includes(option)
+                        }
+                        onChange={() => handleCheckboxChange(option)}
+                        className="mr-2"
+                      />
+                      <label htmlFor={option}>{option}</label>
+                    </div>
+                  ))}
+                </div>
+                {selectedConstitution &&
             selectedConstitution.includes("Individual") && (
               <input
                 type="text"
@@ -339,695 +315,695 @@ function Form(props) {
                 }
               />
             )}
-        </div>
-        <div className="flex w-[30%] pl-[5%]">
-          <div className="flex flex-col w-full bg-F4E3E3 border border-solid border-black p-4 rounded-xl">
-            <div className="text-4xl mb-4">Membership Opportunities</div>
-            <p className="text-justify mb-4">
-              The Membership of the chamber is open to all those who are engaged
-              in any business activity in the State of Tamil Nadu, including
-              trade, industry, services, and agriculture and related activities.
-              Professionals, Sole Proprietorship, LLPs, Partnerships,
-              Associations, and Companies are eligible to be admitted as members
-              under any one of the following categories.
-            </p>
-            <div className="text-xl mb-4">Membership Types</div>
-            <ul className="list-disc list-inside">
-              <li>For Life Membership</li>
-              <li>Annual Membership</li>
-            </ul>
-            <div className="text-xl mt-4">Member Benefits</div>
-            <ul className="list-disc list-inside">
-              <li>Latest notifications of State & Central Governments.</li>
-              <li>
-                Trade delegations and foreign delegations related information.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+              </div>
+            </div>
 
-      <label className="text-base font-bold pl-[10%]">
-        5. Address for Communication
-      </label>
-      <div className="flex w-[100%] py-[2%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Office</label>
+            <div className="mb-4 col-span-1 mt-[-60%]">
+              <label className="block text-gray-700 font-bold capitalize">
+                Registered Office Address
+              </label>
+              <input
+                type="text"
+                name="regoffadd"
+                value={formData.regoffadd}
+                onChange={handleChange}
+                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                placeholder="Registered Office Address"
+              />
+            </div>
           </div>
-          <input
-            type="text"
-            placeholder="Enter the address for communication"
-            className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
-            onChange={(e) => updateProperty("acoffice", e.target.value)}
-          />
-        </div>
 
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Works / Factory</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter Works/Factory"
-            className="border border-solid border-stone-500 px-2 py-7 rounded-xl mb-6"
-            onChange={(e) => updateProperty("acwork", e.target.value)}
-          />
-        </div>
-      </div>
-
-      <label className="text-base font-bold pl-[10%]">
-        6. Communication Details
-      </label>
-      <div className="flex w-[100%] py-[2%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Phone/Landline</label>
-          </div>
-          <input
-            type="number"
-            placeholder="Enter the Communication Details"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("cdlan", e.target.value)}
-          />
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Email Id</label>
-          </div>
-          <input
-            type="email"
-            placeholder="Enter the Email ID"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("cdemail", e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Phone/Mobile</label>
-          </div>
-          <input
-            type="number"
-            placeholder="Enter Phone/Mobile Number"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("cdphone", e.target.value)}
-          />
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Website</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter Website"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("cdweb", e.target.value)}
-          />
-        </div>
-      </div>
-
-      <label className="text-base font-bold pl-[10%]">
-        7. Legal Information:
-      </label>
-      <div className="flex w-[100%] py-[2%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Aadhaar Card No</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the Aadhar Card Number"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("aadhar", e.target.value)}
-          />
-          {aadharError && <p className="text-red-500">{aadharError}</p>}
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">GST No</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the GST Number"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("GSTNo", e.target.value)}
-          />
-          {GSTNoError && <p className="text-red-500">{GSTNoError}</p>}
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">
-              Society/Association Registration No
+          <label className="block text-gray-700 font-bold capitalize pb-6">
+              Address for Communication
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Office
             </label>
+            <input
+              type="text"
+              name="acoffice"
+              value={formData.acoffice}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Acquisition Office"
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Enter the Society/Association Registration No"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) =>
-              updateProperty("SocietyAssociationRegNo", e.target.value)
-            }
-          />
-          {societyRegNoError && (
-            <p className="text-red-500">{societyRegNoError}</p>
-          )}
-        </div>
 
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">PAN Card No</label>
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Works / Factory
+            </label>
+            <input
+              type="text"
+              name="acwork"
+              value={formData.acwork}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Acquisition Work"
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Enter PAN Card Number"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("pancardno", e.target.value)}
-          />
-          {panCardNoError && <p className="text-red-500">{panCardNoError}</p>}
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">
+          </div>
+
+
+          <label className="block text-gray-700 font-bold capitalize pb-8">
+              Communication Details
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Phone - Landline
+            </label>
+            <input
+              type="text"
+              name="cdlan"
+              value={formData.cdlan}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="CD lan"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Phone - Mobile
+            </label>
+            <input
+              type="text"
+              name="cdphone"
+              value={formData.cdphone}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="CD Phone"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Email
+            </label>
+            <input
+              type="email"
+              name="cdemail"
+              value={formData.cdemail}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="CD Email"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Website
+            </label>
+            <input
+              type="url"
+              name="cdweb"
+              value={formData.cdweb}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="CD Website"
+            />
+          </div>
+          </div>
+
+          <label className="block text-gray-700 font-bold capitalize py-8">
+            Legal Information
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Aadhar
+            </label>
+            <input
+              type="text"
+              name="aadhar"
+              value={formData.aadhar}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Aadhar"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              PAN Card No
+            </label>
+            <input
+              type="text"
+              name="pancardno"
+              value={formData.pancardno}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="PAN Card No"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              GST No
+            </label>
+            <input
+              type="text"
+              name="GSTNo"
+              value={formData.GSTNo}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="GST No"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
               Company/Firm Registration No
             </label>
+            <input
+              type="text"
+              name="CompanyFirmRegNo"
+              value={formData.CompanyFirmRegNo}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Company/Firm Registration No"
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Enter the Company/Firm Registration No"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("CompanyFirmRegNo", e.target.value)}
-          />
-          {companyRegNoError && (
-            <p className="text-red-500">{companyRegNoError}</p>
-          )}
-        </div>
-      </div>
 
-      <label className="text-base font-bold pl-[10%]">
-        8. List of Directors/ Partners/ Office Bearers/ Trustees:
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Society/Association Registration No
+            </label>
+            <input
+              type="text"
+              name="SocietyAssociationRegNo"
+              value={formData.SocietyAssociationRegNo}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Society/Association Registration No"
+            />
+          </div>
+          </div>
+
+
+          <label className="block text-gray-700 font-bold capitalize py-8">
+             Details of the Person Authorized
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+               Name
+            </label>
+            <input
+              type="text"
+              name="paname"
+              value={formData.paname}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="PAN Name"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+               PAN
+            </label>
+            <input
+              type="text"
+              name="papan"
+              value={formData.papan}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="PAN PAN"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+               Phone
+            </label>
+            <input
+              type="text"
+              name="paphone"
+              value={formData.paphone}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="PA Phone"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+               Designation
+            </label>
+            <input
+              type="text"
+              name="padesignation"
+              value={formData.padesignation}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="PA Designation"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+               Aadhaar
+            </label>
+            <input
+              type="text"
+              name="paaadhaar"
+              value={formData.paaadhaar}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="PA Aadhaar"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+               Mail ID
+            </label>
+            <input
+              type="email"
+              name="pamail_id"
+              value={formData.pamail_id}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="PA Mail ID"
+            />
+          </div>
+          </div>
+
+
+          <label className="block text-gray-700 font-bold capitalize py-8">
+            Category of Industry/ Trade/ Services
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+               Main Category
+            </label>
+            <input
+              type="text"
+              name="indmain_category"
+              value={formData.indmain_category}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Industry Main Category"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+               Sub Category
+            </label>
+            <input
+              type="text"
+              name="indsub_category"
+              value={formData.indsub_category}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Industry Sub Category"
+            />
+          </div>
+          </div>
+
+          <label className="block text-gray-700 font-bold capitalize py-8">
+            Catering to Market
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              CM Percentage of Imports
+            </label>
+            <input
+              type="text"
+              name="cmpercentage_of_imports"
+              value={formData.cmpercentage_of_imports}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="CM Percentage of Imports"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              CM Percentage of Exports
+            </label>
+            <input
+              type="text"
+              name="cmpercentage_of_exports"
+              value={formData.cmpercentage_of_exports}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="CM Percentage of Exports"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">CM Domestic/Global/Both</label>
+            <div>
+              {marketOptions.map((option) => (
+                <div key={option} className="flex items-center mb-2">
+                  <input
+                    type="radio"
+                    id={option}
+                    name="cmdomesticglobalboth"
+                    value={option}
+                    checked={formData.cmdomesticglobalboth === option}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  <label htmlFor={option}>{option}</label>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          </div>
+
+          <label className="block text-gray-700 font-bold capitalize py-8">
+          Foreign Collaboration if any
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+            Name of the Country
+            </label>
+            <input
+              type="text"
+              name="country_name_foreign_collaboration"
+              value={formData.country_name_foreign_collaboration}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Country Name for Foreign Collaboration"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Name of the Collaborator / Joint Venture obal
+            </label>
+            <input
+              type="text"
+              name="collaborator_name_foreign_collaboration"
+              value={formData.collaborator_name_foreign_collaboration}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Collaborator Name for Foreign Collaboration"
+            />
+          </div>
+          </div>
+
+          <label className="block text-gray-700 font-bold capitalize py-8">
+          Annual Turnover for the last three years (Rs in Million)
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Annual Turnover Year 1
+            </label>
+            <input
+              type="text"
+              name="annual_turnover_year1"
+              value={formData.annual_turnover_year1}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Annual Turnover Year 1"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Annual Turnover Year 2
+            </label>
+            <input
+              type="text"
+              name="annual_turnover_year2"
+              value={formData.annual_turnover_year2}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Annual Turnover Year 2"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Annual Turnover Year 3
+            </label>
+            <input
+              type="text"
+              name="annual_turnover_year3"
+              value={formData.annual_turnover_year3}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Annual Turnover Year 3"
+            />
+          </div>
+          </div>
+
+          <label className="block text-gray-700 font-bold capitalize py-8">
+             No of Persons Employed
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Direct Office 
+            </label>
+            <input
+              type="text"
+              name="direct_office_employees"
+              value={formData.direct_office_employees}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Direct Office Employees"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Indirect Contractual 
+            </label>
+            <input
+              type="text"
+              name="indirect_contractual_employees"
+              value={formData.indirect_contractual_employees}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Indirect Contractual Employees"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Works 
+            </label>
+            <input
+              type="text"
+              name="works_employees"
+              value={formData.works_employees}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Works Employees"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              Outsourced 
+            </label>
+            <input
+              type="text"
+              name="outsourced_employees"
+              value={formData.outsourced_employees}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Outsourced Employees"
+            />
+          </div>
+          </div>
+
+
+          <label className="block text-gray-700 font-bold capitalize py-8">
+            Welfare Obligations
+          </label>
+          <div className="grid grid-cols-2 gap-4">
+
+          <div className="grid grid-cols-3 gap-4">
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              ESIC
+            </label>
+            <input
+              type="text"
+              name="esic"
+              value={formData.esic}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="ESIC"
+            />
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize">
+              EPF
+            </label>
+            <input
+              type="text"
+              name="epf"
+              value={formData.epf}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="EPF"
+            />
+          </div>
+          </div>
+
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize pb-8">
+              Class Industry
+            </label>
+            <div>
+              {classindustriesOptions.map((option) => (
+                <div key={option} className="flex items-center mb-2">
+                  <input
+                    type="checkbox"
+                    id={option}
+                    name="classindustry"
+                    value={option}
+                    checked={formData.classindustry === option}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  <label htmlFor={option}>{option}</label>
+                </div>
+              ))}
+            </div>
+          </div>
+          </div>
+
+          
+          <div className="grid grid-cols-3 gap-4">
+  <div>
+    <label className="block text-gray-700 font-bold capitalize py-8">
+      Are you a member of any other Association
+    </label>
+    <div className="mb-4 col-span-1">
+      <label className="block text-gray-700 font-bold capitalize">
+        Branches Outside India
       </label>
       <div>
-        <ul>
-          <li className="text-base font-bold pl-[10%]">
-            <div className="flex gap-[15%]">
-              <span className="font-bold">SN No</span>
-              <span>Name</span>
-              <span>Designation</span>
-              <span>PAN</span>
-            </div>
-          </li>
-          {datea.map((item, index) => (
-            <li key={index} className="text-base font-bold pl-[10%]">
-              <div className="flex gap-[18%] pt-[1%]">
-                <span>{index + 1}.</span>
-                <span>{item.name}</span>
-                <span>{item.designation}</span>
-                <span>{item.pan}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        {yesno.map((option) => (
+          <div key={option} className="flex items-center mb-2">
+            <input
+              type="checkbox"
+              id={option}
+              name="is_member_of_association"
+              value={option}
+              checked={formData.is_member_of_association === option}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label htmlFor={option}>{option}</label>
+          </div>
+        ))}
       </div>
-      <div className="flex gap-[5%] pl-[10%] pt-[1%]">
+    </div>
+    {formData.is_member_of_association === 'No' && (
+      <div className="mb-4 col-span-1">
+        <label className="block text-gray-700 font-bold capitalize">
+          Enter the reason
+        </label>
         <input
           type="text"
-          name="name"
-          placeholder="Name"
-          value={inputValues.name}
-          className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-          onChange={handleInputChange}
+          name="reason_for_office_bearer_no"
+          value={formData.association_name}
+          onChange={handleChange}
+          className="border border-gray-400 rounded-md p-2 w-full mt-1"
+          placeholder="Reason for not being an office bearer"
         />
+      </div>
+    )}
+  </div>
+
+  <div>
+    <label className="block text-gray-700 font-bold capitalize py-8">
+      Do you hold any Office Bearers position in any Association
+    </label>
+    <div className="mb-4 col-span-1">
+      <label className="block text-gray-700 font-bold capitalize">
+        If yes - mention the Association Name & position
+      </label>
+      <div>
+        {yesno1.map((option) => (
+          <div key={option} className="flex items-center mb-2">
+            <input
+              type="checkbox"
+              id={option}
+              name="is_office_bearer"
+              value={option}
+              checked={formData.is_office_bearer === option}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label htmlFor={option}>{option}</label>
+          </div>
+        ))}
+      </div>
+    </div>
+    {formData.is_office_bearer === 'No' && (
+      <div className="mb-4 col-span-1">
+        <label className="block text-gray-700 font-bold capitalize">
+          Enter the reason
+        </label>
         <input
           type="text"
-          name="designation"
-          placeholder="Designation"
-          value={inputValues.designation}
-          className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-          onChange={handleInputChange}
+          name="reason_for_office_bearer_no"
+          value={formData.association_position}
+          onChange={handleChange}
+          className="border border-gray-400 rounded-md p-2 w-full mt-1"
+          placeholder="Reason for not being an office bearer"
         />
-        <input
-          type="text"
-          name="pan"
-          placeholder="PAN"
-          className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-          value={inputValues.pan}
-          onChange={handleInputChange}
-        />
-        <button
-          onClick={handleAdd}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-[1%] py-[0.5%] rounded-3xl h-[10%]"
-        >
-          Add
-        </button>
       </div>
+    )}
+  </div>
+</div>
 
-      <label className="text-base font-bold pl-[10%]">
-        9. Details of the Person Authorized:
-      </label>
-      <div className="flex w-[100%] py-[2%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Name</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the name "
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-            onChange={(e) => updateProperty("paname", e.target.value)}
-          />
 
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">PAN</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the PAN Number"
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-            onChange={(e) => updateProperty("papan", e.target.value)}
-          />
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Phone</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the Phone Number"
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-            onChange={(e) => updateProperty("paphone", e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Designation</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the Designation"
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-            onChange={(e) => updateProperty("padesignation", e.target.value)}
-          />
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Aadhaar</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter Aadhaar Number"
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-            onChange={(e) => updateProperty("paaadhaar", e.target.value)}
-          />
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Mail Id</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter Mail Id"
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-            onChange={(e) => updateProperty("pamail_id", e.target.value)}
-          />
-        </div>
-      </div>
-
-      <label className="text-base font-bold pl-[10%]">
-        10. Category of Industry/ Trade/ Services:
-      </label>
-      <div className="flex w-[100%] py-[2%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Main Category</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the Main Category"
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-            onChange={(e) => updateProperty("indmain_category", e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Sub Category</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the Sub Category"
-            onChange={(e) => updateProperty("indsub_category", e.target.value)}
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-          />
-        </div>
-      </div>
-
-      <label className="text-base font-bold pl-[10%]">
-        11. Catering to Market:
-      </label>
-      <div className="flex w-[100%] py-[2%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Domestic</label>
-          </div>
-          <input
-            type="text"
-            onChange={(e) => updateProperty("cmdomestic", e.target.value)}
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-          />
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Both</label>
-          </div>
-          <input
-            type="text"
-            onChange={(e) => updateProperty("cmboth", e.target.value)}
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-          />
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">% of Imports</label>
-          </div>
-          <input
-            type="text"
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-            onChange={(e) =>
-              updateProperty("cmpercentage_of_imports", e.target.value)
-            }
-          />
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Global</label>
-          </div>
-          <input
-            type="text"
-            onChange={(e) => updateProperty("cmglobal_market", e.target.value)}
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-          />
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">% of Exports</label>
-          </div>
-          <input
-            type="text"
-            onChange={(e) =>
-              updateProperty("cmpercentage_of_exports", e.target.value)
-            }
-            className="border border-solid border-stone-500 px-2 py-5 rounded-xl mb-6"
-          />
-        </div>
-      </div>
-
-      <label className="text-base font-bold pl-[10%]">
-        12. Foreign Collaboration if any:
-      </label>
-      <div className="flex w-[100%] py-[2%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Name of the Country</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the name of the country"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) =>
-              updateProperty(
-                "country_name_foreign_collaboration",
-                e.target.value
-              )
-            }
-          />
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">
-              GlName of the Collaborator / Joint Venture obal
+          <div className="mb-4 col-span-1">
+            <label className="block text-gray-700 font-bold capitalize mb-8">
+              Reason for Joining Chamber
             </label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the name of the collaborator"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) =>
-              updateProperty(
-                "collaborator_name_foreign_collaboration",
-                e.target.value
-              )
-            }
-          />
-        </div>
-      </div>
-
-      <div className="flex w-[100%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <label className="text-base font-bold">
-            13. Annual Turnover for the last three years (Rs in Million)
-          </label>
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">1st year :</label>
-            <img loading="lazy" src={know} alt="logo" className="ml-2" />
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the annual turnover for the 1st year"
-            onChange={(e) =>
-              updateProperty("annual_turnover_year1", e.target.value)
-            }
-            className="border border-solid border-stone-500 px-2 py-2 rounded-xl mb-6"
-          />
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">2nd year :</label>
-            <img loading="lazy" src={know} alt="logo" className="ml-2" />
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the annual turnover for the 2nd year"
-            className="border border-solid border-stone-500 px-2 py-2 rounded-xl mb-6"
-            onChange={(e) =>
-              updateProperty("annual_turnover_year2", e.target.value)
-            }
-          />
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">3rd year :</label>
-            <img loading="lazy" src={know} alt="logo" className="ml-2" />
-          </div>
-          <input
-            type="text"
-            placeholder="Enter annual turnover for the 3rd year"
-            className="border border-solid border-stone-500 px-2 py-2 rounded-xl mb-6"
-            onChange={(e) =>
-              updateProperty("annual_turnover_year3", e.target.value)
-            }
-          />
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="text-base font-bold mb-4">
-            14. Classification of Industry:
-          </div>
-          <div className="flex flex-col">
-            {classindustry.map((option) => (
-              <div key={option} className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id={option}
-                  checked={coi.includes(option)}
-                  onChange={() => handleCBC(option)}
-                  className="mr-2"
-                />
-                <label htmlFor={option}>{option}</label>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <label className="text-base font-bold pl-[10%]">
-        15. No of Persons Employed :
-      </label>
-      <div className="flex w-[100%] py-[2%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Direct - Office</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the Direct Office Employees"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) =>
-              updateProperty("direct_office_employees", e.target.value)
-            }
-          />
-
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">
-              Indirect - Contractual
-            </label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the Indirect Contractual Employees"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) =>
-              updateProperty("indirect_contractual_employees", e.target.value)
-            }
-          />
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Works</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the Works"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("works_employees", e.target.value)}
-          />
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">Outsourced</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the Outsourced Employees"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) =>
-              updateProperty("outsourced_employees", e.target.value)
-            }
-          />
-        </div>
-      </div>
-
-      <label className="text-base font-bold pl-[10%]">
-        16. Welfare Obligations:
-      </label>
-      <div className="flex w-[100%] py-[2%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">ESIC</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the ESIC Number"
-            onChange={(e) => updateProperty("esic", e.target.value)}
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-          />
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="flex items-center mb-4">
-            <label className="text-base font-bold">EPF</label>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter the EPF Number"
-            className="border border-solid border-stone-500 px-2 py-3 rounded-xl mb-6"
-            onChange={(e) => updateProperty("epf", e.target.value)}
-          />
-        </div>
-      </div>
-
-      <label className="text-base font-bold pl-[10%]">
-        17. Details of branches / Outlet outside India
-      </label>
-      <div className="flex w-[100%] py-[2%] pl-[10%]">
-        <input
-          type="text"
-          placeholder="Enter the Details of branches / Outlet outside India"
-          className="border border-solid border-stone-500 py-10 px-10 rounded-xl mb-6"
-          onChange={(e) =>
-            updateProperty("branches_outside_india", e.target.value)
-          }
-        />
-      </div>
-
-      <div className="flex w-[100%]">
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="text-base font-bold mb-4">
-            18. Are you member of any other Association :
-          </div>
-          <div className="text-base font-bold mb-4">
-            If yes, mention details:
-          </div>
-          <div className="flex flex-col">
-            {yesno.map((option) => (
-              <div key={option} className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id={option}
-                  checked={moaoa && moaoa.includes(option)}
-                  onChange={() => handleMOAOA(option)}
-                  className="mr-2"
-                />
-                <label htmlFor={option}>{option}</label>
-              </div>
-            ))}
-          </div>
-          {moaoa.includes("Yes") && (
             <input
               type="text"
-              placeholder="Enter the name of the Individual"
-              className="border border-solid border-stone-500 px-2 py-4 rounded-xl mb-6"
-              onChange={(e) =>
-                updateProperty("association_name", e.target.value)
-              }
+              name="reason_for_joining_chamber"
+              value={formData.reason_for_joining_chamber}
+              onChange={handleChange}
+              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              placeholder="Reason for Joining Chamber"
             />
-          )}
-        </div>
-
-        <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full pl-[10%]">
-          <div className="text-base font-bold mb-4">
-            19. Do you hold any Office Bearers position in any Association
           </div>
-          <div className="text-base font-bold mb-4">
-            If yes - mention the Association Name & position
-          </div>
-          <div className="flex flex-col">
-            {yesno.map((option) => (
-              <div key={option} className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id={option}
-                  checked={ap && ap.includes(option)}
-                  onChange={() => handleAP(option)}
-                  className="mr-2"
-                />
-                <label htmlFor={option}>{option}</label>
-              </div>
-            ))}
-          </div>
-          {ap.includes("Yes") && (
-            <input
-              type="text"
-              placeholder="Enter the name of the Individual"
-              onChange={(e) =>
-                updateProperty("association_position", e.target.value)
-              }
-              className="border border-solid border-stone-500 px-2 py-4 rounded-xl mb-6"
-            />
-          )}
-        </div>
-      </div>
 
-      <label className="text-base font-bold pl-[10%]">
-        20. Reason for Joining the Chamber
-      </label>
-      <div className="flex w-[100%] pt-5 pl-[10%]">
-        <textarea
-          type="text"
-          placeholder="Enter the Reason for Joining the Chamber"
-          className="border border-solid border-stone-500 py-14 px-20 rounded-xl mb-6"
-          onChange={(e) =>
-            updateProperty("reason_for_joining_chamber", e.target.value)
-          }
-        ></textarea>
-      </div>
-
-      <label className="text-base font-bold pl-[40%]">
-        Upload your E- Sign
-      </label>
-      <div className="flex w-[100%] py-[1%] pl-[40%]">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleEsign}
-          className="border border-solid border-stone-500 px-[1%] py-2 rounded-xl mb-6"
-        />
-
-        {esign && (
+          <div className="mb-4 col-span-1">
+  <label className="block text-gray-700 font-bold capitalize">
+    E-Sign
+  </label>
+  <div className="relative">
+    <input
+      type="file"
+      name="e_sign"
+      accept="image/*"
+      onChange={handleEsign}
+      className="hidden"
+      id="e_sign_input"
+    />
+    <label
+      htmlFor="e_sign_input"
+      className="border border-gray-400 rounded-md p-2 w-full mt-1 cursor-pointer text-center"
+    >
+      Click here to upload E-Sign
+    </label>
+  </div>
+  {esign && (
           <div className="flex items-center">
             <img
               src={URL.createObjectURL(esign)}
@@ -1037,18 +1013,29 @@ function Form(props) {
             />
           </div>
         )}
-      </div>
+</div>
 
-      <label className="text-base font-bold pl-[40%]">Upload your seal</label>
-      <div className="flex w-[100%] py-[1%] pl-[40%]">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleSeal}
-          className="border border-solid border-stone-500 px-[1%] py-2 rounded-xl mb-6"
-        />
-
-        {seal && (
+<div className="mb-4 col-span-1">
+  <label className="block text-gray-700 font-bold capitalize">
+    Seal Image
+  </label>
+  <div className="relative">
+    <input
+      type="file"
+      name="seal_image"
+      accept="image/*"
+      onChange={handleSeal}
+      className="hidden"
+      id="seal_image_input"
+    />
+    <label
+      htmlFor="seal_image_input"
+      className="border border-gray-400 rounded-md p-2 w-full mt-1 cursor-pointer text-center"
+    >
+      Click here to upload Seal Image
+    </label>
+  </div>
+  {seal && (
           <div className="flex items-center">
             <img
               src={URL.createObjectURL(seal)}
@@ -1058,29 +1045,26 @@ function Form(props) {
             />
           </div>
         )}
+</div>
+
+
+
+          <div className="col-span-3 text-center"></div>
+        </form>
       </div>
+      <div className="flex justify-center py-[6%]">
+  <button
+    className="bg-blue-500 text-white px-[10%] py-3 rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+    onClick={handleSubmit}
+  >
+    Submit & Proceed Next
+  </button>
+</div>
 
-      <label className="text-base font-bold pl-[40%]">
-        Signature of Authorized person with seal
-      </label>
-
-      <div className="ml-[10%] mt-[8%]">
-        <button
-          className="bg-blue-500 text-white px-4 py-3 rounded-3xl hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
-          onClick={handleSubmit}
-        >
-          Submit & Proceed Next
-        </button>
-      </div>
-
-      <div className="p-[5%]"></div>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white text-center py-4">
-        <p>&copy; 2024 Metaverse Association. All rights reserved.</p>
-      </footer>
-    </div>
+      <div className="pb-10"></div>
+      <Footer />
+    </>
   );
 }
 
-export default Form;
+export default Dashboard;

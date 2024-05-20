@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useBaseUrl } from '../context';
 
-const Adminconf = () => {
+const AdminconfCEO = () => {
   const navigate = useNavigate();
   const { baseUrl } = useBaseUrl();
   const [data, setData] = useState([]);
@@ -26,7 +26,8 @@ const Adminconf = () => {
           navigate('/login');
         }
       } catch (error) {
-        console.log(error);
+        console.log('Error checking access:', error);
+        navigate('/login'); // Redirect to login page if error occurs
       }
 
       try {
@@ -36,10 +37,11 @@ const Adminconf = () => {
             Authorization: `Token ${localStorage.getItem('token')}`,
           },
         });
+        console.log('Data from API:', response.data); // Log data from API
         setData(response.data);
-        console.log(data[0]['GSTNo']);
       } catch (error) {
-        console.log(error);
+        console.log('Error fetching data:', error);
+        // Handle error fetching data, e.g., show error message to user
       }
     };
 
@@ -62,10 +64,10 @@ const Adminconf = () => {
           Authorization: `Token ${localStorage.getItem('token')}`,
         },
       });
-      console.log(response.data);
       setData(response.data['content']);
     } catch (error) {
-      console.log(error);
+      console.log('Error accepting item:', error);
+      // Handle error accepting item, e.g., show error message to user
     }
   };
 
@@ -86,13 +88,13 @@ const Adminconf = () => {
       },
     })
       .then((response) => {
-        console.log(response.data);
         if (response.data['message'] === 'Application Rejected') {
           setData(response.data['content']);
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log('Error rejecting item:', error);
+        // Handle error rejecting item, e.g., show error message to user
       });
 
     setPopup(false);
@@ -115,64 +117,63 @@ const Adminconf = () => {
           </div>
         </div>
       )}
-      {data.length > 0 && (
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sno</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {data.map((item, index) => (
-              <tr key={index}>
-                <td className="px-6 py-4 whitespace-nowrap">{item.id}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <a
-                    href="#"
-                    className="text-indigo-600 hover:text-indigo-900"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleFirstNameClick(item);
-                    }}
-                  >
-                    {item['Nameofapplicant']}
-                  </a>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{item['form_status']}</td>
-                {item['form_status'] === 'pending' && (
-                  <>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={() => handleAccept(item)}
-                      >
-                        Accept
-                      </button>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={() => handleReject(item)}
-                      >
-                        Reject
-                      </button>
-                    </td>
-                  </>
-                )}
-                {
-                  item['form_status'] === 'rejected' && (
-                    <p className='px-6 py-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider mt-3'>{item['ror']}</p>
-                  )
-                }
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sno</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+  {Array.isArray(data) && data.map((item, index) => (
+    <tr key={index}>
+      <td className="px-6 py-4 whitespace-nowrap">{item.id}</td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <a
+          href="#"
+          className="text-indigo-600 hover:text-indigo-900"
+          onClick={(e) => {
+            e.preventDefault();
+            handleFirstNameClick(item);
+          }}
+        >
+          {item['Nameofapplicant']}
+        </a>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">{item['form_status']}</td>
+      {item['form_status'] === 'Approved by CEO' && (
+        <>
+          <td className="px-6 py-4 whitespace-nowrap">
+            <button
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => handleAccept(item)}
+            >
+              Accept
+            </button>
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => handleReject(item)}
+            >
+              Reject
+            </button>
+          </td>
+        </>
       )}
+      {item['form_status'] === 'rejected' && (
+        <td className="px-6 py-4 whitespace-nowrap" colSpan="2">
+          <p className='text-left text-xs font-medium text-gray-500 uppercase tracking-wider mt-3'>{item['ror']}</p>
+        </td>
+      )}
+    </tr>
+  ))}
+</tbody>
+
+      </table>
     </>
   );
 };
 
-export default Adminconf;
+export default AdminconfCEO;

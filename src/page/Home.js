@@ -13,9 +13,7 @@ function HeroSection() {
 
   return (
     <div>
-      <header className="pl-[7%]">
         <Navbar />
-      </header>
       <div className="bg-black/60 overflow-x-hidden relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
         <div className="relative xl:container m-auto px-6 md:px-12 lg:px-6">
           <div className="w-10 h-10 bg-transparent border-4 border-blue-600 animate-spin1"></div>

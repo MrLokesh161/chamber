@@ -52,3 +52,11 @@
     transform: rotate(360deg);
   }
 }
+
+.open-sans {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: bolder;
+  font-variation-settings:
+    "wdth" 100;
+}

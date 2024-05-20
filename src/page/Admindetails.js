@@ -1,128 +1,248 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useBaseUrl } from '../context';
 
 const AdminDetailsPage = () => {
+  const navigate = useNavigate();
+  const { baseUrl } = useBaseUrl();
+  const { id } = useParams();
+  const [responseData, setResponseData] = useState(null);
 
-    const formData = {
-        directors: ["Director 1", "Director 2"],
-        Nameofapplicant: "John Doe",
-        constitution: "Some Constitution",
-        individual_name: "Individual Name",
-        is_individual: false,
-        Businessactivity: "Some Business Activity",
-        regoffadd: "Registered Office Address",
-        acoffice: "Additional Contact Office",
-        acwork: "Additional Contact Work",
-        cdlan: "Contact Designation Landline",
-        cdphone: "Contact Phone",
-        cdemail: "Contact Email",
-        cdweb: "Contact Website",
-        aadhar: "Aadhar Number",
-        pancardno: "PAN Card Number",
-        GSTNo: "GST Number",
-        CompanyFirmRegNo: "Company/Firm Registration Number",
-        SocietyAssociationRegNo: "Society/Association Registration Number",
-        paname: "Principal Applicant Name",
-        papan: "Principal Applicant PAN",
-        paphone: "Principal Applicant Phone",
-        padesignation: "Principal Applicant Designation",
-        paaadhaar: "Principal Applicant Aadhar",
-        pamail_id: "Principal Applicant Email",
-        indmain_category: "Industry Main Category",
-        indsub_category: "Industry Sub Category",
-        country_name_foreign_collaboration: "Country Name for Foreign Collaboration",
-        collaborator_name_foreign_collaboration: "Collaborator Name for Foreign Collaboration",
-        annual_turnover_year1: "Annual Turnover Year 1",
-        annual_turnover_year2: "Annual Turnover Year 2",
-        annual_turnover_year3: "Annual Turnover Year 3",
-        classindustry: "Class of Industry",
-        direct_office_employees: "Direct Office Employees",
-        indirect_contractual_employees: "Indirect Contractual Employees",
-        works_employees: "Works Employees",
-        outsourced_employees: "Outsourced Employees",
-        esic: "ESIC",
-        epf: "EPF",
-        branches_outside_india: "Branches Outside India",
-        is_member_of_association: true,
-        association_name: "Association Name",
-        is_office_bearer: false,
-        association_position: "Association Position",
-        reason_for_joining_chamber: "Reason for Joining Chamber",
-        e_sign: "E-Sign",
-        seal_image: "Seal Image",
-      };
-
-      const handleAccept = () => {
-        // Handle accept logic here
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}api/application/${id}/`, {
+          headers: {
+            "Authorization": `Token ${localStorage.getItem('token')}`,
+          }
+        });
+        console.log("Sample 1", response.data);
+        setResponseData(response.data);
+      } catch (error) {
+        console.error("Error occurred while fetching data:", error);
+      }
     };
-
-    const handleDecline = () => {
-        // Handle decline logic here
-    };
+  
+    fetchData();
+  
+  }, [id]);
 
   return (
-    <div>
-      <h2>Admin Details</h2>
-      <div>
-        <h3>Directors:</h3>
-        <ul>
-          {formData.directors.map((director, index) => (
-            <li key={index}>{director}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3>Name of Applicant: {formData.Nameofapplicant}</h3>
-        <h3>Constitution: {formData.constitution}</h3>
-        <h3>Is Individual: {formData.is_individual ? 'Yes' : 'No'}</h3>
-        <h3>Business Activity: {formData.Businessactivity}</h3>
-        <h3>Registered Office Address: {formData.regoffadd}</h3>
-        <h3>Additional Contact Office: {formData.acoffice}</h3>
-        <h3>Additional Contact Work: {formData.acwork}</h3>
-        <h3>Contact Designation Landline: {formData.cdlan}</h3>
-        <h3>Contact Phone: {formData.cdphone}</h3>
-        <h3>Contact Email: {formData.cdemail}</h3>
-        <h3>Contact Website: {formData.cdweb}</h3>
-        <h3>Aadhar Number: {formData.aadhar}</h3>
-        <h3>PAN Card Number: {formData.pancardno}</h3>
-        <h3>GST Number: {formData.GSTNo}</h3>
-        <h3>Company/Firm Registration Number: {formData.CompanyFirmRegNo}</h3>
-        <h3>Society/Association Registration Number: {formData.SocietyAssociationRegNo}</h3>
-        <h3>Principal Applicant Name: {formData.paname}</h3>
-        <h3>Principal Applicant PAN: {formData.papan}</h3>
-        <h3>Principal Applicant Phone: {formData.paphone}</h3>
-        <h3>Principal Applicant Designation: {formData.padesignation}</h3>
-        <h3>Principal Applicant Aadhar: {formData.paaadhaar}</h3>
-        <h3>Principal Applicant Email: {formData.pamail_id}</h3>
-        <h3>Industry Main Category: {formData.indmain_category}</h3>
-        <h3>Industry Sub Category: {formData.indsub_category}</h3>
-        <h3>Country Name for Foreign Collaboration: {formData.country_name_foreign_collaboration}</h3>
-        <h3>Collaborator Name for Foreign Collaboration: {formData.collaborator_name_foreign_collaboration}</h3>
-        <h3>Annual Turnover Year 1: {formData.annual_turnover_year1}</h3>
-        <h3>Annual Turnover Year 2: {formData.annual_turnover_year2}</h3>
-        <h3>Annual Turnover Year 3: {formData.annual_turnover_year3}</h3>
-        <h3>Class of Industry: {formData.classindustry}</h3>
-        <h3>Direct Office Employees: {formData.direct_office_employees}</h3>
-        <h3>Indirect Contractual Employees: {formData.indirect_contractual_employees}</h3>
-        <h3>Works Employees: {formData.works_employees}</h3>
-        <h3>Outsourced Employees: {formData.outsourced_employees}</h3>
-        <h3>ESIC: {formData.esic}</h3>
-        <h3>EPF: {formData.epf}</h3>
-        <h3>Branches Outside India: {formData.branches_outside_india}</h3>
-        <h3>Is Member of Association: {formData.is_member_of_association ? 'Yes' : 'No'}</h3>
-        <h3>Association Name: {formData.association_name}</h3>
-        <h3>Is Office Bearer: {formData.is_office_bearer ? 'Yes' : 'No'}</h3>
-        <h3>Association Position: {formData.association_position}</h3>
-        <h3>Reason for Joining Chamber: {formData.reason_for_joining_chamber}</h3>
-        <h3>E-Sign: {formData.e_sign}</h3>
-        <h3>Seal Image: {formData.seal_image}</h3>
-      </div>
-      <div className="mt-8">
-                <button onClick={handleAccept} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 mr-4 rounded">Accept</button>
-                <button onClick={handleDecline} className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">Decline</button>
+    <div className="min-h-screen bg-gray-100">
+      <div className="p-4 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-2 ml-[30%]">
+        <div className="bg-white rounded-lg shadow-md p-4">
+        <h2 className="text-xl font-bold mb-4">Admin Details</h2>
+        {responseData && (
+          <>
+            <div className="flex justify-between">
+              <span className="text-gray-500">ID:</span>
+              <span>{responseData.content.id}</span>
             </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Name of Applicant:</span>
+              <span>{responseData.content.Nameofapplicant}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Constitution:</span>
+              <span>{responseData.content.constitution}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Individual Name:</span>
+              <span>{responseData.content.individual_name}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Is Individual:</span>
+              <span>{responseData.content.is_individual ? 'Yes' : 'No'}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Business Activity:</span>
+              <span>{responseData.content.Businessactivity}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Registered Office Address:</span>
+              <span>{responseData.content.regoffadd}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Additional Contact Office:</span>
+              <span>{responseData.content.acoffice}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Additional Contact Work:</span>
+              <span>{responseData.content.acwork}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Contact Designation Landline:</span>
+              <span>{responseData.content.cdlan}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Contact Phone:</span>
+              <span>{responseData.content.cdphone}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Contact Email:</span>
+              <span>{responseData.content.cdemail}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Contact Website:</span>
+              <span>{responseData.content.cdweb}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Aadhar:</span>
+              <span>{responseData.content.aadhar}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">PAN Card No:</span>
+              <span>{responseData.content.pancardno}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">GST No:</span>
+              <span>{responseData.content.GSTNo}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Company/Firm Reg No:</span>
+              <span>{responseData.content.CompanyFirmRegNo}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Society/Association Reg No:</span>
+              <span>{responseData.content.SocietyAssociationRegNo}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">PAN Name:</span>
+              <span>{responseData.content.paname}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">PAN PAN:</span>
+              <span>{responseData.content.papan}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">PA Phone:</span>
+              <span>{responseData.content.paphone}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">PA Designation:</span>
+              <span>{responseData.content.padesignation}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">PA Aadhaar:</span>
+              <span>{responseData.content.paaadhaar}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">PA Mail ID:</span>
+              <span>{responseData.content.pamail_id}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Main Category:</span>
+              <span>{responseData.content.indmain_category}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Sub Category:</span>
+              <span>{responseData.content.indsub_category}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Domestic Market:</span>
+              <span>{responseData.content.cmdomestic}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Global Market:</span>
+              <span>{responseData.content.cmglobal_market}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Percentage of Imports:</span>
+              <span>{responseData.content.cmpercentage_of_imports}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Percentage of Exports:</span>
+              <span>{responseData.content.cmpercentage_of_exports}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Country for Foreign Collaboration:</span>
+              <span>{responseData.content.country_name_foreign_collaboration}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Collaborator for Foreign Collaboration:</span>
+              <span>{responseData.content.collaborator_name_foreign_collaboration}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Annual Turnover Year 1:</span>
+              <span>{responseData.content.annual_turnover_year1}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Annual Turnover Year 2:</span>
+              <span>{responseData.content.annual_turnover_year2}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Annual Turnover Year 3:</span>
+              <span>{responseData.content.annual_turnover_year3}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Industry Classification:</span>
+              <span>{responseData.content.classindustry}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Direct Office Employees:</span>
+              <span>{responseData.content.direct_office_employees}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Indirect Contractual Employees:</span>
+              <span>{responseData.content.indirect_contractual_employees}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Works Employees:</span>
+              <span>{responseData.content.works_employees}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Outsourced Employees:</span>
+              <span>{responseData.content.outsourced_employees}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">ESIC:</span>
+              <span>{responseData.content.esic}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">EPF:</span>
+              <span>{responseData.content.epf}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Branches Outside India:</span>
+              <span>{responseData.content.branches_outside_india}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Is Member of Association:</span>
+              <span>{responseData.content.is_member_of_association}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Association Name:</span>
+              <span>{responseData.content.association_name}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Is Office Bearer:</span>
+              <span>{responseData.content.is_office_bearer}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Association Position:</span>
+              <span>{responseData.content.association_position}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Reason for Joining Chamber:</span>
+              <span>{responseData.content.reason_for_joining_chamber}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">E-Sign:</span>
+              <img src={`${baseUrl}${responseData.content.e_sign}`} alt="E-Sign" className="w-24 h-24 object-cover rounded-md shadow-md" />
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Seal Image:</span>
+              <img src={`${baseUrl}${responseData.content.seal_image}`} alt="Seal Image" className="w-24 h-24 object-cover rounded-md shadow-md" />
+            </div>
+            {/* Add more fields if necessary */}
+          </>
+        )}
+      </div>
+      </div>
     </div>
   );
 };
 
 export default AdminDetailsPage;
-

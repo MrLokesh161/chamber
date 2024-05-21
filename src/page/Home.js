@@ -14,7 +14,7 @@ function HeroSection() {
   return (
     <div>
       <Navbar />
-      <div className="bg-black/60 overflow-x-hidden relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
+      <div className="bg-black/60 z-0 overflow-x-hidden relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
         <div className="relative xl:container m-auto px-6 md:px-12 lg:px-6">
           <div className="w-10 h-10 bg-transparent border-4 border-blue-600 animate-spin1"></div>
           <h1 className="sm:mx-auto sm:w-10/12 md:w-2/3 font-black text-blue-900 text-4xl text-center sm:text-5xl md:text-6xl lg:w-auto lg:text-left xl:text-7xl dark:text-white">

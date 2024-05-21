@@ -5,7 +5,8 @@ import Footer from "./Footer";
 import axios from "axios";
 import BASE_URL from "./Appconfig";
 import { useNavigate } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Dashboard() {
   const [selectedConstitution, setSelectedConstitution] = useState([]);
   const [individualName, setIndividualName] = useState("");
@@ -13,6 +14,7 @@ function Dashboard() {
   const [ap, setAP] = useState([]);
   const [esign, setEsign] = useState(null);
   const [seal, setSeal] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     directors: [],
@@ -108,6 +110,42 @@ function Dashboard() {
       GSTNo: isValid ? gstNo : null,
     }));
   };
+  const validateFields = () => {
+    const newErrors = {};
+    if (!formData.Nameofapplicant)
+      newErrors.Nameofapplicant = "Name of Applicant is required";
+    if (!formData.Businessactivity)
+      newErrors.Businessactivity = "Business Activity is required";
+    if (!formData.regoffadd)
+      newErrors.regoffadd = "Registered Office Address is required";
+    if (!formData.acoffice) newErrors.acoffice = "Office address is required";
+    if (!formData.acwork)
+      newErrors.acwork = "Works / Factory address is required";
+    if (!formData.cdlan) newErrors.cdlan = "Phone - Landline is required";
+    if (!formData.cdphone) newErrors.cdphone = "Phone - Mobile is required";
+    if (!formData.cdemail) newErrors.cdemail = "Email is required";
+    if (!formData.cdweb) newErrors.cdweb = "Website is required";
+    if (!formData.aadhar || !/^\d{12}$/.test(formData.aadhar))
+      newErrors.aadhar = "Aadhar is required";
+    if (
+      !formData.pancardno ||
+      !/^[A-Z]{5}\d{4}[A-Z]{1}$/.test(formData.pancardno)
+    )
+      newErrors.pancardno = "PAN Card No is required";
+    if (!formData.GSTNo || formData.GSTNo.length !== 15)
+      newErrors.GSTNo = "GST No is required";
+    if (!formData.CompanyFirmRegNo)
+      newErrors.CompanyFirmRegNo = "Company/Firm Registration No is required";
+    if (!formData.SocietyAssociationRegNo)
+      newErrors.SocietyAssociationRegNo =
+        "Society/Association Registration No is required";
+    if (!formData.paname) newErrors.paname = "Name is required";
+    if (!formData.papan) newErrors.papan = "PAN is required";
+
+    setErrors(newErrors);
+    Object.values(newErrors).forEach((err) => toast.error(err));
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleCompanyFirmRegNoChange = (e) => {
     const regNo = e.target.value;
@@ -128,47 +166,8 @@ function Dashboard() {
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "aadhar" && !isValidAadhar(value)) {
-      console.error("Invalid Aadhar number");
-      return;
-    }
-    if (name === "pancardno" && !isValidPAN(value)) {
-      console.error("Invalid PAN number");
-      return;
-    }
-    if (name === "cdweb" && !isValidURL(value)) {
-      console.error("Invalid URL");
-      return;
-    }
-    if (name === "cdemail" && !isValidEmail(value)) {
-      console.error("Invalid email");
-      return;
-    }
-    if (name === "GSTNo" && !isValidGSTNo(value)) {
-      console.error("Invalid GST No");
-      return;
-    }
-
-    if (name === "CompanyFirmRegNo" && !isValidCompanyFirmRegNo(value)) {
-      console.error("Invalid Company/Firm Registration No");
-      return;
-    }
-
-    if (
-      name === "SocietyAssociationRegNo" &&
-      !isValidSocietyAssociationRegNo(value)
-    ) {
-      console.error("Invalid Society/Association Registration No");
-      return;
-    }
     setFormData({ ...formData, [name]: value });
-
-    if (name === "constitution") {
-      setSelectedConstitution([value]);
-    }
   };
-
-  const accessToken = localStorage.getItem("token");
 
   const handleSubmit = async () => {
     try {
@@ -182,15 +181,39 @@ function Dashboard() {
 
       const accessToken = localStorage.getItem("token");
 
-      console.log(accessToken);
-
       if (!accessToken) {
         throw new Error("Access token is missing");
       }
 
-      console.log(accessToken);
-      console.log(formData);
-
+      if (!isValidAadhar(formData.aadhar)) {
+        toast.error("Invalid Aadhar number");
+        return;
+      }
+      if (!isValidPAN(formData.pancardno)) {
+        toast.error("Invalid PAN number");
+        return;
+      }
+      if (!isValidURL(formData.cdweb)) {
+        toast.error("Invalid CD website");
+        return;
+      }
+      if (!isValidEmail(formData.cdemail)) {
+        toast.error("Invalid email");
+        return;
+      }
+      if (!isValidGSTNo(formData.GSTNo)) {
+        toast.error("Invalid GST No");
+        return;
+      }
+      if (!isValidCompanyFirmRegNo(formData.CompanyFirmRegNo)) {
+        toast.error("Invalid Company/Firm Registration No");
+        return;
+      }
+      if (!isValidSocietyAssociationRegNo(formData.SocietyAssociationRegNo)) {
+        toast.error("Invalid Society/Association Registration No");
+        return;
+      }
+      validateFields();
       const response = await axios.post(`${BASE_URL}/api/form1/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -199,14 +222,14 @@ function Dashboard() {
       });
 
       if (response.data["detail"] === "Success") {
-        console.log(response.data["detail"]);
-        console.log(formData);
         navigate("/membership2/");
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  const accessToken = localStorage.getItem("token");
 
   const handleDownload = (event) => {
     event.preventDefault();
@@ -335,6 +358,11 @@ function Dashboard() {
                 className="border border-gray-400 rounded-md p-2 w-full mt-1"
                 placeholder="Name of Applicant"
               />
+              {errors.Nameofapplicant && (
+                <p className="text-red-500 text-md mt-1">
+                  {errors.Nameofapplicant}
+                </p>
+              )}
             </div>
             <div className="mb-4 col-span-1">
               <label className="block text-gray-700 font-bold capitalize">
@@ -348,6 +376,11 @@ function Dashboard() {
                 className="border border-gray-400 rounded-md p-2 w-full mt-1"
                 placeholder="Business Activity"
               />
+              {errors.Businessactivity && (
+                <p className="text-red-500 text-md mt-1">
+                  {errors.Businessactivity}
+                </p>
+              )}
             </div>
 
             <div className="flex flex-col w-[90%] max-md:ml-0 max-md:w-full pl-[10%]">
@@ -372,6 +405,11 @@ function Dashboard() {
                       <label htmlFor={option}>{option}</label>
                     </div>
                   ))}
+                  {errors.constitution && (
+                    <p className="text-red-500 text-md mt-1">
+                      {errors.constitution}
+                    </p>
+                  )}
                 </div>
                 {selectedConstitution &&
                   selectedConstitution.includes("Individual") && (
@@ -1125,6 +1163,7 @@ function Dashboard() {
 
       <div className="pb-10"></div>
       <Footer />
+      <ToastContainer />
     </>
   );
 }

@@ -13,7 +13,7 @@ function HeroSection() {
 
   return (
     <div>
-        <Navbar />
+      <Navbar />
       <div className="bg-black/60 overflow-x-hidden relative pt-40 pb-20 lg:pt-44 dark:bg-gray-900">
         <div className="relative xl:container m-auto px-6 md:px-12 lg:px-6">
           <div className="w-10 h-10 bg-transparent border-4 border-blue-600 animate-spin1"></div>
@@ -274,7 +274,7 @@ function HeroSection() {
                 >
                   <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                <span class="text-base font-normal leading-tight text-gray-700 dark:text-gray-400 ms-3">
                   Access to ICCICBE Events
                 </span>
               </li>
@@ -288,7 +288,7 @@ function HeroSection() {
                 >
                   <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                <span class="text-base font-normal leading-tight text-gray-700 dark:text-gray-400 ms-3">
                   Exclusive Industry Reports
                 </span>
               </li>
@@ -302,7 +302,7 @@ function HeroSection() {
                 >
                   <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                <span class="text-base font-normal leading-tight text-gray-700 dark:text-gray-400 ms-3">
                   Priority Access to Business Workshops
                 </span>
               </li>
@@ -310,7 +310,7 @@ function HeroSection() {
             <button
               type="button"
               onClick={handleMembership}
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center mt-4"
+              class="px-4 py-2 border-blue-500 border-2 bg-transparent text-black hover:text-white hover:bg-blue-600 hover:border-2 "
             >
               Choose Plan
             </button>
@@ -333,7 +333,7 @@ function HeroSection() {
                 >
                   <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                <span class="text-base font-normal leading-tight text-gray-700 dark:text-gray-400 ms-3">
                   Access to ICCICBE Events
                 </span>
               </li>
@@ -347,7 +347,7 @@ function HeroSection() {
                 >
                   <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                <span class="text-base font-normal leading-tight text-gray-700 dark:text-gray-400 ms-3">
                   Exclusive Industry Reports
                 </span>
               </li>
@@ -361,7 +361,7 @@ function HeroSection() {
                 >
                   <path d="M10 1a9 9 0 0 0-6.93 14.6L16.6 3.07A9 9 0 0 0 10 1ZM3.07 16.6l11.53-7.53a7 7 0 0 1-7.53 11.53ZM16.6 3.07L3.07 16.6a7 7 0 0 0 9.53-9.53Zm0 0L16.6 3.07a7 7 0 0 0-9.53 9.53Z" />
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                <span class="text-base font-normal leading-tight text-gray-700 dark:text-gray-400 ms-3">
                   Priority Access to Business Workshops
                 </span>
               </li>
@@ -369,7 +369,7 @@ function HeroSection() {
             <button
               type="button"
               onClick={handleMembership}
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center mt-4"
+              class="px-4 py-2 flex justify-center border-blue-500 border-2 bg-transparent text-black hover:text-white hover:bg-blue-600 hover:border-2 "
             >
               Choose Plan
             </button>

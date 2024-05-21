@@ -438,6 +438,9 @@ function Dashboard() {
                 placeholder="Registered Office Address"
               />
             </div>
+            {errors.regoffadd && (
+              <p className="text-red-500 text-md mt-1">{errors.regoffadd}</p>
+            )}
           </div>
 
           <label className="block text-gray-700 font-bold capitalize pb-6">
@@ -456,6 +459,9 @@ function Dashboard() {
                 className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Acquisition Office"
               />
+              {errors.acoffice && (
+                <p className="text-red-500 text-md mt-1">{errors.acoffice}</p>
+              )}
             </div>
 
             <div className="mb-4 col-span-1">
@@ -471,6 +477,9 @@ function Dashboard() {
                 placeholder="Acquisition Work"
               />
             </div>
+            {errors.acwork && (
+              <p className="text-red-500 text-md mt-1">{errors.acwork}</p>
+            )}
           </div>
 
           <label className="block text-gray-700 font-bold capitalize pb-8">
@@ -489,6 +498,9 @@ function Dashboard() {
                 className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="CD lan"
               />
+              {errors.cdlan && (
+                <p className="text-red-500 text-md mt-1">{errors.cdlan}</p>
+              )}
             </div>
 
             <div className="mb-4 col-span-1">

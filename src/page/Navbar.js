@@ -106,7 +106,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-white p-4 shadow-md">
+    <nav className="bg-white p-4 py-6 shadow-md">
       <div className="container mx-auto">
         <div className="flex justify-between items-center">
           <img src={logo} alt="Chamber" className="h-[4%] w-[15%]" />

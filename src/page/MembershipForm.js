@@ -74,11 +74,58 @@ function Dashboard() {
     const aadharRegex = /^\d{12}$/;
     return aadharRegex.test(aadhar);
   }
-  
+
   function isValidPAN(pan) {
     const panRegex = /^[A-Z]{5}\d{4}[A-Z]{1}$/;
     return panRegex.test(pan);
   }
+  function isValidURL(url) {
+    const urlRegex =
+      /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/i;
+    return urlRegex.test(url);
+  }
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+  function isValidGSTNo(gstNo) {
+    return gstNo.length === 15;
+  }
+
+  function isValidCompanyFirmRegNo(regNo) {
+    return regNo.length > 0;
+  }
+
+  function isValidSocietyAssociationRegNo(regNo) {
+    return regNo.length > 0;
+  }
+
+  const handleGSTNoChange = (e) => {
+    const gstNo = e.target.value;
+    const isValid = isValidGSTNo(gstNo);
+    setFormData((prevData) => ({
+      ...prevData,
+      GSTNo: isValid ? gstNo : null,
+    }));
+  };
+
+  const handleCompanyFirmRegNoChange = (e) => {
+    const regNo = e.target.value;
+    const isValid = isValidCompanyFirmRegNo(regNo);
+    setFormData((prevData) => ({
+      ...prevData,
+      CompanyFirmRegNo: isValid ? regNo : null,
+    }));
+  };
+
+  const handleSocietyAssociationRegNoChange = (e) => {
+    const regNo = e.target.value;
+    const isValid = isValidSocietyAssociationRegNo(regNo);
+    setFormData((prevData) => ({
+      ...prevData,
+      SocietyAssociationRegNo: isValid ? regNo : null,
+    }));
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "aadhar" && !isValidAadhar(value)) {
@@ -87,6 +134,31 @@ function Dashboard() {
     }
     if (name === "pancardno" && !isValidPAN(value)) {
       console.error("Invalid PAN number");
+      return;
+    }
+    if (name === "cdweb" && !isValidURL(value)) {
+      console.error("Invalid URL");
+      return;
+    }
+    if (name === "cdemail" && !isValidEmail(value)) {
+      console.error("Invalid email");
+      return;
+    }
+    if (name === "GSTNo" && !isValidGSTNo(value)) {
+      console.error("Invalid GST No");
+      return;
+    }
+
+    if (name === "CompanyFirmRegNo" && !isValidCompanyFirmRegNo(value)) {
+      console.error("Invalid Company/Firm Registration No");
+      return;
+    }
+
+    if (
+      name === "SocietyAssociationRegNo" &&
+      !isValidSocietyAssociationRegNo(value)
+    ) {
+      console.error("Invalid Society/Association Registration No");
       return;
     }
     setFormData({ ...formData, [name]: value });
@@ -973,69 +1045,70 @@ function Dashboard() {
               placeholder="Reason for Joining Chamber"
             />
           </div>
-
-          <div className="mb-4 col-span-1">
-            <label className="block text-gray-700 font-bold capitalize">
-              E-Sign
-            </label>
-            <div className="relative">
-              <input
-                type="file"
-                name="e_sign"
-                accept="image/*"
-                onChange={handleEsign}
-                className="hidden"
-                id="e_sign_input"
-              />
-              <label
-                htmlFor="e_sign_input"
-                className="border border-gray-400 rounded-md p-2 w-full mt-1 cursor-pointer text-center"
-              >
-                Click here to upload E-Sign
+          <div className="flex justify-between">
+            <div className="mb-4 col-span-1">
+              <label className="block text-blue-700 font-bold capitalize mb-2">
+                E-Sign
               </label>
-            </div>
-            {esign && (
-              <div className="flex items-center">
-                <img
-                  src={URL.createObjectURL(esign)}
-                  alt="Preview"
-                  className="mr-4 rounded"
-                  style={{ maxWidth: "100px", maxHeight: "100px" }}
+              <div className="relative">
+                <input
+                  type="file"
+                  name="e_sign"
+                  accept="image/*"
+                  onChange={handleEsign}
+                  className="hidden"
+                  id="e_sign_input"
                 />
+                <label
+                  htmlFor="e_sign_input"
+                  className="border-2 border-blue-500 hover:border-blue-700 rounded-md p-2 w-full mt-1 cursor-pointer text-center hover:bg-blue-500 hover:text-white transition-colors duration-200"
+                >
+                  Click here to upload E-Sign
+                </label>
               </div>
-            )}
-          </div>
+              {esign && (
+                <div className="flex items-center mt-2">
+                  <img
+                    src={URL.createObjectURL(esign)}
+                    alt="Preview"
+                    className="mr-4 rounded"
+                    style={{ maxWidth: "100px", maxHeight: "100px" }}
+                  />
+                </div>
+              )}
+            </div>
 
-          <div className="mb-4 col-span-1">
-            <label className="block text-gray-700 font-bold capitalize">
-              Seal Image
-            </label>
-            <div className="relative">
-              <input
-                type="file"
-                name="seal_image"
-                accept="image/*"
-                onChange={handleSeal}
-                className="hidden"
-                id="seal_image_input"
-              />
-              <label
-                htmlFor="seal_image_input"
-                className="border border-gray-400 rounded-md p-2 w-full mt-1 cursor-pointer text-center"
-              >
-                Click here to upload Seal Image
+            <div className="mb-4 col-span-1">
+              <label className="block text-blue-700 font-bold capitalize mb-2">
+                Seal Image
               </label>
-            </div>
-            {seal && (
-              <div className="flex items-center">
-                <img
-                  src={URL.createObjectURL(seal)}
-                  alt="Preview"
-                  className="mr-4 rounded"
-                  style={{ maxWidth: "100px", maxHeight: "100px" }}
+              <div className="relative">
+                <input
+                  type="file"
+                  name="seal_image"
+                  accept="image/*"
+                  onChange={handleSeal}
+                  className="hidden"
+                  id="seal_image_input"
                 />
+                <label
+                  htmlFor="seal_image_input"
+                  className="border-2 border-blue-500 hover:border-blue-700 rounded-md p-2 w-full mt-1 cursor-pointer text-center hover:bg-blue-500 hover:text-white transition-colors duration-200"
+                >
+                  Click here to upload Seal Image
+                </label>
               </div>
-            )}
+              {seal && (
+                <div className="flex items-center mt-2">
+                  <img
+                    src={URL.createObjectURL(seal)}
+                    alt="Preview"
+                    className="mr-4 rounded"
+                    style={{ maxWidth: "100px", maxHeight: "100px" }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="col-span-3 text-center"></div>

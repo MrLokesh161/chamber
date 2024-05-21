@@ -67,16 +67,14 @@ const MembershipForm2 = () => {
                 {key.replace(/([A-Z])/g, " $1")}
               </label>
               <div className="flex items-center py-7">
-                <label>
+                <label className="cursor-pointer ">
                   <span className="mr-2 text-gray-700">
                     {formData[key] ? formData[key].name : "Choose a file"}
                   </span>
                   <FontAwesomeIcon icon={faUpload} className="text-gray-500" />
                   <input
                     type="file"
-                    onChange={(e) =>
-                      handleFileChange(key, e.target.files[0])
-                    }
+                    onChange={(e) => handleFileChange(key, e.target.files[0])}
                     className="hidden"
                   />
                 </label>

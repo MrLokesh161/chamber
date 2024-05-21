@@ -355,7 +355,7 @@ function Dashboard() {
                 name="Nameofapplicant"
                 value={formData.Nameofapplicant}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Name of Applicant"
               />
               {errors.Nameofapplicant && (
@@ -373,7 +373,7 @@ function Dashboard() {
                 name="Businessactivity"
                 value={formData.Businessactivity}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Business Activity"
               />
               {errors.Businessactivity && (
@@ -388,7 +388,7 @@ function Dashboard() {
                 <label className="block text-gray-700 font-bold capitalize">
                   Constitution
                 </label>
-                <div className="flex flex-col">
+                <div className="flex-col">
                   {constitutionOptions.map((option) => (
                     <div key={option} className="flex items-center mb-2">
                       <input
@@ -434,7 +434,7 @@ function Dashboard() {
                 name="regoffadd"
                 value={formData.regoffadd}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Registered Office Address"
               />
             </div>
@@ -453,7 +453,7 @@ function Dashboard() {
                 name="acoffice"
                 value={formData.acoffice}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Acquisition Office"
               />
             </div>
@@ -467,7 +467,7 @@ function Dashboard() {
                 name="acwork"
                 value={formData.acwork}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Acquisition Work"
               />
             </div>
@@ -486,7 +486,7 @@ function Dashboard() {
                 name="cdlan"
                 value={formData.cdlan}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="CD lan"
               />
             </div>
@@ -500,7 +500,7 @@ function Dashboard() {
                 name="cdphone"
                 value={formData.cdphone}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="CD Phone"
               />
             </div>
@@ -514,7 +514,7 @@ function Dashboard() {
                 name="cdemail"
                 value={formData.cdemail}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="CD Email"
               />
             </div>
@@ -528,7 +528,7 @@ function Dashboard() {
                 name="cdweb"
                 value={formData.cdweb}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="CD Website"
               />
             </div>
@@ -547,7 +547,7 @@ function Dashboard() {
                 name="aadhar"
                 value={formData.aadhar}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Aadhar"
               />
             </div>
@@ -561,7 +561,7 @@ function Dashboard() {
                 name="pancardno"
                 value={formData.pancardno}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="PAN Card No"
               />
             </div>
@@ -575,7 +575,7 @@ function Dashboard() {
                 name="GSTNo"
                 value={formData.GSTNo}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="GST No"
               />
             </div>
@@ -589,7 +589,7 @@ function Dashboard() {
                 name="CompanyFirmRegNo"
                 value={formData.CompanyFirmRegNo}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Company/Firm Registration No"
               />
             </div>
@@ -603,7 +603,7 @@ function Dashboard() {
                 name="SocietyAssociationRegNo"
                 value={formData.SocietyAssociationRegNo}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Society/Association Registration No"
               />
             </div>
@@ -622,7 +622,7 @@ function Dashboard() {
                 name="paname"
                 value={formData.paname}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="PAN Name"
               />
             </div>
@@ -636,7 +636,7 @@ function Dashboard() {
                 name="papan"
                 value={formData.papan}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="PAN PAN"
               />
             </div>
@@ -650,7 +650,7 @@ function Dashboard() {
                 name="paphone"
                 value={formData.paphone}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="PA Phone"
               />
             </div>
@@ -664,7 +664,7 @@ function Dashboard() {
                 name="padesignation"
                 value={formData.padesignation}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="PA Designation"
               />
             </div>
@@ -678,7 +678,7 @@ function Dashboard() {
                 name="paaadhaar"
                 value={formData.paaadhaar}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="PA Aadhaar"
               />
             </div>
@@ -692,7 +692,7 @@ function Dashboard() {
                 name="pamail_id"
                 value={formData.pamail_id}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="PA Mail ID"
               />
             </div>
@@ -711,7 +711,7 @@ function Dashboard() {
                 name="indmain_category"
                 value={formData.indmain_category}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Industry Main Category"
               />
             </div>
@@ -725,7 +725,7 @@ function Dashboard() {
                 name="indsub_category"
                 value={formData.indsub_category}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Industry Sub Category"
               />
             </div>
@@ -744,7 +744,7 @@ function Dashboard() {
                 name="cmpercentage_of_imports"
                 value={formData.cmpercentage_of_imports}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="CM Percentage of Imports"
               />
             </div>
@@ -758,7 +758,7 @@ function Dashboard() {
                 name="cmpercentage_of_exports"
                 value={formData.cmpercentage_of_exports}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="CM Percentage of Exports"
               />
             </div>
@@ -799,7 +799,7 @@ function Dashboard() {
                 name="country_name_foreign_collaboration"
                 value={formData.country_name_foreign_collaboration}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Country Name for Foreign Collaboration"
               />
             </div>
@@ -813,7 +813,7 @@ function Dashboard() {
                 name="collaborator_name_foreign_collaboration"
                 value={formData.collaborator_name_foreign_collaboration}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Collaborator Name for Foreign Collaboration"
               />
             </div>
@@ -832,7 +832,7 @@ function Dashboard() {
                 name="annual_turnover_year1"
                 value={formData.annual_turnover_year1}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Annual Turnover Year 1"
               />
             </div>
@@ -846,7 +846,7 @@ function Dashboard() {
                 name="annual_turnover_year2"
                 value={formData.annual_turnover_year2}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Annual Turnover Year 2"
               />
             </div>
@@ -860,7 +860,7 @@ function Dashboard() {
                 name="annual_turnover_year3"
                 value={formData.annual_turnover_year3}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Annual Turnover Year 3"
               />
             </div>
@@ -879,7 +879,7 @@ function Dashboard() {
                 name="direct_office_employees"
                 value={formData.direct_office_employees}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Direct Office Employees"
               />
             </div>
@@ -893,7 +893,7 @@ function Dashboard() {
                 name="indirect_contractual_employees"
                 value={formData.indirect_contractual_employees}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Indirect Contractual Employees"
               />
             </div>
@@ -907,7 +907,7 @@ function Dashboard() {
                 name="works_employees"
                 value={formData.works_employees}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Works Employees"
               />
             </div>
@@ -921,7 +921,7 @@ function Dashboard() {
                 name="outsourced_employees"
                 value={formData.outsourced_employees}
                 onChange={handleChange}
-                className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                className="border border-gray-800 rounded-md p-2 w-full mt-1"
                 placeholder="Outsourced Employees"
               />
             </div>
@@ -941,7 +941,7 @@ function Dashboard() {
                   name="esic"
                   value={formData.esic}
                   onChange={handleChange}
-                  className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                  className="border border-gray-800 rounded-md p-2 w-full mt-1"
                   placeholder="ESIC"
                 />
               </div>
@@ -955,7 +955,7 @@ function Dashboard() {
                   name="epf"
                   value={formData.epf}
                   onChange={handleChange}
-                  className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                  className="border border-gray-800 rounded-md p-2 w-full mt-1"
                   placeholder="EPF"
                 />
               </div>
@@ -1020,7 +1020,7 @@ function Dashboard() {
                     name="reason_for_office_bearer_no"
                     value={formData.association_name}
                     onChange={handleChange}
-                    className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                    className="border border-gray-800 rounded-md p-2 w-full mt-1"
                     placeholder="Reason for not being an office bearer"
                   />
                 </div>
@@ -1062,7 +1062,7 @@ function Dashboard() {
                     name="reason_for_office_bearer_no"
                     value={formData.association_position}
                     onChange={handleChange}
-                    className="border border-gray-400 rounded-md p-2 w-full mt-1"
+                    className="border border-gray-800 rounded-md p-2 w-full mt-1"
                     placeholder="Reason for not being an office bearer"
                   />
                 </div>
@@ -1079,7 +1079,7 @@ function Dashboard() {
               name="reason_for_joining_chamber"
               value={formData.reason_for_joining_chamber}
               onChange={handleChange}
-              className="border border-gray-400 rounded-md p-2 w-full mt-1"
+              className="border border-gray-800 rounded-md p-2 w-full mt-1"
               placeholder="Reason for Joining Chamber"
             />
           </div>

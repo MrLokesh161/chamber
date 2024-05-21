@@ -111,7 +111,7 @@ function Navbar() {
                 <li>
                   <Link
                     to="/"
-                    className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative mr-4 hover:text-blue-900"
+                    className="text-gray-800 font-semibold font-sans transition duration-300 no-underline relative mr-4 hover:text-blue-900"
                   >
                     HOME
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
@@ -120,7 +120,7 @@ function Navbar() {
                 <li>
                   <Link
                     to="/membership"
-                    className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline mr-4 relative hover:text-blue-900"
+                    className="text-gray-800 font-semibold font-sans transition duration-300 no-underline mr-4 relative hover:text-blue-900"
                   >
                     MEMBERSHIP REGISTRATION
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
@@ -182,7 +182,7 @@ function Navbar() {
                 <li>
                   <Link
                     to="/"
-                    className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900"
+                    className="text-gray-800 font-semibold font-sans transition duration-300 no-underline relative hover:text-blue-900"
                   >
                     HOME
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
@@ -191,7 +191,7 @@ function Navbar() {
                 <li>
                   <button
                     onClick={handleAdminPanelClick}
-                    className="text-gray-800 font-semibold hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900"
+                    className="text-gray-800 font-semibold transition duration-300 no-underline relative hover:text-blue-900"
                   >
                     ADMIN PANEL
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
@@ -200,7 +200,7 @@ function Navbar() {
                 <li>
                   <button
                     onClick={handleTableClick}
-                    className="text-gray-800 font-semibold hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900"
+                    className="text-gray-800 font-semibold transition duration-300 no-underline relative hover:text-blue-900"
                   >
                     ADMIN TABLE
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
@@ -238,7 +238,7 @@ function Navbar() {
                         <li>
                           <Link
                             to="/user"
-                            className="block px-4 py-2 text-gray-800 font-semibold hover:bg-gray-100 no-underline font-sans hover:text-gray-600 transition duration-300 relative hover:text-blue-900"
+                            className="block px-4 py-2 text-gray-800 font-semibold hover:bg-gray-100 no-underline font-sans transition duration-300 relative hover:text-blue-900"
                           >
                             PROFILE
                             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
@@ -247,7 +247,7 @@ function Navbar() {
                         <li>
                           <button
                             onClick={handleLogout}
-                            className="block w-full text-left px-4 py-2 text-gray-800 font-semibold hover:bg-gray-100 no-underline font-sans hover:text-gray-600 transition duration-300 relative hover:text-blue-900"
+                            className="block w-full text-left px-4 py-2 text-gray-800 font-semibold hover:bg-gray-100 no-underline font-sans transition duration-300 relative hover:text-blue-900"
                           >
                             LOGOUT
                             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
@@ -264,7 +264,7 @@ function Navbar() {
                 <li>
                   <Link
                     to="/"
-                    className="text-gray-800 font-semibold font-sans hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900"
+                    className="text-gray-800 font-semibold font-sans transition duration-300 no-underline relative hover:text-blue-900"
                   >
                     HOME
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
@@ -273,7 +273,7 @@ function Navbar() {
                 <li>
                   <button
                     onClick={handleLogin}
-                    className="text-gray-800 font-semibold hover:text-gray-600 transition duration-300 no-underline relative hover:text-blue-900"
+                    className="text-gray-800 font-semibold transition duration-300 no-underline relative hover:text-blue-900"
                   >
                     LOGIN
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>

@@ -86,6 +86,10 @@ const Signup = () => {
         navigate("/");
       }
     } catch (error) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: "This email is already registered. Please use another email.",
+      }));
       if (error.response && error.response.data) {
         const errorData = error.response.data;
         if (errorData.email) {
@@ -98,6 +102,13 @@ const Signup = () => {
           setErrors((prevErrors) => ({
             ...prevErrors,
             general: errorData.message,
+          }));
+        }
+        if (errorData.message === "Email already exists") {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            email:
+              "This email is already registered. Please use another email.",
           }));
         }
       } else {
@@ -114,7 +125,8 @@ const Signup = () => {
         <div className="w-full h-full flex flex-col justify-center items-center text-white px-8">
           <h1 className="text-4xl font-bold mb-4">Join Us!</h1>
           <p className="text-lg mb-6 text-center">
-            Sign up to become a member of the Indian Chamber of Commerce and Industry.
+            Sign up to become a member of the Indian Chamber of Commerce and
+            Industry.
           </p>
           <img src={logoImage} className="w-64 mb-6" alt="Logo" />
           <button
@@ -128,50 +140,86 @@ const Signup = () => {
       <div className="w-full lg:w-1/2 bg-cover bg-center flex justify-center items-center">
         <div className="w-full max-w-md px-8 py-12 bg-white rounded-lg shadow-xl">
           <div className="text-center">
-            <FontAwesomeIcon icon={faUser} className="text-indigo-600 text-6xl mb-4" />
+            <FontAwesomeIcon
+              icon={faUser}
+              className="text-indigo-600 text-6xl mb-4"
+            />
             <h2 className="text-2xl font-bold mb-6 text-indigo-600">Sign Up</h2>
           </div>
           <div>
             <div className="mb-4">
-              <label htmlFor="username" className="block text-gray-700 font-bold mb-2">Username</label>
+              <label
+                htmlFor="username"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                Username
+              </label>
               <input
                 type="text"
                 id="username"
                 name="username"
-                className={`mt-1 p-3 w-full border rounded-md focus:outline-none focus:border-indigo-500 ${errors.username ? "border-red-500" : "border-gray-300"}`}
+                className={`mt-1 p-3 w-full border rounded-md focus:outline-none focus:border-indigo-500 ${
+                  errors.username ? "border-red-500" : "border-gray-300"
+                }`}
                 placeholder="Enter your username"
                 onChange={(e) => updateProperty("username", e.target.value)}
               />
-              {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
+              {errors.username && (
+                <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+              )}
             </div>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
+              <label
+                htmlFor="email"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
                 name="email"
-                className={`mt-1 p-3 w-full border rounded-md focus:outline-none focus:border-indigo-500 ${errors.email ? "border-red-500" : "border-gray-300"}`}
+                className={`mt-1 p-3 w-full border rounded-md focus:outline-none focus:border-indigo-500 ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                }`}
                 placeholder="Enter your email"
                 onChange={(e) => updateProperty("email", e.target.value)}
               />
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              )}
             </div>
             <div className="mb-4">
-              <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password</label>
+              <label
+                htmlFor="password"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                Password
+              </label>
               <input
                 type="password"
                 id="password"
                 name="password"
-                className={`mt-1 p-3 w-full border rounded-md focus:outline-none focus:border-indigo-500 ${errors.password ? "border-red-500" : "border-gray-300"}`}
+                className={`mt-1 p-3 w-full border rounded-md focus:outline-none focus:border-indigo-500 ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                }`}
                 placeholder="Enter your password"
                 onChange={(e) => updateProperty("password", e.target.value)}
               />
-              {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              )}
             </div>
-            {errors.general && <p className="text-red-500 text-sm">{errors.general}</p>}
+            {errors.general && (
+              <p className="text-red-500 text-sm">{errors.general}</p>
+            )}
             <button
               type="button"
-              className={`w-full py-3 mt-4 bg-indigo-600 text-white font-bold rounded-md focus:outline-none focus:bg-indigo-700 ${isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-indigo-700"}`}
+              className={`w-full py-3 mt-4 bg-indigo-600 text-white font-bold rounded-md focus:outline-none focus:bg-indigo-700 ${
+                isLoading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-indigo-700"
+              }`}
               onClick={handleSubmit}
               disabled={isLoading}
             >

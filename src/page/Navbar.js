@@ -125,25 +125,26 @@ function Navbar() {
                 <li className="relative">
                   <button
                     onClick={toggleMembershipDropdown}
-                    className="text-gray-800 font-semibold font-sans transition duration-300 no-underline mr-4 relative hover:text-blue-900"
+                    className="text-gray-800 space-x-7 font-semibold font-sans transition duration-300 no-underline mr-4 relative hover:text-blue-900"
                   >
                     MEMBERSHIP REGISTRATION
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-transparent transition-all duration-300"></span>
                   </button>
                   {showMembershipDropdown && (
-                    <ul className="absolute left-0 w-48 bg-white border border-gray-300 rounded shadow-lg">
+                    <ul className="absolute z-10  left-0 w-48 bg-white border border-gray-300 rounded-lg shadow-lg transform transition-transform duration-200 ease-in-out">
                       <li>
                         <Link
                           to="/membership"
-                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                          className="block no-underline  py-2 hover:bg-gray-500 text-gray-800  hover:text-white transition-colors duration-200 ease-in-out "
                         >
                           New Member
                         </Link>
                       </li>
+                      <hr />
                       <li>
                         <Link
                           to="/existing"
-                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                          className="block no-underline py-2 hover:bg-gray-500 text-gray-800  hover:text-white transition-colors duration-200 ease-in-out "
                         >
                           Existing Member
                         </Link>

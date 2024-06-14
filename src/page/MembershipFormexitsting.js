@@ -69,7 +69,7 @@ function Dashboard1() {
   });
 
   const [currentUser, setCurrentUser] = useState({
-    form1_data: {}, // Initialize with an empty object
+    form1_data: {}, 
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -79,7 +79,6 @@ function Dashboard1() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // If the 'constitution' field is being updated, update the selectedConstitution state
     if (name === "constitution") {
       setSelectedConstitution([value]);
     }

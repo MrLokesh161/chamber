@@ -22,9 +22,9 @@ import AdminconfCEO from "./page/AdminConfceo";
 import AdminconfOB from "./page/AdminConfob";
 import AdminconfMC from "./page/AdminConfmembership";
 import AdminconfGC from "./page/AdminConfGC";
-import ImagePage from "./page/certificate";
 import Formexist from "./page/MembershipFormexitsting";
 import { BaseUrlProvider } from "./context";
+import CertificateComponent from "./page/Certificate";
 
 function App() {
   return (
@@ -53,7 +53,7 @@ function App() {
         <Route path="/AdminconfOB" element={<AdminconfOB />} />
         <Route path="/AdminconfMC" element={<AdminconfMC />} />
         <Route path="/AdminconfGC" element={<AdminconfGC />} />
-        <Route path="/certificate" element={<ImagePage />} />
+        <Route path="/certificate" element={<CertificateComponent />} />
         <Route path="/admindetails/:id" element={<AdminDetailsPage />} />
       </Routes>
     </Router>

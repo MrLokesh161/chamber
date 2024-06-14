@@ -126,8 +126,8 @@ function Dashboard1() {
       setIsLoading(true);
       try {
         const accessToken = localStorage.getItem("token");
-        const response = await axios.get("https://chamber.lokeshdev.co/api/user/", {
-          headers: { 
+        const response = await axios.get("http://127.0.0.1:8000/api/user/", {
+          headers: {
             Authorization: `Token ${accessToken}`,
           },
         });

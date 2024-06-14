@@ -43,10 +43,10 @@ const Login = () => {
 
       Object.entries(formData).forEach(([key, value]) => {
         formDataToSend.append(key, value);
-      });
+      }); 
 
       const response = await axios.post(
-        `${baseUrl}/obtainAuthToken/`,
+        `https://chamber.lokeshdev.co/obtainAuthToken/`,
         formDataToSend,
         {
           headers: {

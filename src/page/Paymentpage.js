@@ -118,9 +118,9 @@ const PaymentPage = () => {
   
         // Send the formData2Data to the formadmin API
         const messageResponse = await axios.post(
-          'http://127.0.0.1:8000/api/formadmin/',
+          'https://chamber.lokeshdev.co/api/formadmin/',
           formData2Data,
-          {
+          { 
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Token ${accessToken}`,
